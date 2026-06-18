@@ -585,7 +585,7 @@ function showErr(type, detail) {
         <li>Click <strong>Deploy → New Deployment</strong> (type: Web App)</li>
         <li>Execute as: <code>Me</code> &nbsp;·&nbsp; Access: <code>Anyone</code></li>
         <li>Copy the <strong>Web App URL</strong></li>
-        <li>In <code>index.html</code>, set <code>SHEET_API_URL = 'paste-url-here'</code></li>
+        <li>In <code>index.html</code>, set <code>SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzCNaIRNP-bx2CehF5xTlh96umKOVj0In0LQjnienpIeegUlLHSlwVPsRVIgMkBCagG/exec'</code></li>
         <li>Push to GitHub — your site will update live!</li>
       </ol>
       <div class="err-btns">
@@ -1039,7 +1039,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   ldSet(8, 'Initializing…');
 
   // Guard: URL not configured yet
-  if (!SHEET_API_URL || SHEET_API_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+  if (!SHEET_API_URL || SHEET_API_URL === 'https://script.google.com/macros/s/AKfycbzCNaIRNP-bx2CehF5xTlh96umKOVj0In0LQjnienpIeegUlLHSlwVPsRVIgMkBCagG/exec') {
     showErr('setup');
     return;
   }
