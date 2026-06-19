@@ -12,26 +12,26 @@
 
 <style>
 /* ================================================================
-   DESIGN TOKENS  —  theme colors are overridden at runtime from
-   Profile → theme_primary / theme_accent (see applyTheme() in JS).
-   The *-rgb tokens are comma-separated triplets so rgba() works.
+   DESIGN TOKENS  —  defaults only. Real values are overwritten at
+   runtime from Profile → color_primary / color_accent / color_background
    ================================================================ */
 :root {
   --navy:        #0B1829;
   --navy-2:      #112038;
   --navy-3:      #163050;
-  --cyan-rgb:        14,165,233;
-  --cyan-light-rgb:  56,189,248;
-  --gold-rgb:        240,165,0;
-  --gold-light-rgb:  251,199,64;
-  --cyan:        rgb(var(--cyan-rgb));
-  --cyan-light:  rgb(var(--cyan-light-rgb));
-  --gold:        rgb(var(--gold-rgb));
-  --gold-light:  rgb(var(--gold-light-rgb));
+  --navy-rgb:    11,24,41;
+  --navy2-rgb:   17,32,56;
+  --navy3-rgb:   22,48,80;
+  --cyan:        #0EA5E9;
+  --cyan-light:  #38BDF8;
+  --cyan-rgb:    14,165,233;
+  --gold:        #F0A500;
+  --gold-light:  #FBC740;
+  --gold-rgb:    240,165,0;
   --text:        #E8F0FE;
   --text-muted:  #7EADD4;
   --text-dim:    #345C7A;
-  --card-bg:     rgba(17,32,56,0.55);
+  --card-bg:     rgba(var(--navy2-rgb),0.55);
   --card-border: rgba(var(--cyan-rgb),0.12);
   --glass:       rgba(var(--cyan-rgb),0.05);
   --r:           12px;
@@ -49,6 +49,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
 a{text-decoration:none;color:inherit}ul{list-style:none}img{max-width:100%;display:block}button{font-family:inherit;cursor:pointer}
 .container{max-width:1080px;margin:0 auto;padding:0 28px}
 section{padding:100px 0}
+#dynamic-sections{display:flex;flex-direction:column}
 
 /* ---- SECTION HEADINGS ---- */
 .eyebrow{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
@@ -60,11 +61,11 @@ section{padding:100px 0}
    NAVIGATION
    ================================================================ */
 #nav{position:fixed;inset:0 0 auto 0;z-index:500;padding:15px 0;transition:background var(--ease),box-shadow var(--ease),padding var(--ease)}
-#nav.scrolled{background:rgba(11,24,41,.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--card-border);padding:11px 0}
+#nav.scrolled{background:rgba(var(--navy-rgb),.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--card-border);padding:11px 0}
 .nav-inner{display:flex;align-items:center;justify-content:space-between}
 .nav-brand{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:-.03em;color:var(--text)}
 .nav-brand .dot{color:var(--cyan)}
-.nav-links{display:flex;align-items:center;gap:26px}
+.nav-links{display:flex;align-items:center;gap:30px}
 .nav-links a{font-size:.82rem;font-weight:500;color:var(--text-muted);position:relative;padding-bottom:3px;transition:color var(--ease)}
 .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:var(--cyan);border-radius:1px;transition:width var(--ease)}
 .nav-links a:hover,.nav-links a.active{color:var(--text)}
@@ -107,7 +108,7 @@ section{padding:100px 0}
 /* ================================================================
    ABOUT
    ================================================================ */
-#about{background:linear-gradient(to bottom,var(--navy),rgba(17,32,56,.3))}
+#about{background:linear-gradient(to bottom,var(--navy),rgba(var(--navy2-rgb),.3))}
 .about-layout{display:grid;grid-template-columns:260px 1fr;gap:60px;align-items:start}
 .photo-col{position:relative}
 .photo-frame{aspect-ratio:3/4;border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--card-border);background:var(--card-bg);position:relative}
@@ -117,19 +118,13 @@ section{padding:100px 0}
 .photo-placeholder span{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--text-dim);text-align:center;line-height:1.7;padding:0 20px}
 .photo-corner-tl{position:absolute;top:-12px;left:-12px;width:60px;height:60px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);border-radius:var(--r-lg) 0 0 0;opacity:.5}
 .photo-corner-br{position:absolute;bottom:-12px;right:-12px;width:60px;height:60px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold);border-radius:0 0 var(--r-lg) 0;opacity:.5}
-.rank-badge{position:absolute;top:18px;right:-20px;padding:10px 14px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-weight:700;text-align:center;box-shadow:0 8px 24px rgba(0,0,0,.35)}
+.rank-badge{position:absolute;top:18px;right:-20px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);padding:10px 14px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-weight:700;text-align:center;box-shadow:0 8px 24px rgba(var(--gold-rgb),.38)}
 .rank-badge .big{font-size:1.5rem;display:block;line-height:1.1}.rank-badge .sm{font-size:.6rem;letter-spacing:.08em;opacity:.8}
 .about-bio{font-size:.98rem;color:var(--text-muted);line-height:1.88;margin-bottom:30px}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px}
 .info-item{display:flex;flex-direction:column;gap:2px}
 .info-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase}
 .info-val{font-size:.88rem;font-weight:500;color:var(--text)}
-
-
-/* ================================================================
-   BADGES  —  generic ribbon used on any card across every section
-   ================================================================ */
-.badge-ribbon{position:absolute;top:14px;right:14px;font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.04em;padding:4px 10px;border-radius:6px;box-shadow:0 4px 14px rgba(0,0,0,.28);white-space:nowrap;z-index:2;line-height:1.4}
 
 
 /* ================================================================
@@ -142,7 +137,7 @@ section{padding:100px 0}
 .skill-card:hover{transform:translateY(-5px);border-color:rgba(var(--cyan-rgb),.38);box-shadow:0 12px 36px rgba(var(--cyan-rgb),.08)}
 .skill-card:hover::before{opacity:1}
 .skill-ico{width:46px;height:46px;background:rgba(var(--cyan-rgb),.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--cyan);margin-bottom:14px}
-.skill-name{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:12px}
+.skill-name{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:12px;padding-right:50px}
 .tag-row{display:flex;flex-wrap:wrap;gap:6px}
 .tag{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--text-muted);background:rgba(126,173,212,.06);border:1px solid rgba(126,173,212,.1);padding:3px 9px;border-radius:20px}
 
@@ -150,16 +145,16 @@ section{padding:100px 0}
 /* ================================================================
    EXPERIENCE TIMELINE
    ================================================================ */
-#experience{background:linear-gradient(to bottom,rgba(17,32,56,.3),var(--navy))}
+#experience{background:linear-gradient(to bottom,rgba(var(--navy2-rgb),.3),var(--navy))}
 .tl{position:relative;padding-left:30px}
 .tl::before{content:'';position:absolute;left:0;top:12px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--cyan),transparent 90%)}
 .tl-item{position:relative;margin-bottom:40px}
 .tl-item:last-child{margin-bottom:0}
 .tl-dot{position:absolute;left:-36px;top:7px;width:13px;height:13px;border-radius:50%;background:var(--cyan);border:3px solid var(--navy);box-shadow:0 0 0 2px var(--cyan),0 0 12px rgba(var(--cyan-rgb),.5);transition:box-shadow var(--ease)}
 .tl-item:hover .tl-dot{box-shadow:0 0 0 2px var(--cyan),0 0 20px rgba(var(--cyan-rgb),.8)}
-.tl-card{position:relative;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:28px;transition:border-color var(--ease),transform var(--ease)}
+.tl-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:28px;position:relative;transition:border-color var(--ease),transform var(--ease)}
 .tl-card:hover{border-color:rgba(var(--cyan-rgb),.28);transform:translateX(4px)}
-.tl-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.tl-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;padding-right:60px}
 .tl-chip{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--cyan);background:rgba(var(--cyan-rgb),.1);border:1px solid rgba(var(--cyan-rgb),.22);padding:2px 9px;border-radius:20px}
 .tl-date{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text-dim)}
 .tl-role{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:3px}
@@ -176,7 +171,7 @@ section{padding:100px 0}
 .edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .edu-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:26px;position:relative;transition:transform var(--ease),border-color var(--ease)}
 .edu-card:hover{transform:translateY(-3px);border-color:rgba(var(--cyan-rgb),.3)}
-.edu-lvl{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:7px}
+.edu-lvl{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:7px;padding-right:60px}
 .edu-deg{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:3px}
 .edu-inst{font-size:.87rem;color:var(--gold);font-weight:500;margin-bottom:16px}
 .chip-row{display:flex;flex-wrap:wrap;gap:7px}
@@ -187,17 +182,17 @@ section{padding:100px 0}
 /* ================================================================
    PUBLICATIONS
    ================================================================ */
-#publications{background:linear-gradient(to bottom,rgba(17,32,56,.3),var(--navy))}
+#publications{background:linear-gradient(to bottom,rgba(var(--navy2-rgb),.3),var(--navy))}
 .pub-list{display:flex;flex-direction:column;gap:20px}
-.pub-card{position:relative;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:28px;transition:border-color var(--ease),transform var(--ease)}
+.pub-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:28px;position:relative;transition:border-color var(--ease),transform var(--ease)}
 .pub-card:hover{border-color:rgba(var(--cyan-rgb),.3);transform:translateX(5px)}
-.pub-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.pub-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;padding-right:60px}
 .pub-badge{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:4px}
 .pub-badge.jnl{background:rgba(var(--cyan-rgb),.12);color:var(--cyan);border:1px solid rgba(var(--cyan-rgb),.3)}
 .pub-badge.conf{background:rgba(var(--gold-rgb),.1);color:var(--gold);border:1px solid rgba(var(--gold-rgb),.3)}
 .pub-year{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text-dim)}
 .pub-title{font-size:1.02rem;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:6px}
-.pub-authors{font-size:.82rem;color:var(--text-muted);margin-bottom:8px;display:flex;align-items:center;gap:7px}
+.pub-authors{font-size:.8rem;color:var(--text-muted);font-style:italic;margin-bottom:4px;line-height:1.6}
 .pub-venue{font-size:.82rem;color:var(--text-muted);font-style:italic;margin-bottom:12px;line-height:1.6}
 .pub-toggle{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:.7rem;padding:0;margin-bottom:12px;transition:color var(--ease)}
 .pub-toggle:hover{color:var(--cyan-light)}.pub-toggle i{transition:transform .3s ease}
@@ -209,38 +204,54 @@ section{padding:100px 0}
 
 
 /* ================================================================
-   ACHIEVEMENTS  (also doubles as the layout for custom sections,
-   e.g. Languages / References — see .achiev-card reuse in JS)
+   ACHIEVEMENTS
    ================================================================ */
 #achievements{background:var(--navy)}
 .achiev-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.achiev-card{position:relative;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:24px;transition:transform var(--ease),border-color var(--ease),box-shadow var(--ease)}
+.achiev-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:24px;position:relative;transition:transform var(--ease),border-color var(--ease),box-shadow var(--ease)}
 .achiev-card:hover{transform:translateY(-5px);border-color:rgba(var(--gold-rgb),.25);box-shadow:0 10px 32px rgba(var(--gold-rgb),.06)}
 .achiev-icon{font-size:2rem;margin-bottom:12px}
-.achiev-title{font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:4px}
+.achiev-title{font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:4px;padding-right:50px}
 .achiev-org{font-size:.77rem;color:var(--gold);font-weight:500;margin-bottom:8px}
 .achiev-desc{font-size:.77rem;color:var(--text-dim);line-height:1.65}
-.achiev-card .tag-row{margin-top:10px}
-.achiev-card .pub-lnk{margin-top:12px}
 
 
 /* ================================================================
    YOUTUBE
    ================================================================ */
-#videos{background:linear-gradient(to bottom,rgba(17,32,56,.25),var(--navy))}
+#videos{background:linear-gradient(to bottom,rgba(var(--navy2-rgb),.25),var(--navy))}
 .yt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.yt-card{position:relative;background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);overflow:hidden;display:block;transition:transform var(--ease),border-color var(--ease),box-shadow var(--ease)}
+.yt-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);overflow:hidden;display:block;position:relative;transition:transform var(--ease),border-color var(--ease),box-shadow var(--ease)}
 .yt-card:hover{transform:translateY(-5px);border-color:rgba(var(--cyan-rgb),.3);box-shadow:0 12px 36px rgba(var(--cyan-rgb),.08)}
 .yt-thumb{position:relative;width:100%;height:158px;overflow:hidden;background:var(--navy-3)}
 .yt-thumb img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
 .yt-card:hover .yt-thumb img{transform:scale(1.05)}
-.yt-overlay{position:absolute;inset:0;background:rgba(11,24,41,.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity var(--ease)}
+.yt-overlay{position:absolute;inset:0;background:rgba(var(--navy-rgb),.55);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity var(--ease)}
 .yt-overlay i{font-size:2.4rem;color:#fff;filter:drop-shadow(0 2px 8px rgba(0,0,0,.5))}
 .yt-card:hover .yt-overlay{opacity:1}
 .yt-body{padding:16px}
 .yt-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:5px;line-height:1.45}
 .yt-desc{font-size:.77rem;color:var(--text-dim);line-height:1.55}
 .yt-footer{display:flex;justify-content:center;margin-top:36px}
+
+
+/* ================================================================
+   GENERIC ITEM BADGE  — used on every card type (skills, experience,
+   education, publications, achievements, videos, and custom sections)
+   ================================================================ */
+.item-badge{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.64rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--badge-c1,var(--gold));background:rgba(var(--badge-c1-rgb,var(--gold-rgb)),.12);border:1px solid rgba(var(--badge-c1-rgb,var(--gold-rgb)),.45);white-space:nowrap;z-index:2;line-height:1.4}
+.item-badge-star{font-size:.72rem;line-height:1;transform:translateY(-.5px)}
+
+
+/* ================================================================
+   GENERIC CUSTOM SECTION  (Languages / References / anything you add)
+   ================================================================ */
+.generic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.generic-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:24px;position:relative;transition:transform var(--ease),border-color var(--ease),box-shadow var(--ease)}
+.generic-card:hover{transform:translateY(-4px);border-color:rgba(var(--cyan-rgb),.3);box-shadow:0 10px 30px rgba(var(--cyan-rgb),.07)}
+.generic-title{font-size:.98rem;font-weight:700;color:var(--text);margin-bottom:3px;padding-right:60px}
+.generic-subtitle{font-size:.82rem;color:var(--gold);font-weight:500;margin-bottom:10px}
+.generic-desc{font-size:.82rem;color:var(--text-muted);line-height:1.65;margin-bottom:10px}
 
 
 /* ================================================================
@@ -260,7 +271,7 @@ section{padding:100px 0}
 .form-box{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r-lg);padding:36px}
 .form-row{margin-bottom:20px}
 .f-lbl{display:block;font-family:'JetBrains Mono',monospace;font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px}
-.f-inp{width:100%;padding:12px 15px;background:rgba(11,24,41,.75);border:1px solid rgba(232,240,254,.1);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;outline:none;transition:border-color var(--ease);resize:none}
+.f-inp{width:100%;padding:12px 15px;background:rgba(var(--navy-rgb),.75);border:1px solid rgba(232,240,254,.1);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;outline:none;transition:border-color var(--ease);resize:none}
 .f-inp:focus{border-color:var(--cyan)}.f-inp::placeholder{color:var(--text-dim)}
 .f-btn{width:100%;padding:13px;background:var(--cyan);color:var(--navy);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.92rem;border:none;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background var(--ease),transform var(--ease),box-shadow var(--ease)}
 .f-btn:hover{background:var(--cyan-light);transform:translateY(-1px);box-shadow:0 6px 20px rgba(var(--cyan-rgb),.35)}
@@ -294,7 +305,7 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
   .about-layout{grid-template-columns:1fr;gap:40px}
   .photo-col{max-width:220px}
   .rank-badge{right:auto;left:185px}
-  .skills-grid,.yt-grid{grid-template-columns:repeat(2,1fr)}
+  .skills-grid,.yt-grid,.generic-grid{grid-template-columns:repeat(2,1fr)}
   .edu-grid{grid-template-columns:1fr}
   .achiev-grid{grid-template-columns:repeat(2,1fr)}
   .contact-layout{grid-template-columns:1fr;gap:40px}
@@ -302,10 +313,10 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 @media(max-width:640px){
   section{padding:76px 0}
   .nav-links{display:none}
-  .nav-links.open{display:flex;flex-direction:column;gap:18px;position:fixed;top:60px;left:0;right:0;background:rgba(11,24,41,.97);padding:28px;backdrop-filter:blur(16px);border-bottom:1px solid var(--card-border);z-index:499}
+  .nav-links.open{display:flex;flex-direction:column;gap:18px;position:fixed;top:60px;left:0;right:0;background:rgba(var(--navy-rgb),.97);padding:28px;backdrop-filter:blur(16px);border-bottom:1px solid var(--card-border);z-index:499}
   .hamburger{display:flex}
   .hero-btns{flex-direction:column;align-items:flex-start}
-  .skills-grid,.achiev-grid,.yt-grid{grid-template-columns:1fr}
+  .skills-grid,.achiev-grid,.yt-grid,.generic-grid{grid-template-columns:1fr}
   .rank-badge{right:10px;left:auto;top:14px}
 }
 </style>
@@ -313,23 +324,20 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 <body>
 
 <!-- =========================================================
-     NAVIGATION  —  li[data-nav] entries are shown/hidden/reordered
-     by JS to match the Sections sheet. Custom sections get their
-     <li> inserted automatically before the Resume link.
+     NAVIGATION  (links are generated at runtime from the
+     "Sections" sheet — this list is just a no-JS fallback)
      ========================================================= -->
 <nav id="nav">
   <div class="container nav-inner">
     <a href="#hero" class="nav-brand">Arif<span class="dot">.</span>Rafi</a>
     <ul class="nav-links" id="navLinks">
-      <li data-nav="about"><a href="#about">About</a></li>
-      <li data-nav="skills"><a href="#skills">Skills</a></li>
-      <li data-nav="experience"><a href="#experience">Experience</a></li>
-      <li data-nav="education"><a href="#education">Education</a></li>
-      <li data-nav="publications"><a href="#publications">Research</a></li>
-      <li data-nav="achievements"><a href="#achievements">Achievements</a></li>
-      <li data-nav="videos"><a href="#videos">Videos</a></li>
-      <li data-nav="contact"><a href="#contact">Contact</a></li>
-      <li id="nav-resume-li"><a href="#" class="nav-cv" id="nav-resume">Resume ↗</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#publications">Research</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#" class="nav-cv" id="nav-resume">Resume ↗</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Toggle menu">
       <span></span><span></span><span></span>
@@ -338,7 +346,7 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 </nav>
 
 <!-- =========================================================
-     HERO  (always shown — not part of the toggleable sections)
+     HERO
      ========================================================= -->
 <section id="hero">
   <canvas id="circuit-canvas"></canvas>
@@ -356,136 +364,147 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 </section>
 
 <!-- =========================================================
-     TOGGLEABLE / ORDERABLE SECTIONS
-     Each <section> below carries data-section so JS can show/hide,
-     retitle, and reorder it from the Sections sheet. Custom
-     sections (Languages, References, anything you add) are
-     generated and inserted here at runtime.
+     ALL OTHER SECTIONS  (built-in below; custom sections from
+     the "Sections" sheet are appended into this same wrapper
+     by JS, and all of them respect the Order column via
+     CSS flex `order`)
      ========================================================= -->
-<main id="sections-root">
+<div id="dynamic-sections">
 
-  <section id="about" data-section="about">
-    <div class="container">
-      <div class="eyebrow">Who I Am</div>
-      <h2 class="sec-title">About Me</h2>
-      <div class="about-layout">
-        <div class="photo-col reveal">
-          <div class="photo-frame">
-            <img id="profile-img" src="" alt="" style="display:none" />
-            <div class="photo-placeholder" id="photo-placeholder">
-              <i class="fa-regular fa-circle-user"></i>
-              <span>Set the "photo" key in your<br/>Profile sheet to show your photo</span>
-            </div>
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="eyebrow">Who I Am</div>
+    <h2 class="sec-title">About Me</h2>
+    <div class="about-layout">
+      <div class="photo-col reveal">
+        <div class="photo-frame">
+          <!-- Photo set dynamically from Sheet: Profile → photo key -->
+          <img id="profile-img" src="" alt="" style="display:none" />
+          <div class="photo-placeholder" id="photo-placeholder">
+            <i class="fa-regular fa-circle-user"></i>
+            <span>Set the "photo" key in your<br/>Profile sheet to show your photo</span>
           </div>
-          <div class="photo-corner-tl"></div>
-          <div class="photo-corner-br"></div>
-          <div id="rank-badge-slot"></div>
         </div>
-        <div class="reveal d1">
-          <p class="about-bio" id="about-bio"></p>
-          <div class="info-grid" id="about-info"></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="skills" data-section="skills">
-    <div class="container">
-      <div class="eyebrow">Competencies</div>
-      <h2 class="sec-title">Skills & Expertise</h2>
-      <div class="skills-grid" id="skills-grid"></div>
-    </div>
-  </section>
-
-  <section id="experience" data-section="experience">
-    <div class="container">
-      <div class="eyebrow">Career</div>
-      <h2 class="sec-title">Professional Experience</h2>
-      <div class="tl" id="exp-list"></div>
-    </div>
-  </section>
-
-  <section id="education" data-section="education">
-    <div class="container">
-      <div class="eyebrow">Academic Background</div>
-      <h2 class="sec-title">Education</h2>
-      <div class="edu-grid" id="edu-grid"></div>
-    </div>
-  </section>
-
-  <section id="publications" data-section="publications">
-    <div class="container">
-      <div class="eyebrow">Research</div>
-      <h2 class="sec-title">Publications</h2>
-      <div class="pub-list" id="pub-list"></div>
-    </div>
-  </section>
-
-  <section id="achievements" data-section="achievements">
-    <div class="container">
-      <div class="eyebrow">Recognition</div>
-      <h2 class="sec-title">Achievements</h2>
-      <div class="achiev-grid" id="achiev-grid"></div>
-    </div>
-  </section>
-
-  <section id="videos" data-section="videos">
-    <div class="container">
-      <div class="eyebrow">Educational Content</div>
-      <h2 class="sec-title">YouTube Channel</h2>
-      <div class="yt-grid" id="yt-grid"></div>
-      <div class="yt-footer">
-        <a href="#" class="btn-ghost" id="yt-channel" target="_blank" rel="noopener">
-          <i class="fa-brands fa-youtube"></i> View All Videos
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" data-section="contact">
-    <div class="container">
-      <div class="eyebrow">Get In Touch</div>
-      <h2 class="sec-title">Contact</h2>
-      <div class="contact-layout">
-        <div class="reveal">
-          <p class="contact-intro">I'm open to research collaborations, academic inquiries, speaking invitations, and new opportunities. Feel free to reach out!</p>
-          <div id="cinfo-list"></div>
-          <div class="social-row" id="social-row"></div>
-        </div>
-        <div class="form-box reveal d2">
-          <!--
-            To activate this form:
-            1. Sign up at https://formspree.io (free)
-            2. Create a form — copy your Form ID (e.g. xabcdefg)
-            3. Replace YOUR_FORM_ID in the action attribute below
-          -->
-          <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-            <div class="form-row">
-              <label class="f-lbl" for="f-name">Your Name</label>
-              <input class="f-inp" type="text" id="f-name" name="name" placeholder="e.g. Dr. Ahmed Rahman" required />
-            </div>
-            <div class="form-row">
-              <label class="f-lbl" for="f-email">Email Address</label>
-              <input class="f-inp" type="email" id="f-email" name="email" placeholder="you@example.com" required />
-            </div>
-            <div class="form-row">
-              <label class="f-lbl" for="f-subject">Subject</label>
-              <input class="f-inp" type="text" id="f-subject" name="subject" placeholder="Research / Collaboration / Teaching / Other" />
-            </div>
-            <div class="form-row">
-              <label class="f-lbl" for="f-msg">Message</label>
-              <textarea class="f-inp" id="f-msg" name="message" rows="4" placeholder="Tell me more…" required></textarea>
-            </div>
-            <button class="f-btn" type="submit">
-              <i class="fa-solid fa-paper-plane"></i> Send Message
-            </button>
-          </form>
+        <div class="photo-corner-tl"></div>
+        <div class="photo-corner-br"></div>
+        <div class="rank-badge" id="rank-badge" style="display:none">
+          <span class="big" id="rank-badge-big"></span>
+          <span class="sm" id="rank-badge-sm"></span>
         </div>
       </div>
+      <div class="reveal d1">
+        <p class="about-bio" id="about-bio"></p>
+        <div class="info-grid" id="about-info"></div>
+      </div>
     </div>
-  </section>
+  </div>
+</section>
 
-</main>
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="eyebrow">Competencies</div>
+    <h2 class="sec-title">Skills & Expertise</h2>
+    <div class="skills-grid" id="skills-grid"></div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="eyebrow">Career</div>
+    <h2 class="sec-title">Professional Experience</h2>
+    <div class="tl" id="exp-list"></div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="container">
+    <div class="eyebrow">Academic Background</div>
+    <h2 class="sec-title">Education</h2>
+    <div class="edu-grid" id="edu-grid"></div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications">
+  <div class="container">
+    <div class="eyebrow">Research</div>
+    <h2 class="sec-title">Publications</h2>
+    <div class="pub-list" id="pub-list"></div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <div class="container">
+    <div class="eyebrow">Recognition</div>
+    <h2 class="sec-title">Achievements</h2>
+    <div class="achiev-grid" id="achiev-grid"></div>
+  </div>
+</section>
+
+<!-- YOUTUBE -->
+<section id="videos">
+  <div class="container">
+    <div class="eyebrow">Educational Content</div>
+    <h2 class="sec-title">YouTube Channel</h2>
+    <div class="yt-grid" id="yt-grid"></div>
+    <div class="yt-footer">
+      <a href="#" class="btn-ghost" id="yt-channel" target="_blank" rel="noopener">
+        <i class="fa-brands fa-youtube"></i> View All Videos
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="eyebrow">Get In Touch</div>
+    <h2 class="sec-title">Contact</h2>
+    <div class="contact-layout">
+      <div class="reveal">
+        <p class="contact-intro">I'm open to research collaborations, academic inquiries, speaking invitations, and new opportunities. Feel free to reach out!</p>
+        <div id="cinfo-list"></div>
+        <div class="social-row" id="social-row"></div>
+      </div>
+      <div class="form-box reveal d2">
+        <!--
+          To activate this form:
+          1. Sign up at https://formspree.io (free)
+          2. Create a form — copy your Form ID (e.g. xabcdefg)
+          3. Replace YOUR_FORM_ID in the action attribute below
+        -->
+        <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <div class="form-row">
+            <label class="f-lbl" for="f-name">Your Name</label>
+            <input class="f-inp" type="text" id="f-name" name="name" placeholder="e.g. Dr. Ahmed Rahman" required />
+          </div>
+          <div class="form-row">
+            <label class="f-lbl" for="f-email">Email Address</label>
+            <input class="f-inp" type="email" id="f-email" name="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-row">
+            <label class="f-lbl" for="f-subject">Subject</label>
+            <input class="f-inp" type="text" id="f-subject" name="subject" placeholder="Research / Collaboration / Teaching / Other" />
+          </div>
+          <div class="form-row">
+            <label class="f-lbl" for="f-msg">Message</label>
+            <textarea class="f-inp" id="f-msg" name="message" rows="4" placeholder="Tell me more…" required></textarea>
+          </div>
+          <button class="f-btn" type="submit">
+            <i class="fa-solid fa-paper-plane"></i> Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div><!-- /#dynamic-sections -->
 
 <!-- =========================================================  FOOTER  -->
 <footer>
@@ -497,18 +516,15 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 
 <script>
 /* ================================================================
-   ⚙️  Google Sheets live-update
-   ================================================================
-   The portfolio always shows the FALLBACK_DATA below instantly,
-   then silently refreshes from your Sheet in the background.
+   ⚙️  OPTIONAL — Google Sheets live-update
    ================================================================ */
 const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzCNaIRNP-bx2CehF5xTlh96umKOVj0In0LQjnienpIeegUlLHSlwVPsRVIgMkBCagG/exec';
 
 
 /* ================================================================
    FALLBACK DATA  —  shown immediately on every page load, and used
-   as a safety net if the Sheet fetch fails. Keep this loosely in
-   sync with your Sheet if you want the very first paint to match.
+   as a safety net if the Sheet fetch fails. Keep this in sync with
+   your Sheet if you want the very first paint to match.
    ================================================================ */
 const FALLBACK_DATA = {
 
@@ -525,7 +541,7 @@ const FALLBACK_DATA = {
   location: 'Dhaka Cantonment, Dhaka-1206, Bangladesh',
 
   /* ---- LINKS ---- */
-  photo:    '',   /* paste direct image URL, or leave blank for placeholder */
+  photo:    '',
   resume:   'https://drive.google.com/uc?export=download&id=1F-bzqDId2aYOlYBjmPXD5CRGi_O6_ayC',
   linkedin: 'https://www.linkedin.com/in/rafi170911',
   scholar:  'https://scholar.google.com/citations?user=kGHEA-UAAAAJ&hl=en',
@@ -533,14 +549,14 @@ const FALLBACK_DATA = {
   twitter:  'https://x.com/rafi170911',
   youtube:  'https://www.youtube.com/@eAcademy97',
 
-  /* ---- THEME  (any hex works — recolors the whole site) ---- */
-  themePrimary: '#0EA5E9',   /* was hardcoded cyan */
-  themeAccent:  '#F0A500',   /* was hardcoded gold */
+  /* ---- THEME ---- */
+  colorPrimary:    '#0EA5E9',
+  colorAccent:     '#F0A500',
+  colorBackground: '',
 
-  /* ---- PHOTO BADGE  (blank photoBadgeBig = hidden) ---- */
-  photoBadgeBig:   '1st',
-  photoBadgeSmall: 'M.SC RANK',
-  photoBadgeColor: 'gold',
+  /* ---- ABOUT BADGE (gold circle next to photo) ---- */
+  aboutBadgeText:    '1st',
+  aboutBadgeSubtext: 'M.SC RANK',
 
   /* ---- ABOUT INFO GRID ---- */
   aboutInfo: [
@@ -554,12 +570,12 @@ const FALLBACK_DATA = {
 
   /* ---- SKILLS ---- */
   skills: [
-    { icon: 'fa-code',          name: 'Programming & Scripting',  tags: ['Python','C/C++','MATLAB','Google Apps Script','JavaScript','HTML/CSS'], badgeText: '', badgeColor: 'gold' },
-    { icon: 'fa-microchip',     name: 'Embedded Systems & IoT',   tags: ['Arduino','ESP32','Raspberry Pi','Wokwi Simulator','Sensor Interfacing','IoT Automation'], badgeText: '', badgeColor: 'gold' },
-    { icon: 'fa-bolt',          name: 'Power & Energy Systems',   tags: ['HOMER Pro','Microgrid Design','PV-Wind Systems','MATLAB Simulink','Renewable Energy'], badgeText: '', badgeColor: 'gold' },
-    { icon: 'fa-table-columns', name: 'Office & Productivity',    tags: ['MS Office Suite','Google Workspace','Excel Dashboards','LaTeX','Document Automation'], badgeText: '', badgeColor: 'gold' },
-    { icon: 'fa-wave-square',   name: 'Electronics & Circuits',   tags: ['Circuit Analysis','Semiconductors','Signal Processing','Digital Logic','PCB Basics'], badgeText: '', badgeColor: 'gold' },
-    { icon: 'fa-film',          name: 'Content & Media',          tags: ['Motion Graphics','Educational Video','YouTube Production','Scientific Illustration'], badgeText: '', badgeColor: 'gold' },
+    { icon: 'fa-code',          name: 'Programming & Scripting',  tags: ['Python','C/C++','MATLAB','Google Apps Script','JavaScript','HTML/CSS'], badgeText:'', badgeColor:'' },
+    { icon: 'fa-microchip',     name: 'Embedded Systems & IoT',   tags: ['Arduino','ESP32','Raspberry Pi','Wokwi Simulator','Sensor Interfacing','IoT Automation'], badgeText:'', badgeColor:'' },
+    { icon: 'fa-bolt',          name: 'Power & Energy Systems',   tags: ['HOMER Pro','Microgrid Design','PV-Wind Systems','MATLAB Simulink','Renewable Energy'], badgeText:'', badgeColor:'' },
+    { icon: 'fa-table-columns', name: 'Office & Productivity',    tags: ['MS Office Suite','Google Workspace','Excel Dashboards','LaTeX','Document Automation'], badgeText:'', badgeColor:'' },
+    { icon: 'fa-wave-square',   name: 'Electronics & Circuits',   tags: ['Circuit Analysis','Semiconductors','Signal Processing','Digital Logic','PCB Basics'], badgeText:'', badgeColor:'' },
+    { icon: 'fa-film',          name: 'Content & Media',          tags: ['Motion Graphics','Educational Video','YouTube Production','Scientific Illustration'], badgeText:'', badgeColor:'' },
   ],
 
   /* ---- EXPERIENCE  (newest first) ---- */
@@ -573,7 +589,7 @@ const FALLBACK_DATA = {
         'Designing course materials and practical lab exercises for undergraduate cohorts.',
         'Mentoring final-year project groups in embedded systems and renewable energy topics.',
       ],
-      badgeText: '', badgeColor: 'gold',
+      badgeText: '', badgeColor: '',
     },
     {
       role: 'IT Officer (Asst. Maintenance Engineer)', chip: 'Govt. ICT Project',
@@ -585,7 +601,7 @@ const FALLBACK_DATA = {
         'Handling customer requests, queries, and complaints with timely resolution.',
         'Performing physical and functional checks upon material arrival.',
       ],
-      badgeText: '', badgeColor: 'gold',
+      badgeText: '', badgeColor: '',
     },
     {
       role: 'Industrial Attachment Trainee', chip: 'Industry Training',
@@ -596,16 +612,16 @@ const FALLBACK_DATA = {
         'Observing power management, air conditioning, and network security systems.',
         'Gained hands-on exposure to large-scale telecom operations and network monitoring.',
       ],
-      badgeText: '', badgeColor: 'gold',
+      badgeText: '', badgeColor: '',
     },
   ],
 
   /* ---- EDUCATION  (newest first) ---- */
   education: [
-    { level: 'Postgraduate',     degree: 'M.Sc. Engg. in ECE', inst: 'Khulna University',                          year: '2020–2021', cgpa: 'CGPA 3.98 / 4.00', rank: 'Rank: 1st', badgeText: '🥇 Rank 1st', badgeColor: 'gold' },
-    { level: 'Undergraduate',    degree: 'B.Sc. Engg. in ECE', inst: 'Khulna University',                          year: '2016–2017', cgpa: 'CGPA 3.65 / 4.00', rank: 'Rank: 3rd', badgeText: '🥉 Rank 3rd', badgeColor: 'bronze' },
-    { level: 'Higher Secondary', degree: 'HSC — Science',       inst: 'Keshabpur Higher Secondary School, Jashore', year: '2014–2015', cgpa: 'GPA 5.00 / 5.00',  rank: '',          badgeText: '', badgeColor: 'gold' },
-    { level: 'Secondary',        degree: 'SSC — Science',       inst: 'Mulgram Secondary School, Jashore',          year: '2012–2013', cgpa: 'GPA 5.00 / 5.00',  rank: '',          badgeText: '', badgeColor: 'gold' },
+    { level: 'Postgraduate',     degree: 'M.Sc. Engg. in ECE', inst: 'Khulna University',                          year: '2020–2021', cgpa: 'CGPA 3.98 / 4.00', rank: 'Rank: 1st', badgeText: '1st in Class', badgeColor: 'gold'   },
+    { level: 'Undergraduate',    degree: 'B.Sc. Engg. in ECE', inst: 'Khulna University',                          year: '2016–2017', cgpa: 'CGPA 3.65 / 4.00', rank: 'Rank: 3rd', badgeText: '3rd in Class', badgeColor: 'silver' },
+    { level: 'Higher Secondary', degree: 'HSC — Science',       inst: 'Keshabpur Higher Secondary School, Jashore', year: '2014–2015', cgpa: 'GPA 5.00 / 5.00',  rank: '',          badgeText: '',             badgeColor: ''       },
+    { level: 'Secondary',        degree: 'SSC — Science',       inst: 'Mulgram Secondary School, Jashore',          year: '2012–2013', cgpa: 'GPA 5.00 / 5.00',  rank: '',          badgeText: '',             badgeColor: ''       },
   ],
 
   /* ---- PUBLICATIONS ---- */
@@ -618,7 +634,7 @@ const FALLBACK_DATA = {
       abstract: 'This study proposes a hybrid microgrid comprising renewable energy sources, a natural gas generator, battery storage, and an EV charging station for two coastal areas of Bangladesh. Using HOMER Pro optimization, the winning configuration achieved a cost of energy of $0.157/kWh and CO₂ emission of 6,666 kg/y — a significant step toward affordable, pollution-free electrification in remote coastal communities.',
       doi: 'https://doi.org/10.1109/TASC.2021.3089118',
       pdf: 'https://drive.google.com/uc?export=download&id=1KpsJbZCTc-icTJMtV7y0khuS9mEplHr9',
-      badgeText: '', badgeColor: 'gold',
+      badgeText: '', badgeColor: '',
     },
     {
       type: 'conf', label: 'IEEE Conference', year: '2020',
@@ -628,167 +644,52 @@ const FALLBACK_DATA = {
       abstract: 'A PV-Wind-Battery-Gas connected hybrid AC/DC microgrid architecture is proposed for two remotely located rural areas of Bangladesh. Simulation and optimization results confirm the model delivers both environmentally friendly and economically viable electrification, reducing dependency on fossil fuels in off-grid communities.',
       doi: 'https://doi.org/10.1109/ASEMD49065.2020.9276112',
       pdf: 'https://drive.google.com/uc?export=download&id=1KuRs708X91DGemCsbTHVHEu0hX0cT4VT',
-      badgeText: '', badgeColor: 'gold',
+      badgeText: '', badgeColor: '',
     },
   ],
 
   /* ---- ACHIEVEMENTS ---- */
   achievements: [
-    { icon: '🏛️', title: 'NST Fellowship 2024',  org: 'Ministry of Science & Technology, Bangladesh', desc: 'National Science & Technology (NST) Fellowship 2024 — Physical Science group. Merit Serial: 917 (MS/MSc, 2023-24 batch).', badgeText: '', badgeColor: 'gold' },
-    { icon: '➗',  title: 'Math Olympiad 2016',   org: 'Bangladesh Mathematical Olympiad Committee',   desc: 'Participated in the 14th Bangladesh Mathematical Olympiad in Jashore (Reg. No: 19038).', badgeText: '', badgeColor: 'gold' },
-    { icon: '🏆', title: 'Best Talent Award',     org: 'Government of Bangladesh',                     desc: 'Upazilla Level Best Talent of the Year at the Creative Talent Search Competition 2015 in Mathematics & Computer (Class XII).', badgeText: '🏅 Best Talent', badgeColor: 'purple' },
-    { icon: '⚡', title: 'Scout Power Camp',      org: 'Power Division & Bangladesh Scouts',           desc: 'Participated in a 3-day Power Camp for Scouts and Rover Scouts in Keshabpur, Jashore (2012).', badgeText: '', badgeColor: 'gold' },
-    { icon: '📊', title: 'Poster Presentation',   org: 'Rajshahi University Education Club',           desc: 'Participated in the Wearix Poster Presentation Competition 2024 at Rajshahi University.', badgeText: '', badgeColor: 'gold' },
+    { icon: '🏛️', title: 'NST Fellowship 2024',  org: 'Ministry of Science & Technology, Bangladesh', desc: 'National Science & Technology (NST) Fellowship 2024 — Physical Science group. Merit Serial: 917 (MS/MSc, 2023-24 batch).', badgeText: '', badgeColor: '' },
+    { icon: '➗',  title: 'Math Olympiad 2016',   org: 'Bangladesh Mathematical Olympiad Committee',   desc: 'Participated in the 14th Bangladesh Mathematical Olympiad in Jashore (Reg. No: 19038).', badgeText: '', badgeColor: '' },
+    { icon: '🏆', title: 'Best Talent Award',    org: 'Government of Bangladesh',                     desc: 'Upazilla Level Best Talent of the Year at the Creative Talent Search Competition 2015 in Mathematics & Computer (Class XII).', badgeText: '', badgeColor: '' },
+    { icon: '⚡', title: 'Scout Power Camp',     org: 'Power Division & Bangladesh Scouts',           desc: 'Participated in a 3-day Power Camp for Scouts and Rover Scouts in Keshabpur, Jashore (2012).', badgeText: '', badgeColor: '' },
+    { icon: '📊', title: 'Poster Presentation',  org: 'Rajshahi University Education Club',           desc: 'Participated in the Wearix Poster Presentation Competition 2024 at Rajshahi University.', badgeText: '', badgeColor: '' },
   ],
 
   /* ---- YOUTUBE VIDEOS ---- */
   videos: [
-    { id: 'VhTRfdsUMuQ', title: 'Cinematic Intro with Motion Graphics', desc: 'Eye-catchy YouTube video intro with cinematic motion graphics.', badgeText: '', badgeColor: 'gold' },
-    { id: 'C07dyAn5UWw', title: 'Renewable Microgrid System Explained', desc: 'Easiest way to learn the operation of a renewable energy microgrid system.', badgeText: '', badgeColor: 'gold' },
-    { id: 'yyFgEHZNT0A', title: '3×3 Matrix Multiplication Animated',  desc: 'Step-by-step animated breakdown of 3×3 matrix multiplication.', badgeText: '', badgeColor: 'gold' },
+    { id: 'VhTRfdsUMuQ', title: 'Cinematic Intro with Motion Graphics', desc: 'Eye-catchy YouTube video intro with cinematic motion graphics.', badgeText: '', badgeColor: '' },
+    { id: 'C07dyAn5UWw', title: 'Renewable Microgrid System Explained', desc: 'Easiest way to learn the operation of a renewable energy microgrid system.', badgeText: '', badgeColor: '' },
+    { id: 'yyFgEHZNT0A', title: '3×3 Matrix Multiplication Animated',  desc: 'Step-by-step animated breakdown of 3×3 matrix multiplication.', badgeText: '', badgeColor: '' },
   ],
 
-  /* ---- SECTIONS  (order/enable/title — mirrors the Sections tab) ---- */
-  sectionsConfig: [
-    { key: 'about',        label: '', eyebrow: '', type: 'builtin', sheet: '',            icon: '',             enabled: true,  order: 10 },
-    { key: 'skills',       label: '', eyebrow: '', type: 'builtin', sheet: 'Skills',       icon: '',             enabled: true,  order: 20 },
-    { key: 'experience',   label: '', eyebrow: '', type: 'builtin', sheet: 'Experience',   icon: '',             enabled: true,  order: 30 },
-    { key: 'education',    label: '', eyebrow: '', type: 'builtin', sheet: 'Education',    icon: '',             enabled: true,  order: 40 },
-    { key: 'publications', label: '', eyebrow: '', type: 'builtin', sheet: 'Publications', icon: '',             enabled: true,  order: 50 },
-    { key: 'achievements', label: '', eyebrow: '', type: 'builtin', sheet: 'Achievements', icon: '',             enabled: true,  order: 60 },
-    { key: 'videos',       label: '', eyebrow: '', type: 'builtin', sheet: 'Videos',       icon: '',             enabled: true,  order: 70 },
-    { key: 'contact',      label: '', eyebrow: '', type: 'builtin', sheet: '',            icon: '',             enabled: true,  order: 80 },
-    { key: 'languages',    label: 'Languages',  eyebrow: 'Communication', type: 'custom', sheet: 'Languages',  icon: 'fa-language',   enabled: true,  order: 90 },
-    { key: 'references',   label: 'References', eyebrow: 'Vouched For',   type: 'custom', sheet: 'References', icon: 'fa-user-check', enabled: false, order: 100 },
+  /* ---- SECTIONS  (visibility / order / custom-section registry) ---- */
+  sections: [
+    { section_key:'about',        display_name:'About',        type:'built-in', enabled:'yes', order:'1'  },
+    { section_key:'skills',       display_name:'Skills',       type:'built-in', enabled:'yes', order:'2'  },
+    { section_key:'experience',   display_name:'Experience',   type:'built-in', enabled:'yes', order:'3'  },
+    { section_key:'education',    display_name:'Education',    type:'built-in', enabled:'yes', order:'4'  },
+    { section_key:'publications', display_name:'Research',     type:'built-in', enabled:'yes', order:'5'  },
+    { section_key:'achievements', display_name:'Achievements', type:'built-in', enabled:'yes', order:'6'  },
+    { section_key:'videos',       display_name:'Videos',       type:'built-in', enabled:'yes', order:'7'  },
+    { section_key:'Languages',    display_name:'Languages',    type:'custom',   enabled:'no',  order:'8'  },
+    { section_key:'References',   display_name:'References',   type:'custom',   enabled:'no',  order:'9'  },
+    { section_key:'contact',      display_name:'Contact',      type:'built-in', enabled:'yes', order:'10' },
   ],
 
-  /* ---- CUSTOM SECTION DATA  (generic card items) ---- */
+  /* ---- CUSTOM SECTION DATA  (only used if enabled above) ---- */
   custom: {
-    languages: [
-      { icon: '🇧🇩', title: 'Bengali', subtitle: 'Native', description: '', tags: [], linkLabel: '', linkUrl: '', badgeText: '', badgeColor: 'gold' },
-      { icon: '🇬🇧', title: 'English', subtitle: 'Professional working proficiency', description: 'Used for teaching, research writing, and all IEEE publications.', tags: [], linkLabel: '', linkUrl: '', badgeText: '', badgeColor: 'gold' },
+    Languages: [
+      { title:'Bengali', subtitle:'Native', description:'', badge_text:'', badge_color:'', link_label:'', link_url:'', order:'1' },
+      { title:'English', subtitle:'Fluent — Professional Proficiency', description:'', badge_text:'', badge_color:'', link_label:'', link_url:'', order:'2' },
     ],
-    references: [
-      { icon: '👤', title: 'Dr. Jane Doe', subtitle: 'Professor & Department Head, Example University', description: 'jane.doe@example.edu · Supervised my M.Sc. thesis.', tags: [], linkLabel: 'Email', linkUrl: 'mailto:jane.doe@example.edu', badgeText: '', badgeColor: 'gold' },
+    References: [
+      { title:'Dr. Jane Doe', subtitle:'Professor, Dept. of ECE, Khulna University', description:'Former Thesis Supervisor', badge_text:'', badge_color:'', link_label:'Email', link_url:'mailto:jane.doe@example.edu', order:'1' },
     ],
   },
 };
 
-
-
-/* ================================================================
-   COLOR UTILITIES  —  power the theme system + badge colors
-   ================================================================ */
-function hexToRgb(hex) {
-  if (!hex) return null;
-  let h = hex.toString().trim().replace('#', '');
-  if (h.length === 3) h = h.split('').map(c => c + c).join('');
-  if (!/^[0-9a-fA-F]{6}$/.test(h)) return null;
-  const num = parseInt(h, 16);
-  return { r: (num >> 16) & 255, g: (num >> 8) & 255, b: num & 255 };
-}
-function rgbToHsl(r, g, b) {
-  r /= 255; g /= 255; b /= 255;
-  const max = Math.max(r, g, b), min = Math.min(r, g, b);
-  let h, s, l = (max + min) / 2;
-  if (max === min) { h = s = 0; }
-  else {
-    const d = max - min;
-    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-    switch (max) {
-      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-      case g: h = (b - r) / d + 2; break;
-      default: h = (r - g) / d + 4;
-    }
-    h /= 6;
-  }
-  return [h, s, l];
-}
-function hslToRgb(h, s, l) {
-  let r, g, b;
-  if (s === 0) { r = g = b = l; }
-  else {
-    const hue2rgb = (p, q, t) => {
-      if (t < 0) t += 1; if (t > 1) t -= 1;
-      if (t < 1 / 6) return p + (q - p) * 6 * t;
-      if (t < 1 / 2) return q;
-      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-      return p;
-    };
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1 / 3); g = hue2rgb(p, q, h); b = hue2rgb(p, q, h - 1 / 3);
-  }
-  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
-}
-function rgbTriplet(hex) {
-  const c = hexToRgb(hex);
-  return c ? `${c.r},${c.g},${c.b}` : null;
-}
-function lightenHexToTriplet(hex, amount) {
-  const rgb = hexToRgb(hex);
-  if (!rgb) return null;
-  const [h, s, l] = rgbToHsl(rgb.r, rgb.g, rgb.b);
-  const [r2, g2, b2] = hslToRgb(h, s, Math.min(1, l + amount));
-  return `${r2},${g2},${b2}`;
-}
-function contrastTextColor(rgb) {
-  const lum = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
-  return lum > 0.62 ? '#0B1829' : '#FFFFFF';
-}
-
-/* Drives the circuit-board canvas color too, read fresh every frame */
-let CIRCUIT_RGB = '14,165,233';
-
-function applyTheme(primaryHex, accentHex) {
-  const root = document.documentElement.style;
-  const pTrip = rgbTriplet(primaryHex) || '14,165,233';
-  const aTrip = rgbTriplet(accentHex) || '240,165,0';
-  const pLight = lightenHexToTriplet(primaryHex, 0.16) || '56,189,248';
-  const aLight = lightenHexToTriplet(accentHex, 0.16) || '251,199,64';
-  root.setProperty('--cyan-rgb', pTrip);
-  root.setProperty('--gold-rgb', aTrip);
-  root.setProperty('--cyan-light-rgb', pLight);
-  root.setProperty('--gold-light-rgb', aLight);
-  CIRCUIT_RGB = pTrip;
-}
-
-
-/* ================================================================
-   BADGES  —  presets + custom #hex, used by every section
-   ================================================================ */
-const BADGE_PRESETS = {
-  gold:   { bg: 'linear-gradient(135deg,#F0A500,#FBC740)', text: '#0B1829' },
-  silver: { bg: 'linear-gradient(135deg,#94A3B8,#E2E8F0)', text: '#0B1829' },
-  bronze: { bg: 'linear-gradient(135deg,#B45309,#D97706)', text: '#FFFFFF' },
-  blue:   { bg: 'linear-gradient(135deg,#0EA5E9,#38BDF8)', text: '#0B1829' },
-  green:  { bg: 'linear-gradient(135deg,#16A34A,#4ADE80)', text: '#0B1829' },
-  purple: { bg: 'linear-gradient(135deg,#7C3AED,#A78BFA)', text: '#FFFFFF' },
-  red:    { bg: 'linear-gradient(135deg,#DC2626,#F87171)', text: '#FFFFFF' },
-};
-function resolveBadgeColor(colorVal) {
-  const v = (colorVal || 'gold').toString().trim();
-  if (v.startsWith('#')) {
-    const rgb = hexToRgb(v);
-    if (rgb) {
-      const lightTrip = lightenHexToTriplet(v, 0.18) || `${rgb.r},${rgb.g},${rgb.b}`;
-      return { bg: `linear-gradient(135deg, ${v}, rgb(${lightTrip}))`, text: contrastTextColor(rgb) };
-    }
-  }
-  return BADGE_PRESETS[v.toLowerCase()] || BADGE_PRESETS.gold;
-}
-function renderBadge(text, color) {
-  if (!text) return '';
-  const c = resolveBadgeColor(color);
-  return `<div class="badge-ribbon" style="background:${c.bg};color:${c.text}">${text}</div>`;
-}
-function renderPhotoBadge(big, small, color) {
-  if (!big) return '';
-  const c = resolveBadgeColor(color);
-  return `<div class="rank-badge" style="background:${c.bg};color:${c.text}">
-    <span class="big">${big}</span>${small ? `<span class="sm">${small}</span>` : ''}
-  </div>`;
-}
 
 
 /* ================================================================
@@ -817,7 +718,6 @@ async function fetchData() {
    ================================================================ */
 function transformData(raw) {
   const p = raw.profile || {};
-
   return {
     name:     p.name     || 'Portfolio Owner',
     title:    p.title    || '',
@@ -828,19 +728,19 @@ function transformData(raw) {
     phone:    p.phone    || '',
     location: p.location || '',
     photo:    p.photo    || '',
-    resume:   p.resume   || '',
-    linkedin: p.linkedin || '',
-    scholar:  p.scholar  || '',
-    facebook: p.facebook || '',
-    twitter:  p.twitter  || '',
-    youtube:  p.youtube  || '',
+    resume:   p.resume   || '#',
+    linkedin: p.linkedin || '#',
+    scholar:  p.scholar  || '#',
+    facebook: p.facebook || '#',
+    twitter:  p.twitter  || '#',
+    youtube:  p.youtube  || '#',
 
-    themePrimary: p.theme_primary || '#0EA5E9',
-    themeAccent:  p.theme_accent  || '#F0A500',
+    colorPrimary:    p.color_primary    || '#0EA5E9',
+    colorAccent:     p.color_accent     || '#F0A500',
+    colorBackground: p.color_background || '',
 
-    photoBadgeBig:   p.photo_badge_big   || '',
-    photoBadgeSmall: p.photo_badge_small || '',
-    photoBadgeColor: p.photo_badge_color || 'gold',
+    aboutBadgeText:    p.about_badge_text    || '',
+    aboutBadgeSubtext: p.about_badge_subtext || '',
 
     aboutInfo: [
       { label: 'Degree',      value: p.degree       || '' },
@@ -856,7 +756,7 @@ function transformData(raw) {
       name: s.name || '',
       tags: (s.tags || '').split(',').map(t => t.trim()).filter(Boolean),
       badgeText:  s.badge_text  || '',
-      badgeColor: s.badge_color || 'gold',
+      badgeColor: s.badge_color || '',
     })),
 
     experience: (raw.experience || []).map(e => ({
@@ -868,70 +768,166 @@ function transformData(raw) {
       desc: e.description || '',
       resp: (e.responsibilities || '').split('|').map(r => r.trim()).filter(Boolean),
       badgeText:  e.badge_text  || '',
-      badgeColor: e.badge_color || 'gold',
+      badgeColor: e.badge_color || '',
     })),
 
     education: (raw.education || []).map(e => ({
-      level:    e.level       || '',
-      degree:   e.degree      || '',
-      inst:     e.institution || '',
-      year:     e.year        || '',
-      cgpa:     e.cgpa        || '',
-      rank:     e.rank        || '',
+      level:      e.level       || '',
+      degree:     e.degree      || '',
+      inst:       e.institution || '',
+      year:       e.year        || '',
+      cgpa:       e.cgpa        || '',
+      rank:       e.rank        || '',
       badgeText:  e.badge_text  || '',
-      badgeColor: e.badge_color || 'gold',
+      badgeColor: e.badge_color || '',
     })),
 
     publications: (raw.publications || []).map(p => ({
-      type:     p.type     || 'jnl',
-      label:    p.label    || 'Publication',
-      year:     p.year     || '',
-      title:    p.title    || '',
-      authors:  p.authors  || '',
-      venue:    p.venue    || '',
-      abstract: p.abstract || '',
-      doi:      p.doi      || '',
-      pdf:      p.pdf      || '',
+      type:       p.type     || 'jnl',
+      label:      p.label    || 'Publication',
+      year:       p.year     || '',
+      title:      p.title    || '',
+      authors:    p.authors  || '',
+      venue:      p.venue    || '',
+      abstract:   p.abstract || '',
+      doi:        p.doi      || '',
+      pdf:        p.pdf      || '',
       badgeText:  p.badge_text  || '',
-      badgeColor: p.badge_color || 'gold',
+      badgeColor: p.badge_color || '',
     })),
 
     achievements: (raw.achievements || []).map(a => ({
-      icon:  a.icon        || '🏆',
-      title: a.title       || '',
-      org:   a.org         || '',
-      desc:  a.description || '',
+      icon:       a.icon        || '🏆',
+      title:      a.title       || '',
+      org:        a.org         || '',
+      desc:       a.description || '',
       badgeText:  a.badge_text  || '',
-      badgeColor: a.badge_color || 'gold',
+      badgeColor: a.badge_color || '',
     })),
 
     videos: (raw.videos || []).map(v => ({
-      id:    v.id          || '',
-      title: v.title       || '',
-      desc:  v.description || '',
+      id:         v.id          || '',
+      title:      v.title       || '',
+      desc:       v.description || '',
       badgeText:  v.badge_text  || '',
-      badgeColor: v.badge_color || 'gold',
+      badgeColor: v.badge_color || '',
     })),
 
-    sectionsConfig: raw.sectionsConfig || [],
-
-    custom: Object.fromEntries(
-      Object.entries(raw.custom || {}).map(([key, rows]) => [
-        key,
-        (rows || []).map(r => ({
-          icon:        r.icon        || '🔹',
-          title:       r.title       || '',
-          subtitle:    r.subtitle    || '',
-          description: r.description || '',
-          tags: (r.tags || '').split(',').map(t => t.trim()).filter(Boolean),
-          linkLabel:   r.link_label || '',
-          linkUrl:     r.link_url   || '',
-          badgeText:   r.badge_text  || '',
-          badgeColor:  r.badge_color || 'gold',
-        }))
-      ])
-    ),
+    sections: (raw.sections && raw.sections.length) ? raw.sections : DEFAULT_SECTIONS_META,
+    custom:   raw.custom || {},
   };
+}
+
+/** Built-in section order/visibility used only if the "Sections" tab is missing (older backend). */
+const DEFAULT_SECTIONS_META = [
+  { section_key:'about',        display_name:'About',        type:'built-in', enabled:'yes', order:'1'  },
+  { section_key:'skills',       display_name:'Skills',       type:'built-in', enabled:'yes', order:'2'  },
+  { section_key:'experience',   display_name:'Experience',   type:'built-in', enabled:'yes', order:'3'  },
+  { section_key:'education',    display_name:'Education',    type:'built-in', enabled:'yes', order:'4'  },
+  { section_key:'publications', display_name:'Research',     type:'built-in', enabled:'yes', order:'5'  },
+  { section_key:'achievements', display_name:'Achievements', type:'built-in', enabled:'yes', order:'6'  },
+  { section_key:'videos',       display_name:'Videos',       type:'built-in', enabled:'yes', order:'7'  },
+  { section_key:'contact',      display_name:'Contact',      type:'built-in', enabled:'yes', order:'10' },
+];
+
+/** Maps a Sections-sheet built-in key (lowercase) to the actual <section id="..."> in the DOM. */
+const BUILTIN_SECTION_IDS = {
+  about:'about', skills:'skills', experience:'experience', education:'education',
+  publications:'publications', achievements:'achievements', videos:'videos', contact:'contact',
+};
+
+
+/* ================================================================
+   SMALL UTILITIES — escaping, color math, badge rendering
+   ================================================================ */
+function esc(str) {
+  return String(str == null ? '' : str)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+function isHex6(str) {
+  return /^#?[0-9a-fA-F]{6}$/.test((str || '').trim());
+}
+function normHex(str) {
+  const t = str.trim();
+  return t.startsWith('#') ? t : '#' + t;
+}
+function hexToRgbStr(hex) {
+  if (!isHex6(hex)) return null;
+  const h = normHex(hex).replace('#', '');
+  const r = parseInt(h.substring(0, 2), 16), g = parseInt(h.substring(2, 4), 16), b = parseInt(h.substring(4, 6), 16);
+  return `${r},${g},${b}`;
+}
+function lighten(hex, percent) {
+  if (!isHex6(hex)) return hex;
+  const h = normHex(hex).replace('#', '');
+  let r = parseInt(h.substring(0, 2), 16), g = parseInt(h.substring(2, 4), 16), b = parseInt(h.substring(4, 6), 16);
+  r = Math.min(255, Math.round(r + (255 - r) * percent / 100));
+  g = Math.min(255, Math.round(g + (255 - g) * percent / 100));
+  b = Math.min(255, Math.round(b + (255 - b) * percent / 100));
+  return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
+}
+
+const BADGE_PRESETS = {
+  gold:   '#F0A500',
+  silver: '#CBD5E1',
+  bronze: '#CD7F32',
+  blue:   '#38BDF8',
+  green:  '#4ADE80',
+  red:    '#F87171',
+  purple: '#A78BFA',
+};
+function resolveBadgeColor(color) {
+  if (!color) return BADGE_PRESETS.gold;
+  const key = color.trim().toLowerCase();
+  if (BADGE_PRESETS[key]) return BADGE_PRESETS[key];
+  if (isHex6(color)) return normHex(color);
+  return BADGE_PRESETS.gold;
+}
+/** Returns the corner outline-badge HTML, or '' if no text was given (no empty markup left behind). */
+function badgeHTML(text, color) {
+  if (!text) return '';
+  const c1  = resolveBadgeColor(color);
+  const rgb = hexToRgbStr(c1) || '240,165,0';
+  return `<span class="item-badge" style="--badge-c1:${c1};--badge-c1-rgb:${rgb}"><span class="item-badge-star">★</span>${esc(text)}</span>`;
+}
+
+
+/* ================================================================
+   THEME  — recolors the whole site from Profile → color_primary /
+   color_accent / color_background. A plain hex code is all the
+   user needs to type; lighter shades + rgb() components are derived.
+   ================================================================ */
+let CIRCUIT_RGB = '14,165,233';
+
+function applyTheme(D) {
+  const root = document.documentElement.style;
+
+  const primary = isHex6(D.colorPrimary) ? normHex(D.colorPrimary) : '#0EA5E9';
+  const accent  = isHex6(D.colorAccent)  ? normHex(D.colorAccent)  : '#F0A500';
+
+  root.setProperty('--cyan', primary);
+  root.setProperty('--cyan-light', lighten(primary, 22));
+  root.setProperty('--cyan-rgb', hexToRgbStr(primary) || '14,165,233');
+
+  root.setProperty('--gold', accent);
+  root.setProperty('--gold-light', lighten(accent, 22));
+  root.setProperty('--gold-rgb', hexToRgbStr(accent) || '240,165,0');
+
+  CIRCUIT_RGB = hexToRgbStr(primary) || '14,165,233';
+
+  if (isHex6(D.colorBackground)) {
+    const navy  = normHex(D.colorBackground);
+    const navy2 = lighten(navy, 8);
+    const navy3 = lighten(navy, 16);
+    root.setProperty('--navy', navy);
+    root.setProperty('--navy-2', navy2);
+    root.setProperty('--navy-3', navy3);
+    root.setProperty('--navy-rgb', hexToRgbStr(navy));
+    root.setProperty('--navy2-rgb', hexToRgbStr(navy2));
+    root.setProperty('--navy3-rgb', hexToRgbStr(navy3));
+  }
 }
 
 
@@ -939,78 +935,63 @@ function transformData(raw) {
    RENDER  — injects all DATA into the HTML placeholders
    ================================================================ */
 let DATA = {};
-let SECTION_ORDER = ['hero'];
-
-const DEFAULT_SECTION_ORDER = {
-  about: 10, skills: 20, experience: 30, education: 40,
-  publications: 50, achievements: 60, videos: 70, contact: 80,
-};
-const BUILTIN_KEYS = Object.keys(DEFAULT_SECTION_ORDER);
-
-function nameWithEmphasis(name) {
-  if (!name) return '';
-  const parts = name.trim().split(/\s+/);
-  if (parts.length < 2) return name;
-  const last = parts.pop();
-  return `${parts.join(' ')} <em>${last}</em>`;
-}
+let NAV_SECTION_IDS = [];
 
 function render() {
   const D = DATA;
-
-  applyTheme(D.themePrimary, D.themeAccent);
+  applyTheme(D);
 
   // page / nav
   document.title = `${D.name} – Portfolio`;
-  const navResume = document.getElementById('nav-resume');
-  const navResumeLi = document.getElementById('nav-resume-li');
-  if (D.resume) { navResume.href = D.resume; navResumeLi.style.display = ''; }
-  else { navResumeLi.style.display = 'none'; }
 
   // hero
-  document.getElementById('h-chip').textContent  = D.title;
-  document.getElementById('h-name').innerHTML    = nameWithEmphasis(D.name);
-  document.getElementById('h-role').textContent  = D.tagline;
-  const quoteEl = document.getElementById('h-quote');
-  quoteEl.textContent = D.quote ? `"${D.quote}"` : '';
-  quoteEl.style.display = D.quote ? '' : 'none';
-
-  const heroBtns = [`<a class="btn-fill" href="#contact"><i class="fa-solid fa-envelope"></i> Let's Connect</a>`];
-  if (D.resume) heroBtns.push(`<a class="btn-ghost" href="${D.resume}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> Download CV</a>`);
-  document.getElementById('h-btns').innerHTML = heroBtns.join('');
-
+  document.getElementById('h-chip').textContent   = D.title;
+  document.getElementById('h-name').innerHTML     = 'Md. Arif Ar <em>Rafi</em>';
+  document.getElementById('h-role').textContent   = D.tagline;
+  document.getElementById('h-quote').textContent  = `"${D.quote}"`;
+  document.getElementById('h-btns').innerHTML = `
+    <a class="btn-fill" href="#contact"><i class="fa-solid fa-envelope"></i> Let's Connect</a>
+    <a class="btn-ghost" href="${esc(D.resume)}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> Download CV</a>`;
   document.getElementById('h-socials').innerHTML = [
     [D.linkedin, 'fa-brands fa-linkedin-in',    'LinkedIn'],
     [D.scholar,  'fa-solid fa-graduation-cap',  'Scholar'],
     [D.youtube,  'fa-brands fa-youtube',        'YouTube'],
     [D.twitter,  'fa-brands fa-x-twitter',      'X'],
     [D.facebook, 'fa-brands fa-facebook-f',     'Facebook'],
-  ].filter(([href]) => href)
-   .map(([href,icon,lbl]) => `<a href="${href}" aria-label="${lbl}" target="_blank" rel="noopener"><i class="${icon}"></i></a>`)
-   .join('');
+  ].map(([href,icon,lbl]) =>
+    `<a href="${esc(href)}" aria-label="${lbl}" target="_blank" rel="noopener"><i class="${icon}"></i></a>`
+  ).join('');
 
-  // about photo + badge
+  // about photo
   if (D.photo) {
     const img = document.getElementById('profile-img');
     img.src = D.photo; img.alt = D.name;
     img.onload  = () => { img.style.display='block'; document.getElementById('photo-placeholder').style.display='none'; };
-    img.onerror = () => { img.style.display='none'; document.getElementById('photo-placeholder').style.display='flex'; };
+    img.onerror = () => { img.style.display='none'; };
   }
   document.getElementById('about-bio').textContent = D.bio;
   document.getElementById('about-info').innerHTML  = D.aboutInfo
     .filter(i => i.value)
-    .map(i => `<div class="info-item"><span class="info-label">${i.label}</span><span class="info-val">${i.value}</span></div>`)
+    .map(i => `<div class="info-item"><span class="info-label">${esc(i.label)}</span><span class="info-val">${esc(i.value)}</span></div>`)
     .join('');
-  document.getElementById('rank-badge-slot').innerHTML =
-    renderPhotoBadge(D.photoBadgeBig, D.photoBadgeSmall, D.photoBadgeColor);
+
+  // about rank badge — fully optional, collapses to nothing if both fields are blank
+  const rankBadgeEl = document.getElementById('rank-badge');
+  if (D.aboutBadgeText || D.aboutBadgeSubtext) {
+    document.getElementById('rank-badge-big').textContent = D.aboutBadgeText || '';
+    document.getElementById('rank-badge-sm').textContent  = D.aboutBadgeSubtext || '';
+    rankBadgeEl.style.display = '';
+  } else {
+    rankBadgeEl.style.display = 'none';
+  }
 
   // skills
   document.getElementById('skills-grid').innerHTML = D.skills.map((s, i) => `
     <div class="skill-card reveal d${(i%3)+1}">
-      ${renderBadge(s.badgeText, s.badgeColor)}
-      <div class="skill-ico"><i class="fa-solid ${s.icon}"></i></div>
-      <div class="skill-name">${s.name}</div>
-      <div class="tag-row">${s.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+      ${badgeHTML(s.badgeText, s.badgeColor)}
+      <div class="skill-ico"><i class="fa-solid ${esc(s.icon)}"></i></div>
+      <div class="skill-name">${esc(s.name)}</div>
+      <div class="tag-row">${s.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
     </div>`).join('');
 
   // experience
@@ -1018,53 +999,53 @@ function render() {
     <div class="tl-item reveal d${Math.min(i+1,3)}">
       <div class="tl-dot"></div>
       <div class="tl-card">
-        ${renderBadge(e.badgeText, e.badgeColor)}
+        ${badgeHTML(e.badgeText, e.badgeColor)}
         <div class="tl-head">
-          <span class="tl-chip">${e.chip}</span>
-          <span class="tl-date">${e.date} · ${e.loc}</span>
+          ${e.chip ? `<span class="tl-chip">${esc(e.chip)}</span>` : ''}
+          <span class="tl-date">${esc(e.date)}${e.loc ? ' · ' + esc(e.loc) : ''}</span>
         </div>
-        <div class="tl-role">${e.role}</div>
-        <div class="tl-org"><i class="fa-solid fa-building fa-2xs"></i>&nbsp; ${e.org}</div>
-        <p class="tl-desc">${e.desc}</p>
-        <ul class="tl-resp">${e.resp.map(r=>`<li>${r}</li>`).join('')}</ul>
+        <div class="tl-role">${esc(e.role)}</div>
+        ${e.org ? `<div class="tl-org"><i class="fa-solid fa-building fa-2xs"></i>&nbsp; ${esc(e.org)}</div>` : ''}
+        ${e.desc ? `<p class="tl-desc">${esc(e.desc)}</p>` : ''}
+        ${e.resp.length ? `<ul class="tl-resp">${e.resp.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>` : ''}
       </div>
     </div>`).join('');
 
   // education
   document.getElementById('edu-grid').innerHTML = D.education.map((e, i) => `
     <div class="edu-card reveal d${(i%2)+1}">
-      ${renderBadge(e.badgeText, e.badgeColor)}
-      <div class="edu-lvl">${e.level}</div>
-      <div class="edu-deg">${e.degree}</div>
-      <div class="edu-inst">${e.inst}</div>
+      ${badgeHTML(e.badgeText, e.badgeColor)}
+      <div class="edu-lvl">${esc(e.level)}</div>
+      <div class="edu-deg">${esc(e.degree)}</div>
+      ${e.inst ? `<div class="edu-inst">${esc(e.inst)}</div>` : ''}
       <div class="chip-row">
-        <span class="chip">${e.year}</span>
-        <span class="chip hi">${e.cgpa}</span>
-        ${e.rank ? `<span class="chip">${e.rank}</span>` : ''}
+        ${e.year ? `<span class="chip">${esc(e.year)}</span>` : ''}
+        ${e.cgpa ? `<span class="chip hi">${esc(e.cgpa)}</span>` : ''}
+        ${e.rank ? `<span class="chip">${esc(e.rank)}</span>` : ''}
       </div>
     </div>`).join('');
 
   // publications
   document.getElementById('pub-list').innerHTML = D.publications.map((p, i) => {
     const links = [];
-    if (p.doi) links.push(`<a class="pub-lnk" href="${p.doi}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i> View on IEEE</a>`);
-    if (p.pdf) links.push(`<a class="pub-lnk" href="${p.pdf}" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf fa-2xs"></i> Download PDF</a>`);
+    if (p.doi) links.push(`<a class="pub-lnk" href="${esc(p.doi)}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i> View on IEEE</a>`);
+    if (p.pdf) links.push(`<a class="pub-lnk" href="${esc(p.pdf)}" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf fa-2xs"></i> Download PDF</a>`);
     return `
     <div class="pub-card reveal">
-      ${renderBadge(p.badgeText, p.badgeColor)}
+      ${badgeHTML(p.badgeText, p.badgeColor)}
       <div class="pub-meta">
-        <span class="pub-badge ${p.type}">${p.label}</span>
-        <span class="pub-year">${p.year}</span>
+        <span class="pub-badge ${esc(p.type)}">${esc(p.label)}</span>
+        ${p.year ? `<span class="pub-year">${esc(p.year)}</span>` : ''}
       </div>
-      <div class="pub-title">${p.title}</div>
-      ${p.authors ? `<div class="pub-authors"><i class="fa-solid fa-user-group fa-2xs"></i> ${p.authors}</div>` : ''}
-      <div class="pub-venue">${p.venue}</div>
+      <div class="pub-title">${esc(p.title)}</div>
+      ${p.authors ? `<div class="pub-authors">${esc(p.authors)}</div>` : ''}
+      ${p.venue ? `<div class="pub-venue">${esc(p.venue)}</div>` : ''}
       ${p.abstract ? `
       <button class="pub-toggle" onclick="toggleAbstract(${i})">
         <i class="fa-solid fa-chevron-right" id="pub-ico-${i}"></i>
         <span id="pub-txt-${i}">Show Abstract</span>
       </button>
-      <div class="pub-abstract" id="pub-abs-${i}">${p.abstract}</div>` : ''}
+      <div class="pub-abstract" id="pub-abs-${i}">${esc(p.abstract)}</div>` : ''}
       ${links.length ? `<div class="pub-links">${links.join('')}</div>` : ''}
     </div>`;
   }).join('');
@@ -1072,37 +1053,34 @@ function render() {
   // achievements
   document.getElementById('achiev-grid').innerHTML = D.achievements.map(a => `
     <div class="achiev-card reveal">
-      ${renderBadge(a.badgeText, a.badgeColor)}
+      ${badgeHTML(a.badgeText, a.badgeColor)}
       <div class="achiev-icon">${a.icon}</div>
-      <div class="achiev-title">${a.title}</div>
-      <div class="achiev-org">${a.org}</div>
-      <div class="achiev-desc">${a.desc}</div>
+      <div class="achiev-title">${esc(a.title)}</div>
+      ${a.org ? `<div class="achiev-org">${esc(a.org)}</div>` : ''}
+      ${a.desc ? `<div class="achiev-desc">${esc(a.desc)}</div>` : ''}
     </div>`).join('');
 
-  // videos
-  const ytChannel = document.getElementById('yt-channel');
-  if (D.youtube) { ytChannel.href = D.youtube; ytChannel.style.display = ''; }
-  else { ytChannel.style.display = 'none'; }
+  // youtube
+  document.getElementById('yt-channel').href = D.youtube;
   document.getElementById('yt-grid').innerHTML = D.videos.map(v => `
-    <a class="yt-card reveal" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">
-      ${renderBadge(v.badgeText, v.badgeColor)}
+    <a class="yt-card reveal" href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener">
+      ${badgeHTML(v.badgeText, v.badgeColor)}
       <div class="yt-thumb">
-        <img src="https://img.youtube.com/vi/${v.id}/mqdefault.jpg" alt="${v.title}" loading="lazy" />
+        <img src="https://img.youtube.com/vi/${esc(v.id)}/mqdefault.jpg" alt="${esc(v.title)}" loading="lazy" />
         <div class="yt-overlay"><i class="fa-brands fa-youtube"></i></div>
       </div>
       <div class="yt-body">
-        <div class="yt-title">${v.title}</div>
-        <div class="yt-desc">${v.desc}</div>
+        <div class="yt-title">${esc(v.title)}</div>
+        ${v.desc ? `<div class="yt-desc">${esc(v.desc)}</div>` : ''}
       </div>
     </a>`).join('');
 
-  // contact — each row only renders if it actually has a value
+  // contact
   document.getElementById('cinfo-list').innerHTML = [
-    ['fa-envelope',     'Email',    D.email ? `<a href="mailto:${D.email}">${D.email}</a>` : ''],
-    ['fa-phone',        'Phone',    D.phone ? `<a href="tel:${D.phone}">${D.phone}</a>` : ''],
-    ['fa-location-dot', 'Location', D.location],
-  ].filter(([,,val]) => val)
-   .map(([ico,lbl,val]) => `
+    ['fa-envelope',     'Email',    D.email    ? `<a href="mailto:${esc(D.email)}">${esc(D.email)}</a>` : ''],
+    ['fa-phone',        'Phone',    D.phone    ? `<a href="tel:${esc(D.phone)}">${esc(D.phone)}</a>`    : ''],
+    ['fa-location-dot', 'Location', D.location ? esc(D.location) : ''],
+  ].filter(([,,val]) => val).map(([ico,lbl,val]) => `
     <div class="cinfo-item">
       <div class="cinfo-ico"><i class="fa-solid ${ico}"></i></div>
       <div><div class="cinfo-lbl">${lbl}</div><div class="cinfo-val">${val}</div></div>
@@ -1114,119 +1092,19 @@ function render() {
     [D.youtube,  'fa-brands fa-youtube',       'YouTube'],
     [D.facebook, 'fa-brands fa-facebook-f',    'Facebook'],
     [D.twitter,  'fa-brands fa-x-twitter',     'X'],
-  ].filter(([href]) => href)
-   .map(([href,icon,lbl]) =>
-    `<a class="soc-btn" href="${href}" target="_blank" rel="noopener"><i class="${icon}"></i> ${lbl}</a>`
+  ].filter(([href]) => href && href !== '#').map(([href,icon,lbl]) =>
+    `<a class="soc-btn" href="${esc(href)}" target="_blank" rel="noopener"><i class="${icon}"></i> ${lbl}</a>`
   ).join('');
 
   // footer
-  const footerResume = D.resume ? ` &nbsp;·&nbsp; <a href="${D.resume}" target="_blank" rel="noopener">Resume ↗</a>` : '';
   document.getElementById('footer-txt').innerHTML =
-    `Designed & built by <a href="#">${D.name}</a>${footerResume}<br/>
+    `Designed & built by <a href="#">${esc(D.name)}</a> &nbsp;·&nbsp;
+     <a href="${esc(D.resume)}" target="_blank" rel="noopener">Resume ↗</a><br/>
      © ${new Date().getFullYear()} · All Rights Reserved`;
 
-  // sections: enable/disable, custom sections, ordering, nav
-  applySectionsAndNav(D);
-}
-
-
-/* ================================================================
-   CUSTOM SECTION RENDERING  (generic card layout — reuses the
-   Achievements visual style so everything stays on-brand)
-   ================================================================ */
-function renderCustomCard(item) {
-  const iconHtml = item.icon && item.icon.startsWith('fa-')
-    ? `<i class="fa-solid ${item.icon}"></i>`
-    : (item.icon || '🔹');
-  return `
-    <div class="achiev-card reveal">
-      ${renderBadge(item.badgeText, item.badgeColor)}
-      <div class="achiev-icon">${iconHtml}</div>
-      <div class="achiev-title">${item.title}</div>
-      ${item.subtitle ? `<div class="achiev-org">${item.subtitle}</div>` : ''}
-      ${item.description ? `<div class="achiev-desc">${item.description}</div>` : ''}
-      ${item.tags.length ? `<div class="tag-row">${item.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>` : ''}
-      ${item.linkUrl ? `<a class="pub-lnk" href="${item.linkUrl}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i> ${item.linkLabel || 'Learn More'}</a>` : ''}
-    </div>`;
-}
-
-function buildCustomSection(cfg, items) {
-  const sec = document.createElement('section');
-  sec.id = cfg.key;
-  sec.dataset.section = cfg.key;
-  sec.dataset.order = cfg.order;
-  sec.className = 'section-generated';
-  sec.innerHTML = `
-    <div class="container">
-      <div class="eyebrow">${cfg.eyebrow || 'More'}</div>
-      <h2 class="sec-title">${cfg.label || cfg.key}</h2>
-      <div class="achiev-grid">${items.map(renderCustomCard).join('')}</div>
-    </div>`;
-  return sec;
-}
-
-/** Enables/disables/retitles built-in sections, builds + inserts any
- *  enabled custom sections, then reorders both the sections and the
- *  nav links to match the Order column from the Sections sheet. */
-function applySectionsAndNav(D) {
-  const root = document.getElementById('sections-root');
-  const navList = document.getElementById('navLinks');
-  const resumeLi = document.getElementById('nav-resume-li');
-
-  const cfgByKey = {};
-  (D.sectionsConfig || []).forEach(c => { cfgByKey[c.key] = c; });
-
-  // clear anything generated by a previous render (custom sections + their nav links)
-  root.querySelectorAll('.section-generated').forEach(el => el.remove());
-  navList.querySelectorAll('.nav-generated').forEach(el => el.remove());
-
-  // built-ins: show/hide, retitle, set order
-  BUILTIN_KEYS.forEach(key => {
-    const sec = document.querySelector(`section[data-section="${key}"]`);
-    if (!sec) return;
-    const cfg = cfgByKey[key];
-    const enabled = cfg ? cfg.enabled : true;
-    const order = (cfg && cfg.order) ? cfg.order : DEFAULT_SECTION_ORDER[key];
-    sec.style.display = enabled ? '' : 'none';
-    sec.dataset.order = order;
-    if (cfg && cfg.label) sec.querySelector('.sec-title').textContent = cfg.label;
-    if (cfg && cfg.eyebrow) sec.querySelector('.eyebrow').textContent = cfg.eyebrow;
-
-    const navLi = navList.querySelector(`li[data-nav="${key}"]`);
-    if (navLi) { navLi.style.display = enabled ? '' : 'none'; navLi.dataset.order = order; }
-  });
-
-  // custom sections (only ones that are enabled AND have at least one row)
-  (D.sectionsConfig || [])
-    .filter(c => c.type === 'custom' && c.enabled)
-    .map(c => ({ cfg: c, items: (D.custom && D.custom[c.key]) || [] }))
-    .filter(c => c.items.length > 0)
-    .forEach(({ cfg, items }) => {
-      root.appendChild(buildCustomSection(cfg, items));
-
-      const li = document.createElement('li');
-      li.className = 'nav-generated';
-      li.dataset.nav = cfg.key;
-      li.dataset.order = cfg.order;
-      li.innerHTML = `<a href="#${cfg.key}">${cfg.label || cfg.key}</a>`;
-      navList.insertBefore(li, resumeLi);
-    });
-
-  // reorder sections in the DOM to match Order
-  const sections = Array.from(root.querySelectorAll('section[data-section]'))
-    .filter(el => el.style.display !== 'none');
-  sections.sort((a, b) => parseFloat(a.dataset.order) - parseFloat(b.dataset.order));
-  sections.forEach(el => root.appendChild(el));
-
-  // reorder nav links the same way — Resume always stays last
-  const navItems = Array.from(navList.querySelectorAll('li[data-nav]'))
-    .filter(el => el.style.display !== 'none');
-  navItems.sort((a, b) => parseFloat(a.dataset.order) - parseFloat(b.dataset.order));
-  navItems.forEach(el => navList.appendChild(el));
-  if (resumeLi) navList.appendChild(resumeLi);
-
-  // scroll-spy reads this list
-  SECTION_ORDER = ['hero', ...sections.map(el => el.dataset.section)];
+  // section visibility / order / custom sections / nav — always last,
+  // since it depends on every built-in section element already existing
+  applySectionsLayout(D);
 }
 
 
@@ -1244,8 +1122,100 @@ function toggleAbstract(i) {
 
 
 /* ================================================================
-   CIRCUIT BOARD ANIMATION  (color follows the live theme via
-   CIRCUIT_RGB, read fresh on every frame)
+   SECTIONS  — show/hide, reorder, and inject custom sections,
+   driven entirely by the "Sections" sheet (D.sections / D.custom)
+   ================================================================ */
+function renderCustomSection(slug, displayName, items) {
+  const cards = items.map(it => {
+    const badge = badgeHTML(it.badge_text, it.badge_color);
+    const link  = (it.link_url && it.link_label)
+      ? `<div class="pub-links"><a class="pub-lnk" href="${esc(it.link_url)}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i> ${esc(it.link_label)}</a></div>`
+      : '';
+    return `
+      <div class="generic-card reveal">
+        ${badge}
+        ${it.title ? `<div class="generic-title">${esc(it.title)}</div>` : ''}
+        ${it.subtitle ? `<div class="generic-subtitle">${esc(it.subtitle)}</div>` : ''}
+        ${it.description ? `<div class="generic-desc">${esc(it.description)}</div>` : ''}
+        ${link}
+      </div>`;
+  }).join('');
+
+  return `
+    <section id="section-${slug}" data-custom-section="1">
+      <div class="container">
+        <div class="eyebrow">Additional</div>
+        <h2 class="sec-title">${esc(displayName)}</h2>
+        <div class="generic-grid">${cards}</div>
+      </div>
+    </section>`;
+}
+
+function isEnabled(val) {
+  const v = (val || 'yes').toString().toLowerCase().trim();
+  return v !== 'no' && v !== 'false' && v !== '0';
+}
+
+function applySectionsLayout(D) {
+  // remove any previously injected custom sections to avoid duplicates on re-render
+  document.querySelectorAll('section[data-custom-section]').forEach(el => el.remove());
+
+  const wrapper = document.getElementById('dynamic-sections');
+  const navItems = [];
+
+  const metaList = (D.sections && D.sections.length ? D.sections : DEFAULT_SECTIONS_META)
+    .slice()
+    .sort((a, b) => (parseFloat(a.order) || 0) - (parseFloat(b.order) || 0));
+
+  metaList.forEach(s => {
+    const key     = (s.section_key || '').toString().trim();
+    const type    = (s.type || '').toString().toLowerCase().trim();
+    const order   = parseFloat(s.order) || 0;
+    const enabled = isEnabled(s.enabled);
+    const builtinId = BUILTIN_SECTION_IDS[key.toLowerCase()];
+
+    if (type !== 'custom' && builtinId) {
+      const el = document.getElementById(builtinId);
+      if (!el) return;
+      el.style.display = enabled ? '' : 'none';
+      el.style.order = order;
+      if (enabled) navItems.push({ href: `#${builtinId}`, label: s.display_name || key });
+      return;
+    }
+
+    // custom section
+    if (!enabled || !key) return;
+    const items = (D.custom && D.custom[key]) ? D.custom[key].slice() : [];
+    if (!items.length) return; // nothing to show — don't render an empty section
+    items.sort((a, b) => (parseFloat(a.order) || 0) - (parseFloat(b.order) || 0));
+    const slug = key.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    wrapper.insertAdjacentHTML('beforeend', renderCustomSection(slug, s.display_name || key, items));
+    const el = document.getElementById(`section-${slug}`);
+    if (el) el.style.order = order;
+    navItems.push({ href: `#section-${slug}`, label: s.display_name || key });
+  });
+
+  renderNav(navItems);
+  initReveal(); // (re)observe any newly created .reveal nodes, including custom sections
+}
+
+function renderNav(navItems) {
+  const ul = document.getElementById('navLinks');
+  ul.innerHTML = navItems.map(n => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('') +
+    `<li><a href="#" class="nav-cv" id="nav-resume">Resume ↗</a></li>`;
+  document.getElementById('nav-resume').href = DATA.resume || '#';
+  NAV_SECTION_IDS = navItems.map(n => n.href.replace('#', ''));
+
+  ul.querySelectorAll('a:not(.nav-cv)').forEach(a => a.addEventListener('click', () => {
+    document.getElementById('hamburger').classList.remove('open');
+    ul.classList.remove('open');
+  }));
+}
+
+
+/* ================================================================
+   CIRCUIT BOARD ANIMATION
+   canvasId: 'loader-canvas' during load, 'circuit-canvas' after
    ================================================================ */
 function initCircuit(canvasId) {
   const canvas = document.getElementById(canvasId);
@@ -1331,15 +1301,13 @@ function initReveal() {
       if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
     });
   }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
 }
 
 
 /* ================================================================
-   NAV — scroll-spy + hamburger.
-   Uses SECTION_ORDER (rebuilt on every render) instead of a fixed
-   list, and delegates clicks so dynamically-added custom-section
-   links close the mobile menu too.
+   NAV — scroll-spy + hamburger  (section list comes from NAV_SECTION_IDS,
+   which is refreshed by renderNav() every time data loads)
    ================================================================ */
 function initNav() {
   const nav  = document.getElementById('nav');
@@ -1349,21 +1317,18 @@ function initNav() {
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 50);
     let cur = '';
-    SECTION_ORDER.forEach(id => {
+    NAV_SECTION_IDS.forEach(id => {
       const el = document.getElementById(id);
       if (el && el.style.display !== 'none' && window.scrollY >= el.offsetTop - 130) cur = id;
     });
-    menu.querySelectorAll('a:not(.nav-cv)').forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === `#${cur}`);
-    });
+    document.querySelectorAll('#navLinks a:not(.nav-cv)').forEach(a =>
+      a.classList.toggle('active', a.getAttribute('href') === `#${cur}`)
+    );
   }, { passive: true });
 
   ham.addEventListener('click', () => {
     ham.classList.toggle('open');
     menu.classList.toggle('open');
-  });
-  menu.addEventListener('click', (e) => {
-    if (e.target.closest('a')) { ham.classList.remove('open'); menu.classList.remove('open'); }
   });
 }
 
@@ -1399,7 +1364,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   DATA = FALLBACK_DATA;
   render();
   if (!noMotion) initCircuit('circuit-canvas');
-  initReveal();
   initNav();
   initForm();
 
@@ -1410,8 +1374,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   try {
     const raw = await fetchData();
     DATA = transformData(raw);
-    render();         // silently re-render with fresh Sheet data
-    initReveal();      // re-observe newly created .reveal nodes
+    render();         // silently re-render with fresh Sheet data (re-applies theme + sections too)
   } catch (err) {
     // Sheet fetch failed — fallback data already visible, nothing breaks
     console.warn('[Portfolio] Sheet refresh failed (showing cached data):', err.message);
