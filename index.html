@@ -50,47 +50,6 @@ section{padding:100px 0}
 .sec-title::after{content:'';display:block;width:46px;height:3px;background:linear-gradient(90deg,var(--cyan),var(--gold));margin-top:14px;border-radius:2px}
 
 
-/* ================================================================
-   LOADER OVERLAY
-   ================================================================ */
-#loader{
-  position:fixed;inset:0;z-index:9000;
-  background:var(--navy);
-  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:28px;
-  transition:opacity .55s ease, visibility .55s ease;
-}
-#loader.hide{opacity:0;visibility:hidden;pointer-events:none}
-#loader-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
-.ld-body{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:16px}
-.ld-brand{font-family:'Space Grotesk',sans-serif;font-size:2rem;font-weight:700;letter-spacing:-.03em;color:var(--text)}
-.ld-brand span{color:var(--cyan)}
-.ld-msg{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text-dim);letter-spacing:.16em;text-transform:uppercase;min-height:1.2em;text-align:center}
-.ld-track{width:200px;height:2px;background:rgba(14,165,233,.15);border-radius:2px;overflow:hidden}
-.ld-bar{height:100%;width:0%;background:var(--cyan);border-radius:2px;box-shadow:0 0 8px var(--cyan);transition:width .4s ease}
-
-/* ================================================================
-   ERROR / SETUP SCREEN
-   ================================================================ */
-#err-screen{
-  position:fixed;inset:0;z-index:8000;
-  background:var(--navy);
-  display:none;align-items:center;justify-content:center;
-}
-#err-screen.show{display:flex}
-.err-box{
-  max-width:540px;width:100%;margin:24px;
-  background:var(--card-bg);border:1px solid var(--card-border);
-  border-radius:var(--r-lg);padding:48px 40px;text-align:center;
-}
-.err-ico{font-size:2.6rem;margin-bottom:16px}
-.err-ico.warn{color:var(--gold)}.err-ico.bad{color:#f87171}
-.err-title{font-size:1.3rem;font-weight:700;color:var(--text);margin-bottom:10px}
-.err-msg{font-size:.88rem;color:var(--text-muted);line-height:1.8;margin-bottom:28px}
-.err-steps{text-align:left;background:rgba(14,165,233,.05);border:1px solid var(--card-border);border-radius:var(--r);padding:18px 22px;margin-bottom:28px}
-.err-steps li{font-size:.84rem;color:var(--text-muted);padding:4px 0 4px 18px;position:relative;line-height:1.6}
-.err-steps li::before{content:'→';position:absolute;left:0;color:var(--cyan);font-size:.75em}
-.err-steps code{font-family:'JetBrains Mono',monospace;background:rgba(14,165,233,.1);color:var(--cyan);padding:1px 6px;border-radius:4px;font-size:.85em}
-.err-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
 
 
 /* ================================================================
@@ -342,25 +301,6 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 <body>
 
 <!-- =========================================================
-     LOADER  (shown while data is fetched from Google Sheets)
-     ========================================================= -->
-<div id="loader">
-  <canvas id="loader-canvas"></canvas>
-  <div class="ld-body">
-    <div class="ld-brand">Arif<span>.</span>Rafi</div>
-    <div class="ld-msg" id="ld-msg">Initializing…</div>
-    <div class="ld-track"><div class="ld-bar" id="ld-bar"></div></div>
-  </div>
-</div>
-
-<!-- =========================================================
-     ERROR / SETUP SCREEN
-     ========================================================= -->
-<div id="err-screen">
-  <div class="err-box" id="err-box"></div>
-</div>
-
-<!-- =========================================================
      NAVIGATION
      ========================================================= -->
 <nav id="nav">
@@ -544,69 +484,155 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 
 <script>
 /* ================================================================
-   ⚙️  CONFIGURATION  — the only line you must change
+   ⚙️  OPTIONAL — Google Sheets live-update
    ================================================================
-   1. Complete the Google Sheets + Apps Script setup (see README.md)
-   2. Deploy as Web App → copy the URL
-   3. Paste it below, replacing the placeholder string
+   If you have set up Code.gs and deployed it as a Web App,
+   paste your Web App URL below. The portfolio will always show
+   the FALLBACK_DATA below instantly, then silently refresh from
+   your Sheet in the background.
+
+   Leave as 'YOUR_APPS_SCRIPT_URL_HERE' to just use the
+   fallback data — no setup required.
    ================================================================ */
 const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzCNaIRNP-bx2CehF5xTlh96umKOVj0In0LQjnienpIeegUlLHSlwVPsRVIgMkBCagG/exec';
 
 
 /* ================================================================
-   LOADER HELPERS
+   FALLBACK DATA  —  shown immediately on every page load
+   ================================================================
+   This data renders the portfolio INSTANTLY without any API call.
+   It is ALSO used as a safety net if the Sheet fetch fails.
+
+   HOW TO UPDATE WITHOUT GOOGLE SHEETS:
+     Edit the values below and push to GitHub.
+
+   HOW TO UPDATE WITH GOOGLE SHEETS:
+     Edit your Sheet — the site auto-refreshes on next visit.
+     (Keep this data in sync with your Sheet as a backup.)
    ================================================================ */
-function ldSet(pct, msg) {
-  document.getElementById('ld-bar').style.width = pct + '%';
-  document.getElementById('ld-msg').textContent  = msg;
-}
-function ldHide() {
-  document.getElementById('loader').classList.add('hide');
-}
+const FALLBACK_DATA = {
 
+  /* ---- PERSONAL ---- */
+  name:     'Md. Arif Ar Rafi',
+  title:    'Lecturer · ECE Engineer · IEEE Researcher',
+  tagline:  'Shaping tomorrow\'s engineers through research-driven teaching in Electronics & Communication.',
+  quote:    'In the journey of learning new things, I am more focused on how I am learning rather than what I am learning.',
+  bio:      'I hold both a Master\'s and Bachelor\'s degree in Electronics and Communication Engineering (ECE) from Khulna University — graduating 1st in class for M.Sc. with a CGPA of 3.98/4.00. Currently joining as a Lecturer at a university, I am committed to bridging rigorous academic research with practical, applied engineering education. My research focus spans renewable energy-based hybrid microgrids, embedded systems, and IoT — backed by publications in IEEE journals and international conferences.',
 
-/* ================================================================
-   ERROR / SETUP SCREEN
-   ================================================================ */
-function showErr(type, detail) {
-  ldHide();
-  const scr = document.getElementById('err-screen');
-  const box = document.getElementById('err-box');
-  scr.classList.add('show');
+  /* ---- CONTACT ---- */
+  email:    'rafi.ku.ece@gmail.com',
+  phone:    '+8801759-793558',
+  location: 'Dhaka Cantonment, Dhaka-1206, Bangladesh',
 
-  if (type === 'setup') {
-    box.innerHTML = `
-      <div class="err-ico warn"><i class="fa-solid fa-gear"></i></div>
-      <div class="err-title">Connect Your Google Sheet</div>
-      <p class="err-msg">The portfolio is ready — it just needs a data source.<br/>
-      Follow these steps to connect your Google Sheet:</p>
-      <ol class="err-steps">
-        <li>Open <code>Code.gs</code> in Google Apps Script — run <code>setupSheets()</code></li>
-        <li>Click <strong>Deploy → New Deployment</strong> (type: Web App)</li>
-        <li>Execute as: <code>Me</code> &nbsp;·&nbsp; Access: <code>Anyone</code></li>
-        <li>Copy the <strong>Web App URL</strong></li>
-        <li>In <code>index.html</code>, set <code>SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzCNaIRNP-bx2CehF5xTlh96umKOVj0In0LQjnienpIeegUlLHSlwVPsRVIgMkBCagG/exec'</code></li>
-        <li>Push to GitHub — your site will update live!</li>
-      </ol>
-      <div class="err-btns">
-        <a class="btn-fill" href="README.md" target="_blank">
-          <i class="fa-solid fa-book"></i> Full Setup Guide
-        </a>
-      </div>`;
-  } else {
-    box.innerHTML = `
-      <div class="err-ico bad"><i class="fa-solid fa-triangle-exclamation"></i></div>
-      <div class="err-title">Could Not Load Portfolio Data</div>
-      <p class="err-msg">${detail || 'The request to Google Sheets failed.'}<br/><br/>
-      Common fixes: re-deploy the Web App, check "Anyone" access, or verify the URL.</p>
-      <div class="err-btns">
-        <button class="btn-fill" onclick="location.reload()">
-          <i class="fa-solid fa-rotate-right"></i> Retry
-        </button>
-        <a class="btn-ghost" href="README.md" target="_blank">Setup Guide</a>
-      </div>`;
-  }
-}
+  /* ---- LINKS ---- */
+  photo:    '',   /* paste direct image URL, or leave blank for placeholder */
+  resume:   'https://drive.google.com/uc?export=download&id=1F-bzqDId2aYOlYBjmPXD5CRGi_O6_ayC',
+  linkedin: 'https://www.linkedin.com/in/rafi170911',
+  scholar:  'https://scholar.google.com/citations?user=kGHEA-UAAAAJ&hl=en',
+  facebook: 'https://www.facebook.com/rafi170911',
+  twitter:  'https://x.com/rafi170911',
+  youtube:  'https://www.youtube.com/@eAcademy97',
+
+  /* ---- ABOUT INFO GRID ---- */
+  aboutInfo: [
+    { label: 'Degree',      value: 'M.Sc. Engg. in ECE' },
+    { label: 'University',  value: 'Khulna University' },
+    { label: 'CGPA',        value: '3.98 / 4.00 (1st in Class)' },
+    { label: 'Email',       value: 'rafi.ku.ece@gmail.com' },
+    { label: 'Location',    value: 'Dhaka, Bangladesh' },
+    { label: 'Status',      value: 'Open to Collaboration' },
+  ],
+
+  /* ---- SKILLS ---- */
+  skills: [
+    { icon: 'fa-code',          name: 'Programming & Scripting',  tags: ['Python','C/C++','MATLAB','Google Apps Script','JavaScript','HTML/CSS'] },
+    { icon: 'fa-microchip',     name: 'Embedded Systems & IoT',   tags: ['Arduino','ESP32','Raspberry Pi','Wokwi Simulator','Sensor Interfacing','IoT Automation'] },
+    { icon: 'fa-bolt',          name: 'Power & Energy Systems',   tags: ['HOMER Pro','Microgrid Design','PV-Wind Systems','MATLAB Simulink','Renewable Energy'] },
+    { icon: 'fa-table-columns', name: 'Office & Productivity',    tags: ['MS Office Suite','Google Workspace','Excel Dashboards','LaTeX','Document Automation'] },
+    { icon: 'fa-wave-square',   name: 'Electronics & Circuits',   tags: ['Circuit Analysis','Semiconductors','Signal Processing','Digital Logic','PCB Basics'] },
+    { icon: 'fa-film',          name: 'Content & Media',          tags: ['Motion Graphics','Educational Video','YouTube Production','Scientific Illustration'] },
+  ],
+
+  /* ---- EXPERIENCE  (newest first) ---- */
+  experience: [
+    {
+      role: 'Lecturer', chip: 'Academia',
+      org: 'University (Joining)', date: '2025 – Present', loc: 'Bangladesh',
+      desc: 'Newly appointed Lecturer in Electronics & Communication Engineering. Responsible for undergraduate instruction, curriculum development, and guiding students in research.',
+      resp: [
+        'Conducting lectures in core ECE subjects — analog/digital circuits, electronics, communication systems.',
+        'Designing course materials and practical lab exercises for undergraduate cohorts.',
+        'Mentoring final-year project groups in embedded systems and renewable energy topics.',
+      ],
+    },
+    {
+      role: 'IT Officer (Asst. Maintenance Engineer)', chip: 'Govt. ICT Project',
+      org: 'Ministry of Defense, Bangladesh', date: 'Mar 2024 – Present', loc: 'Dhaka Cantonment, Dhaka-1206',
+      desc: 'Working on a Government ICT infrastructure project under the Ministry of Defense of the People\'s Republic of Bangladesh.',
+      resp: [
+        'Supervising assessment of all technical materials to ensure quality and accuracy.',
+        'Attending meetings with customers both offline and online.',
+        'Handling customer requests, queries, and complaints with timely resolution.',
+        'Performing physical and functional checks upon material arrival.',
+      ],
+    },
+    {
+      role: 'Industrial Attachment Trainee', chip: 'Industry Training',
+      org: 'Grameenphone Ltd.', date: 'Dec 2019 – Jan 2020', loc: 'Khulna Circle Office, Bangladesh',
+      desc: '21-day industrial training in Regional Operations, Technology Division — the leading telecom operator of Bangladesh.',
+      resp: [
+        'Site visit to Khulna base station server room — monitoring hardware infrastructure.',
+        'Observing power management, air conditioning, and network security systems.',
+        'Gained hands-on exposure to large-scale telecom operations and network monitoring.',
+      ],
+    },
+  ],
+
+  /* ---- EDUCATION  (newest first) ---- */
+  education: [
+    { level: 'Postgraduate',     degree: 'M.Sc. Engg. in ECE', inst: 'Khulna University',                          year: '2020–2021', cgpa: 'CGPA 3.98 / 4.00', rank: 'Rank: 1st', featured: true  },
+    { level: 'Undergraduate',    degree: 'B.Sc. Engg. in ECE', inst: 'Khulna University',                          year: '2016–2017', cgpa: 'CGPA 3.65 / 4.00', rank: 'Rank: 3rd', featured: false },
+    { level: 'Higher Secondary', degree: 'HSC — Science',       inst: 'Keshabpur Higher Secondary School, Jashore', year: '2014–2015', cgpa: 'GPA 5.00 / 5.00',  rank: '',          featured: false },
+    { level: 'Secondary',        degree: 'SSC — Science',       inst: 'Mulgram Secondary School, Jashore',          year: '2012–2013', cgpa: 'GPA 5.00 / 5.00',  rank: '',          featured: false },
+  ],
+
+  /* ---- PUBLICATIONS ---- */
+  publications: [
+    {
+      type: 'jnl', label: 'IEEE Journal', year: '2021',
+      title: 'Renewable Energy-based Hybrid Microgrid for Economically Effective Coastal Electrification',
+      venue: 'IEEE Transactions on Applied Superconductivity, Vol. 31, Issue 8, November 2021',
+      abstract: 'This study proposes a hybrid microgrid comprising renewable energy sources, a natural gas generator, battery storage, and an EV charging station for two coastal areas of Bangladesh. Using HOMER Pro optimization, the winning configuration achieved a cost of energy of $0.157/kWh and CO₂ emission of 6,666 kg/y — a significant step toward affordable, pollution-free electrification in remote coastal communities.',
+      doi: 'https://doi.org/10.1109/TASC.2021.3089118',
+      pdf: 'https://drive.google.com/uc?export=download&id=1KpsJbZCTc-icTJMtV7y0khuS9mEplHr9',
+    },
+    {
+      type: 'conf', label: 'IEEE Conference', year: '2020',
+      title: 'Hybrid AC/DC Microgrid Modelling for Affordable Rural Electrification',
+      venue: '2020 IEEE International Conference on Applied Superconductivity and Electromagnetic Devices (ASEMD)',
+      abstract: 'A PV-Wind-Battery-Gas connected hybrid AC/DC microgrid architecture is proposed for two remotely located rural areas of Bangladesh. Simulation and optimization results confirm the model delivers both environmentally friendly and economically viable electrification, reducing dependency on fossil fuels in off-grid communities.',
+      doi: 'https://doi.org/10.1109/ASEMD49065.2020.9276112',
+      pdf: 'https://drive.google.com/uc?export=download&id=1KuRs708X91DGemCsbTHVHEu0hX0cT4VT',
+    },
+  ],
+
+  /* ---- ACHIEVEMENTS ---- */
+  achievements: [
+    { icon: '🏛️', title: 'NST Fellowship 2024',  org: 'Ministry of Science & Technology, Bangladesh', desc: 'National Science & Technology (NST) Fellowship 2024 — Physical Science group. Merit Serial: 917 (MS/MSc, 2023-24 batch).' },
+    { icon: '➗',  title: 'Math Olympiad 2016',   org: 'Bangladesh Mathematical Olympiad Committee',   desc: 'Participated in the 14th Bangladesh Mathematical Olympiad in Jashore (Reg. No: 19038).' },
+    { icon: '🏆', title: 'Best Talent Award',     org: 'Government of Bangladesh',                     desc: 'Upazilla Level Best Talent of the Year at the Creative Talent Search Competition 2015 in Mathematics & Computer (Class XII).' },
+    { icon: '⚡', title: 'Scout Power Camp',      org: 'Power Division & Bangladesh Scouts',           desc: 'Participated in a 3-day Power Camp for Scouts and Rover Scouts in Keshabpur, Jashore (2012).' },
+    { icon: '📊', title: 'Poster Presentation',   org: 'Rajshahi University Education Club',           desc: 'Participated in the Wearix Poster Presentation Competition 2024 at Rajshahi University.' },
+  ],
+
+  /* ---- YOUTUBE VIDEOS ---- */
+  videos: [
+    { id: 'VhTRfdsUMuQ', title: 'Cinematic Intro with Motion Graphics', desc: 'Eye-catchy YouTube video intro with cinematic motion graphics.' },
+    { id: 'C07dyAn5UWw', title: 'Renewable Microgrid System Explained', desc: 'Easiest way to learn the operation of a renewable energy microgrid system.' },
+    { id: 'yyFgEHZNT0A', title: '3×3 Matrix Multiplication Animated',  desc: 'Step-by-step animated breakdown of 3×3 matrix multiplication.' },
+  ],
+};
+
 
 
 /* ================================================================
@@ -1028,46 +1054,35 @@ function initForm() {
 
 
 /* ================================================================
-   BOOT  — entry point
+   BOOT  — renders immediately, then refreshes from Sheet silently
    ================================================================ */
 document.addEventListener('DOMContentLoaded', async () => {
 
   const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let stopLoaderCircuit;
-  if (!noMotion) stopLoaderCircuit = initCircuit('loader-canvas');
 
-  ldSet(8, 'Initializing…');
+  /* ── Step 1: Render with fallback data RIGHT NOW ── */
+  DATA = FALLBACK_DATA;
+  render();
+  if (!noMotion) initCircuit('circuit-canvas');
+  initReveal();
+  initNav();
+  initForm();
 
-  // Guard: URL not configured yet
-  if (!SHEET_API_URL || SHEET_API_URL === 'https://script.google.com/macros/s/AKfycbzCNaIRNP-bx2CehF5xTlh96umKOVj0In0LQjnienpIeegUlLHSlwVPsRVIgMkBCagG/exec') {
-    showErr('setup');
-    return;
-  }
+  /* ── Step 2: If Sheet URL is configured, fetch in the background ── */
+  const sheetReady = SHEET_API_URL && !SHEET_API_URL.includes('YOUR_APPS_SCRIPT');
+  if (!sheetReady) return;   // no URL set — fallback data is all we need
 
   try {
-    ldSet(20, 'Connecting to Google Sheets…');
     const raw = await fetchData();
-
-    ldSet(60, 'Processing data…');
     DATA = transformData(raw);
-
-    ldSet(82, 'Rendering portfolio…');
-    render();
-
-    ldSet(96, 'Almost ready…');
-    initReveal();
-    initNav();
-    initForm();
-    if (!noMotion) initCircuit('circuit-canvas');
-
-    // Stop loader canvas, hide overlay
-    if (stopLoaderCircuit) stopLoaderCircuit();
-    setTimeout(ldHide, 350);
-
+    render();         // silently re-render with fresh Sheet data
+    initReveal();     // re-observe newly created .reveal nodes
   } catch (err) {
-    showErr('fetch', err.message);
+    // Sheet fetch failed — fallback data already visible, nothing breaks
+    console.warn('[Portfolio] Sheet refresh failed (showing cached data):', err.message);
   }
 });
+
 </script>
 </body>
 </html>
