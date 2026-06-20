@@ -5,15 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Md. Arif Ar Rafi – ECE Lecturer, IEEE Researcher & Embedded Systems Engineer." />
   <title>Md. Arif Ar Rafi – Portfolio</title>
+
+  <!-- All supported Google Fonts loaded up-front; active set chosen via CSS variables from Settings -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&family=Lato:wght@300;400;700&family=Montserrat:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&family=Source+Code+Pro:wght@400;500&family=Source+Sans+3:ital,wght@0,300;0,400;0,600;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
 <style>
 /* ================================================================
-   DESIGN TOKENS  —  defaults only. Real values are overwritten at
-   runtime from Profile → color_primary / color_accent / color_background
+   DESIGN TOKENS
    ================================================================ */
 :root {
   --navy:        #0B1829;
@@ -34,50 +35,60 @@
   --card-bg:     rgba(var(--navy2-rgb),0.55);
   --card-border: rgba(var(--cyan-rgb),0.12);
   --glass:       rgba(var(--cyan-rgb),0.05);
-  --r:           12px;
-  --r-lg:        20px;
-  --ease:        0.3s cubic-bezier(.4,0,.2,1);
+
+  /* Overrideable from Settings */
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+  --r:            12px;
+  --r-lg:         20px;
+  --sec-pad:      100px;
+  --ease:         0.3s cubic-bezier(.4,0,.2,1);
 }
 
 /* ---- RESET ---- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;font-size:16px}
-body{font-family:'Inter',sans-serif;background:var(--navy);color:var(--text);line-height:1.65;overflow-x:hidden}
+body{font-family:var(--font-body);background:var(--navy);color:var(--text);line-height:1.65;overflow-x:hidden}
 @media(prefers-reduced-motion:reduce){*,::before,::after{animation:none!important;transition:none!important}}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--navy)}::-webkit-scrollbar-thumb{background:var(--cyan);border-radius:3px}
-h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+h1,h2,h3,h4{font-family:var(--font-heading)}
 a{text-decoration:none;color:inherit}ul{list-style:none}img{max-width:100%;display:block}button{font-family:inherit;cursor:pointer}
 .container{max-width:1080px;margin:0 auto;padding:0 28px}
-section{padding:100px 0}
+section{padding:var(--sec-pad) 0}
 #dynamic-sections{display:flex;flex-direction:column}
 
 /* ---- SECTION HEADINGS ---- */
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
+.eyebrow{font-family:var(--font-mono);font-size:.7rem;color:var(--cyan);letter-spacing:.2em;text-transform:uppercase;margin-bottom:10px}
 .sec-title{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:700;letter-spacing:-.025em;color:var(--text);margin-bottom:56px}
 .sec-title::after{content:'';display:block;width:46px;height:3px;background:linear-gradient(90deg,var(--cyan),var(--gold));margin-top:14px;border-radius:2px}
 
+/* ================================================================
+   READING PROGRESS BAR
+   ================================================================ */
+#reading-progress{position:fixed;top:0;left:0;height:2.5px;background:linear-gradient(90deg,var(--cyan),var(--gold));z-index:600;width:0;transition:width .1s linear;border-radius:0 2px 2px 0}
 
 /* ================================================================
    NAVIGATION
    ================================================================ */
 #nav{position:fixed;inset:0 0 auto 0;z-index:500;padding:15px 0;transition:background var(--ease),box-shadow var(--ease),padding var(--ease)}
-#nav.scrolled{background:rgba(var(--navy-rgb),.96);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--card-border);padding:11px 0}
+#nav.scrolled,#nav[data-nav-style="solid"]{background:rgba(var(--navy-rgb),.97);backdrop-filter:blur(16px);box-shadow:0 1px 0 var(--card-border);padding:11px 0}
+#nav[data-nav-style="minimal"].scrolled{background:rgba(var(--navy-rgb),.75);backdrop-filter:blur(10px)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between}
-.nav-brand{font-family:'Space Grotesk',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:-.03em;color:var(--text)}
+.nav-brand{font-family:var(--font-heading);font-size:1.05rem;font-weight:700;letter-spacing:-.03em;color:var(--text)}
 .nav-brand .dot{color:var(--cyan)}
 .nav-links{display:flex;align-items:center;gap:30px}
 .nav-links a{font-size:.82rem;font-weight:500;color:var(--text-muted);position:relative;padding-bottom:3px;transition:color var(--ease)}
 .nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:var(--cyan);border-radius:1px;transition:width var(--ease)}
 .nav-links a:hover,.nav-links a.active{color:var(--text)}
 .nav-links a:hover::after,.nav-links a.active::after{width:100%}
-.nav-cv{font-family:'JetBrains Mono',monospace!important;font-size:.73rem!important;color:var(--cyan)!important;border:1px solid rgba(var(--cyan-rgb),.45)!important;padding:5px 14px;border-radius:6px;transition:background var(--ease)!important}
+.nav-cv{font-family:var(--font-mono)!important;font-size:.73rem!important;color:var(--cyan)!important;border:1px solid rgba(var(--cyan-rgb),.45)!important;padding:5px 14px;border-radius:6px;transition:background var(--ease)!important}
 .nav-cv::after{display:none!important}.nav-cv:hover{background:rgba(var(--cyan-rgb),.1)!important}
 .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;padding:4px}
 .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:transform var(--ease),opacity var(--ease)}
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger.open span:nth-child(2){opacity:0}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
-
 
 /* ================================================================
    HERO
@@ -86,24 +97,22 @@ section{padding:100px 0}
 #circuit-canvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
 #hero::after{content:'';position:absolute;bottom:0;left:0;right:0;height:200px;background:linear-gradient(to bottom,transparent,var(--navy));pointer-events:none}
 .hero-inner{position:relative;z-index:2;max-width:700px}
-.hero-chip{display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--cyan);letter-spacing:.16em;text-transform:uppercase;border:1px solid rgba(var(--cyan-rgb),.28);padding:5px 14px;border-radius:20px;background:var(--glass);margin-bottom:26px;opacity:0;animation:fadeUp .7s ease .15s forwards}
+.hero-chip{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:.7rem;color:var(--cyan);letter-spacing:.16em;text-transform:uppercase;border:1px solid rgba(var(--cyan-rgb),.28);padding:5px 14px;border-radius:20px;background:var(--glass);margin-bottom:26px;opacity:0;animation:fadeUp .7s ease .15s forwards}
 .blink-dot{width:6px;height:6px;background:var(--cyan);border-radius:50%;animation:dotBlink 1.6s ease-in-out infinite}
 .hero-name{font-size:clamp(2.8rem,8vw,5.5rem);font-weight:700;line-height:1.03;letter-spacing:-.03em;color:var(--text);margin-bottom:16px;opacity:0;animation:fadeUp .7s ease .3s forwards}
 .hero-name em{color:var(--cyan);font-style:normal}
 .hero-role{font-size:clamp(1rem,2.5vw,1.2rem);font-weight:400;color:var(--text-muted);margin-bottom:22px;opacity:0;animation:fadeUp .7s ease .45s forwards}
-.hero-role strong{color:var(--gold);font-weight:600}
 .hero-quote{font-size:.9rem;color:var(--text-dim);max-width:500px;line-height:1.78;margin-bottom:38px;padding-left:16px;border-left:2px solid rgba(var(--cyan-rgb),.35);font-style:italic;opacity:0;animation:fadeUp .7s ease .6s forwards}
 .hero-btns{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:46px;opacity:0;animation:fadeUp .7s ease .75s forwards}
-.btn-fill{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;background:var(--cyan);color:var(--navy);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.88rem;border-radius:8px;border:none;transition:background var(--ease),transform var(--ease),box-shadow var(--ease)}
+.btn-fill{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;background:var(--cyan);color:var(--navy);font-family:var(--font-heading);font-weight:700;font-size:.88rem;border-radius:var(--r);border:none;transition:background var(--ease),transform var(--ease),box-shadow var(--ease)}
 .btn-fill:hover{background:var(--cyan-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(var(--cyan-rgb),.35)}
-.btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;background:transparent;color:var(--text);font-family:'Space Grotesk',sans-serif;font-weight:500;font-size:.88rem;border:1px solid rgba(232,240,254,.18);border-radius:8px;transition:all var(--ease)}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:11px 26px;background:transparent;color:var(--text);font-family:var(--font-heading);font-weight:500;font-size:.88rem;border:1px solid rgba(232,240,254,.18);border-radius:var(--r);transition:all var(--ease)}
 .btn-ghost:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-2px);background:rgba(var(--cyan-rgb),.06)}
 .hero-socials{display:flex;gap:11px;opacity:0;animation:fadeUp .7s ease .9s forwards}
 .hero-socials a{width:38px;height:38px;border-radius:50%;border:1px solid rgba(var(--cyan-rgb),.2);color:var(--text-muted);display:flex;align-items:center;justify-content:center;font-size:.88rem;transition:all var(--ease)}
 .hero-socials a:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(var(--cyan-rgb),.1);transform:translateY(-2px)}
-.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.14em;z-index:3;opacity:0;animation:fadeIn 1s ease 1.6s forwards}
+.scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--text-dim);font-family:var(--font-mono);font-size:.62rem;letter-spacing:.14em;z-index:3;opacity:0;animation:fadeIn 1s ease 1.6s forwards}
 .scroll-hint-line{width:1px;height:38px;background:linear-gradient(to bottom,transparent,var(--cyan));animation:scrollPulse 2s ease-in-out infinite}
-
 
 /* ================================================================
    ABOUT
@@ -115,17 +124,16 @@ section{padding:100px 0}
 .photo-frame img{width:100%;height:100%;object-fit:cover;object-position:top}
 .photo-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:linear-gradient(135deg,var(--navy-2),var(--navy-3))}
 .photo-placeholder i{font-size:3.8rem;color:var(--text-dim)}
-.photo-placeholder span{font-family:'JetBrains Mono',monospace;font-size:.63rem;color:var(--text-dim);text-align:center;line-height:1.7;padding:0 20px}
+.photo-placeholder span{font-family:var(--font-mono);font-size:.63rem;color:var(--text-dim);text-align:center;line-height:1.7;padding:0 20px}
 .photo-corner-tl{position:absolute;top:-12px;left:-12px;width:60px;height:60px;border-top:2px solid var(--cyan);border-left:2px solid var(--cyan);border-radius:var(--r-lg) 0 0 0;opacity:.5}
 .photo-corner-br{position:absolute;bottom:-12px;right:-12px;width:60px;height:60px;border-bottom:2px solid var(--gold);border-right:2px solid var(--gold);border-radius:0 0 var(--r-lg) 0;opacity:.5}
-.rank-badge{position:absolute;top:18px;right:-20px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);padding:10px 14px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-weight:700;text-align:center;box-shadow:0 8px 24px rgba(var(--gold-rgb),.38)}
+.rank-badge{position:absolute;top:18px;right:-20px;background:linear-gradient(135deg,var(--gold),var(--gold-light));color:var(--navy);padding:10px 14px;border-radius:8px;font-family:var(--font-heading);font-weight:700;text-align:center;box-shadow:0 8px 24px rgba(var(--gold-rgb),.38)}
 .rank-badge .big{font-size:1.5rem;display:block;line-height:1.1}.rank-badge .sm{font-size:.6rem;letter-spacing:.08em;opacity:.8}
 .about-bio{font-size:.98rem;color:var(--text-muted);line-height:1.88;margin-bottom:30px}
 .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px}
 .info-item{display:flex;flex-direction:column;gap:2px}
-.info-label{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase}
+.info-label{font-family:var(--font-mono);font-size:.62rem;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase}
 .info-val{font-size:.88rem;font-weight:500;color:var(--text)}
-
 
 /* ================================================================
    SKILLS
@@ -139,8 +147,7 @@ section{padding:100px 0}
 .skill-ico{width:46px;height:46px;background:rgba(var(--cyan-rgb),.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--cyan);margin-bottom:14px}
 .skill-name{font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:12px;padding-right:50px}
 .tag-row{display:flex;flex-wrap:wrap;gap:6px}
-.tag{font-family:'JetBrains Mono',monospace;font-size:.66rem;color:var(--text-muted);background:rgba(126,173,212,.06);border:1px solid rgba(126,173,212,.1);padding:3px 9px;border-radius:20px}
-
+.tag{font-family:var(--font-mono);font-size:.66rem;color:var(--text-muted);background:rgba(126,173,212,.06);border:1px solid rgba(126,173,212,.1);padding:3px 9px;border-radius:20px}
 
 /* ================================================================
    EXPERIENCE TIMELINE
@@ -155,14 +162,13 @@ section{padding:100px 0}
 .tl-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:28px;position:relative;transition:border-color var(--ease),transform var(--ease)}
 .tl-card:hover{border-color:rgba(var(--cyan-rgb),.28);transform:translateX(4px)}
 .tl-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px;padding-right:60px}
-.tl-chip{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--cyan);background:rgba(var(--cyan-rgb),.1);border:1px solid rgba(var(--cyan-rgb),.22);padding:2px 9px;border-radius:20px}
-.tl-date{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text-dim)}
+.tl-chip{font-family:var(--font-mono);font-size:.65rem;color:var(--cyan);background:rgba(var(--cyan-rgb),.1);border:1px solid rgba(var(--cyan-rgb),.22);padding:2px 9px;border-radius:20px}
+.tl-date{font-family:var(--font-mono);font-size:.68rem;color:var(--text-dim)}
 .tl-role{font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:3px}
 .tl-org{font-size:.88rem;color:var(--gold);font-weight:500;margin-bottom:12px}
 .tl-desc{font-size:.875rem;color:var(--text-muted);line-height:1.72;margin-bottom:14px}
 .tl-resp li{font-size:.84rem;color:var(--text-muted);padding:3px 0 3px 18px;position:relative;line-height:1.6}
 .tl-resp li::before{content:'›';position:absolute;left:0;color:var(--cyan);font-weight:700}
-
 
 /* ================================================================
    EDUCATION
@@ -171,13 +177,12 @@ section{padding:100px 0}
 .edu-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
 .edu-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:26px;position:relative;transition:transform var(--ease),border-color var(--ease)}
 .edu-card:hover{transform:translateY(-3px);border-color:rgba(var(--cyan-rgb),.3)}
-.edu-lvl{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:7px;padding-right:60px}
+.edu-lvl{font-family:var(--font-mono);font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cyan);margin-bottom:7px;padding-right:60px}
 .edu-deg{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:3px}
 .edu-inst{font-size:.87rem;color:var(--gold);font-weight:500;margin-bottom:16px}
 .chip-row{display:flex;flex-wrap:wrap;gap:7px}
 .chip{font-size:.78rem;padding:3px 12px;border-radius:20px;border:1px solid rgba(232,240,254,.1);color:var(--text-muted)}
-.chip.hi{font-family:'JetBrains Mono',monospace;font-weight:600;border-color:rgba(var(--cyan-rgb),.32);color:var(--cyan)}
-
+.chip.hi{font-family:var(--font-mono);font-weight:600;border-color:rgba(var(--cyan-rgb),.32);color:var(--cyan)}
 
 /* ================================================================
    PUBLICATIONS
@@ -187,21 +192,20 @@ section{padding:100px 0}
 .pub-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:28px;position:relative;transition:border-color var(--ease),transform var(--ease)}
 .pub-card:hover{border-color:rgba(var(--cyan-rgb),.3);transform:translateX(5px)}
 .pub-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;padding-right:60px}
-.pub-badge{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:4px}
+.pub-badge{font-family:var(--font-mono);font-size:.6rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:4px}
 .pub-badge.jnl{background:rgba(var(--cyan-rgb),.12);color:var(--cyan);border:1px solid rgba(var(--cyan-rgb),.3)}
 .pub-badge.conf{background:rgba(var(--gold-rgb),.1);color:var(--gold);border:1px solid rgba(var(--gold-rgb),.3)}
-.pub-year{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text-dim)}
+.pub-year{font-family:var(--font-mono);font-size:.68rem;color:var(--text-dim)}
 .pub-title{font-size:1.02rem;font-weight:600;color:var(--text);line-height:1.5;margin-bottom:6px}
 .pub-authors{font-size:.8rem;color:var(--text-muted);font-style:italic;margin-bottom:4px;line-height:1.6}
 .pub-venue{font-size:.82rem;color:var(--text-muted);font-style:italic;margin-bottom:12px;line-height:1.6}
-.pub-toggle{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--cyan);font-family:'JetBrains Mono',monospace;font-size:.7rem;padding:0;margin-bottom:12px;transition:color var(--ease)}
+.pub-toggle{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--cyan);font-family:var(--font-mono);font-size:.7rem;padding:0;margin-bottom:12px;transition:color var(--ease)}
 .pub-toggle:hover{color:var(--cyan-light)}.pub-toggle i{transition:transform .3s ease}
 .pub-abstract{font-size:.84rem;color:var(--text-dim);line-height:1.78;overflow:hidden;max-height:0;transition:max-height .4s ease,margin-bottom .3s ease;border-left:2px solid rgba(var(--cyan-rgb),.4);padding-left:14px;margin-bottom:0}
 .pub-abstract.open{max-height:400px;margin-bottom:14px}
 .pub-links{display:flex;gap:10px;flex-wrap:wrap}
-.pub-lnk{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text-muted);border:1px solid rgba(232,240,254,.1);padding:5px 13px;border-radius:6px;transition:all var(--ease)}
+.pub-lnk{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:.7rem;color:var(--text-muted);border:1px solid rgba(232,240,254,.1);padding:5px 13px;border-radius:6px;transition:all var(--ease)}
 .pub-lnk:hover{color:var(--cyan);border-color:rgba(var(--cyan-rgb),.32);background:rgba(var(--cyan-rgb),.05)}
-
 
 /* ================================================================
    ACHIEVEMENTS
@@ -214,7 +218,6 @@ section{padding:100px 0}
 .achiev-title{font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:4px;padding-right:50px}
 .achiev-org{font-size:.77rem;color:var(--gold);font-weight:500;margin-bottom:8px}
 .achiev-desc{font-size:.77rem;color:var(--text-dim);line-height:1.65}
-
 
 /* ================================================================
    YOUTUBE
@@ -234,25 +237,11 @@ section{padding:100px 0}
 .yt-desc{font-size:.77rem;color:var(--text-dim);line-height:1.55}
 .yt-footer{display:flex;justify-content:center;margin-top:36px}
 
-
 /* ================================================================
-   GENERIC ITEM BADGE  — used on every card type (skills, experience,
-   education, publications, achievements, videos, and custom sections)
+   ITEM BADGE  — corner ribbon on any card
    ================================================================ */
-.item-badge{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.64rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--badge-c1,var(--gold));background:rgba(var(--badge-c1-rgb,var(--gold-rgb)),.12);border:1px solid rgba(var(--badge-c1-rgb,var(--gold-rgb)),.45);white-space:nowrap;z-index:2;line-height:1.4}
+.item-badge{position:absolute;top:14px;right:14px;display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;font-family:var(--font-mono);font-size:.64rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--badge-c1,var(--gold));background:rgba(var(--badge-c1-rgb,var(--gold-rgb)),.12);border:1px solid rgba(var(--badge-c1-rgb,var(--gold-rgb)),.45);white-space:nowrap;z-index:2;line-height:1.4}
 .item-badge-star{font-size:.72rem;line-height:1;transform:translateY(-.5px)}
-
-
-/* ================================================================
-   GENERIC CUSTOM SECTION  (Languages / References / anything you add)
-   ================================================================ */
-.generic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.generic-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:24px;position:relative;transition:transform var(--ease),border-color var(--ease),box-shadow var(--ease)}
-.generic-card:hover{transform:translateY(-4px);border-color:rgba(var(--cyan-rgb),.3);box-shadow:0 10px 30px rgba(var(--cyan-rgb),.07)}
-.generic-title{font-size:.98rem;font-weight:700;color:var(--text);margin-bottom:3px;padding-right:60px}
-.generic-subtitle{font-size:.82rem;color:var(--gold);font-weight:500;margin-bottom:10px}
-.generic-desc{font-size:.82rem;color:var(--text-muted);line-height:1.65;margin-bottom:10px}
-
 
 /* ================================================================
    CONTACT
@@ -262,7 +251,7 @@ section{padding:100px 0}
 .contact-intro{font-size:.95rem;color:var(--text-muted);line-height:1.82;margin-bottom:32px}
 .cinfo-item{display:flex;align-items:flex-start;gap:14px;margin-bottom:22px}
 .cinfo-ico{width:42px;height:42px;background:rgba(var(--cyan-rgb),.1);border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:.95rem;flex-shrink:0}
-.cinfo-lbl{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:3px}
+.cinfo-lbl{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.12em;color:var(--text-dim);text-transform:uppercase;margin-bottom:3px}
 .cinfo-val{font-size:.9rem;font-weight:500;color:var(--text)}
 .cinfo-val a{transition:color var(--ease)}.cinfo-val a:hover{color:var(--cyan)}
 .social-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:30px}
@@ -270,20 +259,105 @@ section{padding:100px 0}
 .soc-btn:hover{border-color:var(--cyan);color:var(--cyan);background:rgba(var(--cyan-rgb),.06)}
 .form-box{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r-lg);padding:36px}
 .form-row{margin-bottom:20px}
-.f-lbl{display:block;font-family:'JetBrains Mono',monospace;font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px}
-.f-inp{width:100%;padding:12px 15px;background:rgba(var(--navy-rgb),.75);border:1px solid rgba(232,240,254,.1);border-radius:8px;color:var(--text);font-family:'Inter',sans-serif;font-size:.88rem;outline:none;transition:border-color var(--ease);resize:none}
+.f-lbl{display:block;font-family:var(--font-mono);font-size:.63rem;letter-spacing:.13em;text-transform:uppercase;color:var(--text-dim);margin-bottom:7px}
+.f-inp{width:100%;padding:12px 15px;background:rgba(var(--navy-rgb),.75);border:1px solid rgba(232,240,254,.1);border-radius:8px;color:var(--text);font-family:var(--font-body);font-size:.88rem;outline:none;transition:border-color var(--ease);resize:none}
 .f-inp:focus{border-color:var(--cyan)}.f-inp::placeholder{color:var(--text-dim)}
-.f-btn{width:100%;padding:13px;background:var(--cyan);color:var(--navy);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:.92rem;border:none;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background var(--ease),transform var(--ease),box-shadow var(--ease)}
+.f-btn{width:100%;padding:13px;background:var(--cyan);color:var(--navy);font-family:var(--font-heading);font-weight:700;font-size:.92rem;border:none;border-radius:8px;display:flex;align-items:center;justify-content:center;gap:8px;transition:background var(--ease),transform var(--ease),box-shadow var(--ease)}
 .f-btn:hover{background:var(--cyan-light);transform:translateY(-1px);box-shadow:0 6px 20px rgba(var(--cyan-rgb),.35)}
-
 
 /* ================================================================
    FOOTER
    ================================================================ */
 footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
-.footer-txt{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text-dim);line-height:1.9}
+.footer-txt{font-family:var(--font-mono);font-size:.7rem;color:var(--text-dim);line-height:1.9}
 .footer-txt a{color:var(--cyan);transition:color var(--ease)}.footer-txt a:hover{color:var(--cyan-light)}
 
+/* ================================================================
+   BACK TO TOP
+   ================================================================ */
+#back-to-top{position:fixed;bottom:30px;right:28px;width:42px;height:42px;background:var(--cyan);color:var(--navy);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 4px 16px rgba(var(--cyan-rgb),.4);cursor:pointer;opacity:0;transform:translateY(14px);transition:all var(--ease);z-index:400;pointer-events:none}
+#back-to-top.visible{opacity:1;transform:none;pointer-events:auto}
+#back-to-top:hover{background:var(--cyan-light);transform:translateY(-2px)}
+
+/* ================================================================
+   ▸▸ THEME CARDS — shared base
+   ================================================================ */
+.theme-card{background:var(--card-bg);border:1px solid var(--card-border);border-radius:var(--r);padding:24px;position:relative;transition:transform var(--ease),border-color var(--ease),box-shadow var(--ease)}
+
+/* Card hover modes applied via body data attribute */
+body[data-card-hover="lift"] .theme-card:hover{transform:translateY(-5px);border-color:rgba(var(--cyan-rgb),.32);box-shadow:0 12px 30px rgba(var(--cyan-rgb),.08)}
+body[data-card-hover="glow"] .theme-card:hover{box-shadow:0 0 28px rgba(var(--cyan-rgb),.22);border-color:rgba(var(--cyan-rgb),.4)}
+body[data-card-hover="border"] .theme-card:hover{border-color:var(--cyan)}
+
+/* Shared text utilities used by all theme renderers */
+.tc-title{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:4px;line-height:1.4;padding-right:55px}
+.tc-subtitle{font-size:.87rem;font-weight:500;color:var(--text-muted);margin-bottom:8px}
+.tc-subtitle-accent{font-size:.87rem;font-weight:500;color:var(--gold);margin-bottom:8px}
+.tc-body{font-size:.84rem;color:var(--text-muted);line-height:1.72;margin-bottom:10px}
+.tc-muted{font-size:.78rem;color:var(--text-dim)}
+.tc-chip{display:inline-block;font-family:var(--font-mono);font-size:.65rem;color:var(--cyan);background:rgba(var(--cyan-rgb),.1);border:1px solid rgba(var(--cyan-rgb),.22);padding:2px 9px;border-radius:20px;margin:0 4px 4px 0}
+.tc-quote-text{font-size:.95rem;font-style:italic;color:var(--text-muted);line-height:1.78}
+.tc-icon{font-size:2rem;margin-bottom:12px;line-height:1}
+.tc-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+
+/* Field-style classes (applied via fieldStyles mapping) */
+.fs-title{font-size:1.02rem;font-weight:700;color:var(--text);margin-bottom:6px;padding-right:55px}
+.fs-subtitle{font-size:.87rem;font-weight:500;color:var(--text-muted);margin-bottom:6px}
+.fs-accent{font-size:.87rem;font-weight:600;color:var(--gold);margin-bottom:6px}
+.fs-body{font-size:.84rem;color:var(--text-muted);line-height:1.72;margin-bottom:8px}
+.fs-muted{font-size:.78rem;color:var(--text-dim);margin-bottom:4px}
+.fs-chip{display:inline-block;font-family:var(--font-mono);font-size:.65rem;color:var(--cyan);background:rgba(var(--cyan-rgb),.1);border:1px solid rgba(var(--cyan-rgb),.22);padding:2px 9px;border-radius:20px;margin-bottom:8px}
+.fs-quote{font-size:.95rem;font-style:italic;color:var(--text-muted);line-height:1.78;margin-bottom:8px}
+
+/* ── PROJECTS ──────────────────────────────────────────────────── */
+.tc-projects-img{position:relative;height:158px;overflow:hidden;border-radius:calc(var(--r) - 2px);margin-bottom:14px;background:var(--navy-3);display:block}
+.tc-projects-img img{width:100%;height:100%;object-fit:cover;transition:transform .45s ease}
+.theme-card:hover .tc-projects-img img{transform:scale(1.04)}
+.tc-projects-overlay{position:absolute;inset:0;background:rgba(var(--navy-rgb),.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity var(--ease)}
+.tc-projects-overlay i{font-size:1.4rem;color:#fff}
+.theme-card:hover .tc-projects-overlay{opacity:1}
+.tc-status-row{margin-bottom:6px}
+
+/* ── TRAINING ──────────────────────────────────────────────────── */
+.tc-training-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:6px}
+.tc-training-inst{font-size:.85rem;color:var(--gold);margin-bottom:4px}
+.tc-training-dur{font-size:.8rem;color:var(--text-dim);margin-bottom:10px}
+.tc-cert-link{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:.7rem;color:var(--cyan);border:1px solid rgba(var(--cyan-rgb),.3);padding:5px 12px;border-radius:6px;margin-top:10px;transition:all var(--ease)}
+.tc-cert-link:hover{background:rgba(var(--cyan-rgb),.08)}
+
+/* ── CERTIFICATIONS ────────────────────────────────────────────── */
+.tc-cert-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px}
+.tc-cert-icon{font-size:2.2rem;flex-shrink:0;line-height:1}
+.tc-cert-issuer{font-size:.85rem;color:var(--gold);font-weight:500;margin-bottom:3px}
+.tc-cert-dates{font-family:var(--font-mono);font-size:.67rem;color:var(--text-dim)}
+
+/* ── TESTIMONIALS ──────────────────────────────────────────────── */
+.tc-quote-ico{font-size:1.8rem;color:rgba(var(--cyan-rgb),.22);display:block;margin-bottom:6px}
+.tc-testimonial-author{display:flex;align-items:center;gap:12px;margin-top:14px}
+.tc-avatar{width:44px;height:44px;border-radius:50%;object-fit:cover;flex-shrink:0;border:2px solid var(--card-border)}
+.tc-avatar-ph{background:rgba(var(--cyan-rgb),.12);color:var(--cyan);display:flex;align-items:center;justify-content:center;font-family:var(--font-heading);font-weight:700;font-size:.9rem}
+.tc-author-name{font-size:.9rem;font-weight:600;color:var(--text)}
+.tc-author-pos{font-size:.78rem;color:var(--text-muted)}
+.tc-stars{margin-left:auto;color:var(--gold);font-size:.82rem;flex-shrink:0}
+
+/* ── CASE STUDY ────────────────────────────────────────────────── */
+.tc-case-img{height:180px;overflow:hidden;border-radius:calc(var(--r) - 2px);margin-bottom:14px}
+.tc-case-img img{width:100%;height:100%;object-fit:cover}
+.tc-case-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.tc-case-client{font-size:.78rem;font-weight:600;font-family:var(--font-mono);color:var(--gold)}
+.tc-case-role{display:inline-block;font-size:.72rem;font-family:var(--font-mono);color:var(--text-muted);background:rgba(var(--cyan-rgb),.06);border:1px solid rgba(var(--cyan-rgb),.15);padding:2px 10px;border-radius:20px;margin:6px 0 12px}
+.tc-case-3col{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.tc-case-col{background:rgba(var(--navy-rgb),.6);border-radius:8px;padding:12px;border-left:2px solid rgba(var(--cyan-rgb),.25)}
+.tc-case-result{border-left-color:rgba(var(--gold-rgb),.4)}
+.tc-case-col-h{font-family:var(--font-mono);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:5px}
+.tc-case-col-t{font-size:.8rem;color:var(--text-muted);line-height:1.65}
+
+/* ================================================================
+   LAYOUT HELPERS  (grid containers for custom sections)
+   ================================================================ */
+.section-grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.section-grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.section-list{display:flex;flex-direction:column;gap:20px}
 
 /* ================================================================
    ANIMATIONS  &  SCROLL REVEAL
@@ -297,7 +371,6 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
 .d4{transition-delay:.32s}.d5{transition-delay:.40s}.d6{transition-delay:.48s}
 
-
 /* ================================================================
    RESPONSIVE
    ================================================================ */
@@ -305,10 +378,11 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
   .about-layout{grid-template-columns:1fr;gap:40px}
   .photo-col{max-width:220px}
   .rank-badge{right:auto;left:185px}
-  .skills-grid,.yt-grid,.generic-grid{grid-template-columns:repeat(2,1fr)}
-  .edu-grid{grid-template-columns:1fr}
+  .skills-grid,.yt-grid,.section-grid-3{grid-template-columns:repeat(2,1fr)}
+  .edu-grid,.section-grid-2{grid-template-columns:1fr}
   .achiev-grid{grid-template-columns:repeat(2,1fr)}
   .contact-layout{grid-template-columns:1fr;gap:40px}
+  .tc-case-3col{grid-template-columns:1fr}
 }
 @media(max-width:640px){
   section{padding:76px 0}
@@ -316,18 +390,20 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
   .nav-links.open{display:flex;flex-direction:column;gap:18px;position:fixed;top:60px;left:0;right:0;background:rgba(var(--navy-rgb),.97);padding:28px;backdrop-filter:blur(16px);border-bottom:1px solid var(--card-border);z-index:499}
   .hamburger{display:flex}
   .hero-btns{flex-direction:column;align-items:flex-start}
-  .skills-grid,.achiev-grid,.yt-grid,.generic-grid{grid-template-columns:1fr}
+  .skills-grid,.achiev-grid,.yt-grid,.section-grid-3,.section-grid-2{grid-template-columns:1fr}
   .rank-badge{right:10px;left:auto;top:14px}
 }
 </style>
 </head>
-<body>
+<body data-card-hover="lift">
+
+<!-- Reading Progress Bar -->
+<div id="reading-progress"></div>
 
 <!-- =========================================================
-     NAVIGATION  (links are generated at runtime from the
-     "Sections" sheet — this list is just a no-JS fallback)
+     NAVIGATION
      ========================================================= -->
-<nav id="nav">
+<nav id="nav" data-nav-style="frosted">
   <div class="container nav-inner">
     <a href="#hero" class="nav-brand">Arif<span class="dot">.</span>Rafi</a>
     <ul class="nav-links" id="navLinks">
@@ -364,10 +440,7 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 </section>
 
 <!-- =========================================================
-     ALL OTHER SECTIONS  (built-in below; custom sections from
-     the "Sections" sheet are appended into this same wrapper
-     by JS, and all of them respect the Order column via
-     CSS flex `order`)
+     DYNAMIC SECTIONS
      ========================================================= -->
 <div id="dynamic-sections">
 
@@ -379,7 +452,6 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
     <div class="about-layout">
       <div class="photo-col reveal">
         <div class="photo-frame">
-          <!-- Photo set dynamically from Sheet: Profile → photo key -->
           <img id="profile-img" src="" alt="" style="display:none" />
           <div class="photo-placeholder" id="photo-placeholder">
             <i class="fa-regular fa-circle-user"></i>
@@ -472,12 +544,6 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
         <div class="social-row" id="social-row"></div>
       </div>
       <div class="form-box reveal d2">
-        <!--
-          To activate this form:
-          1. Sign up at https://formspree.io (free)
-          2. Create a form — copy your Form ID (e.g. xabcdefg)
-          3. Replace YOUR_FORM_ID in the action attribute below
-        -->
         <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
           <div class="form-row">
             <label class="f-lbl" for="f-name">Your Name</label>
@@ -506,191 +572,132 @@ footer{padding:30px 0;border-top:1px solid var(--card-border);text-align:center}
 
 </div><!-- /#dynamic-sections -->
 
-<!-- =========================================================  FOOTER  -->
 <footer>
   <div class="container">
     <p class="footer-txt" id="footer-txt"></p>
   </div>
 </footer>
 
+<!-- Back to Top -->
+<button id="back-to-top" aria-label="Back to top"><i class="fa-solid fa-arrow-up"></i></button>
+
 
 <script>
 /* ================================================================
-   ⚙️  OPTIONAL — Google Sheets live-update
+   CONFIG
    ================================================================ */
 const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzCNaIRNP-bx2CehF5xTlh96umKOVj0In0LQjnienpIeegUlLHSlwVPsRVIgMkBCagG/exec';
 
+/* ================================================================
+   SECTION THEMES  — frontend rendering config
+   ================================================================ */
+const SECTION_THEMES_FE = {
+  projects:        { gridClass:'section-grid-3', renderer:renderProjectCard,       hasTimeline:false },
+  training:        { gridClass:'section-grid-2', renderer:renderTrainingCard,      hasTimeline:false },
+  voluntary:       { gridClass:'tl',             renderer:renderVoluntaryCard,     hasTimeline:true  },
+  extracurricular: { gridClass:'section-grid-3', renderer:renderExtracurricularCard, hasTimeline:false },
+  certifications:  { gridClass:'section-grid-2', renderer:renderCertificationCard, hasTimeline:false },
+  awards:          { gridClass:'section-grid-3', renderer:renderAwardCard,         hasTimeline:false },
+  testimonials:    { gridClass:'section-grid-2', renderer:renderTestimonialCard,   hasTimeline:false },
+  case_study:      { gridClass:'section-list',   renderer:renderCaseStudyCard,     hasTimeline:false },
+  references:      { gridClass:'section-grid-3', renderer:function(i,fs){return renderGenericCard(i,fs);}, hasTimeline:false },
+  generic:         { gridClass:'section-grid-3', renderer:function(i,fs){return renderGenericCard(i,fs);}, hasTimeline:false },
+};
 
 /* ================================================================
-   FALLBACK DATA  —  shown immediately on every page load, and used
-   as a safety net if the Sheet fetch fails. Keep this in sync with
-   your Sheet if you want the very first paint to match.
+   FALLBACK DATA  — shown immediately; updated silently when Sheet loads
    ================================================================ */
 const FALLBACK_DATA = {
-
-  /* ---- PERSONAL ---- */
-  name:     'Md. Arif Ar Rafi',
-  title:    'Lecturer · ECE Engineer · IEEE Researcher',
-  tagline:  'Shaping tomorrow\'s engineers through research-driven teaching in Electronics & Communication.',
-  quote:    'In the journey of learning new things, I am more focused on how I am learning rather than what I am learning.',
-  bio:      'I hold both a Master\'s and Bachelor\'s degree in Electronics and Communication Engineering (ECE) from Khulna University — graduating 1st in class for M.Sc. with a CGPA of 3.98/4.00. Currently joining as a Lecturer at a university, I am committed to bridging rigorous academic research with practical, applied engineering education. My research focus spans renewable energy-based hybrid microgrids, embedded systems, and IoT — backed by publications in IEEE journals and international conferences.',
-
-  /* ---- CONTACT ---- */
-  email:    'rafi.ku.ece@gmail.com',
-  phone:    '+8801759-793558',
-  location: 'Dhaka Cantonment, Dhaka-1206, Bangladesh',
-
-  /* ---- LINKS ---- */
-  photo:    '',
-  resume:   'https://drive.google.com/uc?export=download&id=1F-bzqDId2aYOlYBjmPXD5CRGi_O6_ayC',
-  linkedin: 'https://www.linkedin.com/in/rafi170911',
-  scholar:  'https://scholar.google.com/citations?user=kGHEA-UAAAAJ&hl=en',
-  facebook: 'https://www.facebook.com/rafi170911',
-  twitter:  'https://x.com/rafi170911',
-  youtube:  'https://www.youtube.com/@eAcademy97',
-
-  /* ---- THEME ---- */
-  colorPrimary:    '#0EA5E9',
-  colorAccent:     '#F0A500',
-  colorBackground: '',
-
-  /* ---- ABOUT BADGE (gold circle next to photo) ---- */
-  aboutBadgeText:    '1st',
-  aboutBadgeSubtext: 'M.SC RANK',
-
-  /* ---- ABOUT INFO GRID ---- */
-  aboutInfo: [
-    { label: 'Degree',      value: 'M.Sc. Engg. in ECE' },
-    { label: 'University',  value: 'Khulna University' },
-    { label: 'CGPA',        value: '3.98 / 4.00 (1st in Class)' },
-    { label: 'Email',       value: 'rafi.ku.ece@gmail.com' },
-    { label: 'Location',    value: 'Dhaka, Bangladesh' },
-    { label: 'Status',      value: 'Open to Collaboration' },
+  settings: {
+    colorPrimary:'#0EA5E9', colorAccent:'#F0A500', colorBackground:'#0B1829',
+    colorText:'#E8F0FE', colorTextMuted:'#7EADD4',
+    fontHeading:'Space Grotesk', fontBody:'Inter', fontMono:'JetBrains Mono',
+    cardRadius:12, sectionPadding:100, navStyle:'frosted',
+    circuitAnimation:true, scrollAnimations:true, cardHover:'lift',
+    formspreeId:'YOUR_FORM_ID', seoDescription:'', seoKeywords:'', ogImage:'',
+  },
+  name:'Md. Arif Ar Rafi', title:'Lecturer · ECE Engineer · IEEE Researcher',
+  tagline:'Shaping tomorrow\'s engineers through research-driven teaching in Electronics & Communication.',
+  quote:'In the journey of learning new things, I am more focused on how I am learning rather than what I am learning.',
+  bio:'I hold both a Master\'s and Bachelor\'s degree in Electronics and Communication Engineering (ECE) from Khulna University — graduating 1st in class for M.Sc. with a CGPA of 3.98/4.00. Currently joining as a Lecturer at a university, I am committed to bridging rigorous academic research with practical, applied engineering education. My research focus spans renewable energy-based hybrid microgrids, embedded systems, and IoT.',
+  email:'rafi.ku.ece@gmail.com', phone:'+8801759-793558', location:'Dhaka Cantonment, Dhaka-1206, Bangladesh',
+  photo:'', resume:'https://drive.google.com/uc?export=download&id=1F-bzqDId2aYOlYBjmPXD5CRGi_O6_ayC',
+  linkedin:'https://www.linkedin.com/in/rafi170911', scholar:'https://scholar.google.com/citations?user=kGHEA-UAAAAJ&hl=en',
+  facebook:'https://www.facebook.com/rafi170911', twitter:'https://x.com/rafi170911',
+  youtube:'https://www.youtube.com/@eAcademy97',
+  aboutBadgeText:'1st', aboutBadgeSubtext:'M.SC RANK',
+  aboutInfo:[
+    {label:'Degree',value:'M.Sc. Engg. in ECE'},{label:'University',value:'Khulna University'},
+    {label:'CGPA',value:'3.98 / 4.00 (1st in Class)'},{label:'Email',value:'rafi.ku.ece@gmail.com'},
+    {label:'Location',value:'Dhaka, Bangladesh'},{label:'Status',value:'Open to Collaboration'},
   ],
-
-  /* ---- SKILLS ---- */
-  skills: [
-    { icon: 'fa-code',          name: 'Programming & Scripting',  tags: ['Python','C/C++','MATLAB','Google Apps Script','JavaScript','HTML/CSS'], badgeText:'', badgeColor:'' },
-    { icon: 'fa-microchip',     name: 'Embedded Systems & IoT',   tags: ['Arduino','ESP32','Raspberry Pi','Wokwi Simulator','Sensor Interfacing','IoT Automation'], badgeText:'', badgeColor:'' },
-    { icon: 'fa-bolt',          name: 'Power & Energy Systems',   tags: ['HOMER Pro','Microgrid Design','PV-Wind Systems','MATLAB Simulink','Renewable Energy'], badgeText:'', badgeColor:'' },
-    { icon: 'fa-table-columns', name: 'Office & Productivity',    tags: ['MS Office Suite','Google Workspace','Excel Dashboards','LaTeX','Document Automation'], badgeText:'', badgeColor:'' },
-    { icon: 'fa-wave-square',   name: 'Electronics & Circuits',   tags: ['Circuit Analysis','Semiconductors','Signal Processing','Digital Logic','PCB Basics'], badgeText:'', badgeColor:'' },
-    { icon: 'fa-film',          name: 'Content & Media',          tags: ['Motion Graphics','Educational Video','YouTube Production','Scientific Illustration'], badgeText:'', badgeColor:'' },
+  skills:[
+    {icon:'fa-code',name:'Programming & Scripting',tags:['Python','C/C++','MATLAB','Google Apps Script','JavaScript','HTML/CSS'],badgeText:'',badgeColor:''},
+    {icon:'fa-microchip',name:'Embedded Systems & IoT',tags:['Arduino','ESP32','Raspberry Pi','Wokwi Simulator','Sensor Interfacing','IoT Automation'],badgeText:'',badgeColor:''},
+    {icon:'fa-bolt',name:'Power & Energy Systems',tags:['HOMER Pro','Microgrid Design','PV-Wind Systems','MATLAB Simulink','Renewable Energy'],badgeText:'',badgeColor:''},
+    {icon:'fa-table-columns',name:'Office & Productivity',tags:['MS Office Suite','Google Workspace','Excel Dashboards','LaTeX','Document Automation'],badgeText:'',badgeColor:''},
+    {icon:'fa-wave-square',name:'Electronics & Circuits',tags:['Circuit Analysis','Semiconductors','Signal Processing','Digital Logic','PCB Basics'],badgeText:'',badgeColor:''},
+    {icon:'fa-film',name:'Content & Media',tags:['Motion Graphics','Educational Video','YouTube Production','Scientific Illustration'],badgeText:'',badgeColor:''},
   ],
-
-  /* ---- EXPERIENCE  (newest first) ---- */
-  experience: [
-    {
-      role: 'Lecturer', chip: 'Academia',
-      org: 'University (Joining)', date: '2025 – Present', loc: 'Bangladesh',
-      desc: 'Newly appointed Lecturer in Electronics & Communication Engineering. Responsible for undergraduate instruction, curriculum development, and guiding students in research.',
-      resp: [
-        'Conducting lectures in core ECE subjects — analog/digital circuits, electronics, communication systems.',
-        'Designing course materials and practical lab exercises for undergraduate cohorts.',
-        'Mentoring final-year project groups in embedded systems and renewable energy topics.',
-      ],
-      badgeText: '', badgeColor: '',
-    },
-    {
-      role: 'IT Officer (Asst. Maintenance Engineer)', chip: 'Govt. ICT Project',
-      org: 'Ministry of Defense, Bangladesh', date: 'Mar 2024 – Present', loc: 'Dhaka Cantonment, Dhaka-1206',
-      desc: 'Working on a Government ICT infrastructure project under the Ministry of Defense of the People\'s Republic of Bangladesh.',
-      resp: [
-        'Supervising assessment of all technical materials to ensure quality and accuracy.',
-        'Attending meetings with customers both offline and online.',
-        'Handling customer requests, queries, and complaints with timely resolution.',
-        'Performing physical and functional checks upon material arrival.',
-      ],
-      badgeText: '', badgeColor: '',
-    },
-    {
-      role: 'Industrial Attachment Trainee', chip: 'Industry Training',
-      org: 'Grameenphone Ltd.', date: 'Dec 2019 – Jan 2020', loc: 'Khulna Circle Office, Bangladesh',
-      desc: '21-day industrial training in Regional Operations, Technology Division — the leading telecom operator of Bangladesh.',
-      resp: [
-        'Site visit to Khulna base station server room — monitoring hardware infrastructure.',
-        'Observing power management, air conditioning, and network security systems.',
-        'Gained hands-on exposure to large-scale telecom operations and network monitoring.',
-      ],
-      badgeText: '', badgeColor: '',
-    },
+  experience:[
+    {role:'Lecturer',chip:'Academia',org:'University (Joining)',date:'2025 – Present',loc:'Bangladesh',
+     desc:'Newly appointed Lecturer in Electronics & Communication Engineering.',
+     resp:['Conducting lectures in core ECE subjects.','Designing course materials and lab exercises.','Mentoring final-year project groups.'],badgeText:'',badgeColor:''},
+    {role:'IT Officer (Asst. Maintenance Engineer)',chip:'Govt. ICT Project',org:'Ministry of Defense, Bangladesh',date:'Mar 2024 – Present',loc:'Dhaka Cantonment',
+     desc:'Working on a Government ICT infrastructure project.',
+     resp:['Supervising assessment of all technical materials.','Attending customer meetings.','Handling customer requests and complaints.'],badgeText:'',badgeColor:''},
+    {role:'Industrial Attachment Trainee',chip:'Industry Training',org:'Grameenphone Ltd.',date:'Dec 2019 – Jan 2020',loc:'Khulna Circle Office',
+     desc:'21-day training in Regional Operations, Technology Division.',
+     resp:['Site visit to Khulna base station server room.','Observing power management and network security systems.'],badgeText:'',badgeColor:''},
   ],
-
-  /* ---- EDUCATION  (newest first) ---- */
-  education: [
-    { level: 'Postgraduate',     degree: 'M.Sc. Engg. in ECE', inst: 'Khulna University',                          year: '2020–2021', cgpa: 'CGPA 3.98 / 4.00', rank: 'Rank: 1st', badgeText: '1st in Class', badgeColor: 'gold'   },
-    { level: 'Undergraduate',    degree: 'B.Sc. Engg. in ECE', inst: 'Khulna University',                          year: '2016–2017', cgpa: 'CGPA 3.65 / 4.00', rank: 'Rank: 3rd', badgeText: '3rd in Class', badgeColor: 'silver' },
-    { level: 'Higher Secondary', degree: 'HSC — Science',       inst: 'Keshabpur Higher Secondary School, Jashore', year: '2014–2015', cgpa: 'GPA 5.00 / 5.00',  rank: '',          badgeText: '',             badgeColor: ''       },
-    { level: 'Secondary',        degree: 'SSC — Science',       inst: 'Mulgram Secondary School, Jashore',          year: '2012–2013', cgpa: 'GPA 5.00 / 5.00',  rank: '',          badgeText: '',             badgeColor: ''       },
+  education:[
+    {level:'Postgraduate',degree:'M.Sc. Engg. in ECE',inst:'Khulna University',year:'2020–2021',cgpa:'CGPA 3.98 / 4.00',rank:'Rank: 1st',badgeText:'🥇 Rank 1st',badgeColor:'gold'},
+    {level:'Undergraduate',degree:'B.Sc. Engg. in ECE',inst:'Khulna University',year:'2016–2017',cgpa:'CGPA 3.65 / 4.00',rank:'Rank: 3rd',badgeText:'🥉 Rank 3rd',badgeColor:'bronze'},
+    {level:'Higher Secondary',degree:'HSC — Science',inst:'Keshabpur Higher Secondary School, Jashore',year:'2014–2015',cgpa:'GPA 5.00 / 5.00',rank:'',badgeText:'',badgeColor:''},
+    {level:'Secondary',degree:'SSC — Science',inst:'Mulgram Secondary School, Jashore',year:'2012–2013',cgpa:'GPA 5.00 / 5.00',rank:'',badgeText:'',badgeColor:''},
   ],
-
-  /* ---- PUBLICATIONS ---- */
-  publications: [
-    {
-      type: 'jnl', label: 'IEEE Journal', year: '2021',
-      title: 'Renewable Energy-based Hybrid Microgrid for Economically Effective Coastal Electrification',
-      authors: '',
-      venue: 'IEEE Transactions on Applied Superconductivity, Vol. 31, Issue 8, November 2021',
-      abstract: 'This study proposes a hybrid microgrid comprising renewable energy sources, a natural gas generator, battery storage, and an EV charging station for two coastal areas of Bangladesh. Using HOMER Pro optimization, the winning configuration achieved a cost of energy of $0.157/kWh and CO₂ emission of 6,666 kg/y — a significant step toward affordable, pollution-free electrification in remote coastal communities.',
-      doi: 'https://doi.org/10.1109/TASC.2021.3089118',
-      pdf: 'https://drive.google.com/uc?export=download&id=1KpsJbZCTc-icTJMtV7y0khuS9mEplHr9',
-      badgeText: '', badgeColor: '',
-    },
-    {
-      type: 'conf', label: 'IEEE Conference', year: '2020',
-      title: 'Hybrid AC/DC Microgrid Modelling for Affordable Rural Electrification',
-      authors: '',
-      venue: '2020 IEEE International Conference on Applied Superconductivity and Electromagnetic Devices (ASEMD)',
-      abstract: 'A PV-Wind-Battery-Gas connected hybrid AC/DC microgrid architecture is proposed for two remotely located rural areas of Bangladesh. Simulation and optimization results confirm the model delivers both environmentally friendly and economically viable electrification, reducing dependency on fossil fuels in off-grid communities.',
-      doi: 'https://doi.org/10.1109/ASEMD49065.2020.9276112',
-      pdf: 'https://drive.google.com/uc?export=download&id=1KuRs708X91DGemCsbTHVHEu0hX0cT4VT',
-      badgeText: '', badgeColor: '',
-    },
+  publications:[
+    {type:'jnl',label:'IEEE Journal',year:'2021',
+     title:'Renewable Energy-based Hybrid Microgrid for Economically Effective Coastal Electrification',authors:'',
+     venue:'IEEE Transactions on Applied Superconductivity, Vol. 31, Issue 8, November 2021',
+     abstract:'This study proposes a hybrid microgrid comprising renewable energy sources, a natural gas generator, battery storage, and an EV charging station for two coastal areas of Bangladesh. Using HOMER Pro optimization, the winning configuration achieved a cost of energy of $0.157/kWh.',
+     doi:'https://doi.org/10.1109/TASC.2021.3089118',pdf:'https://drive.google.com/uc?export=download&id=1KpsJbZCTc-icTJMtV7y0khuS9mEplHr9',badgeText:'',badgeColor:''},
+    {type:'conf',label:'IEEE Conference',year:'2020',
+     title:'Hybrid AC/DC Microgrid Modelling for Affordable Rural Electrification',authors:'',
+     venue:'2020 IEEE International Conference on Applied Superconductivity and Electromagnetic Devices (ASEMD)',
+     abstract:'A PV-Wind-Battery-Gas connected hybrid AC/DC microgrid architecture is proposed for two remotely located rural areas of Bangladesh.',
+     doi:'https://doi.org/10.1109/ASEMD49065.2020.9276112',pdf:'https://drive.google.com/uc?export=download&id=1KuRs708X91DGemCsbTHVHEu0hX0cT4VT',badgeText:'',badgeColor:''},
   ],
-
-  /* ---- ACHIEVEMENTS ---- */
-  achievements: [
-    { icon: '🏛️', title: 'NST Fellowship 2024',  org: 'Ministry of Science & Technology, Bangladesh', desc: 'National Science & Technology (NST) Fellowship 2024 — Physical Science group. Merit Serial: 917 (MS/MSc, 2023-24 batch).', badgeText: '', badgeColor: '' },
-    { icon: '➗',  title: 'Math Olympiad 2016',   org: 'Bangladesh Mathematical Olympiad Committee',   desc: 'Participated in the 14th Bangladesh Mathematical Olympiad in Jashore (Reg. No: 19038).', badgeText: '', badgeColor: '' },
-    { icon: '🏆', title: 'Best Talent Award',    org: 'Government of Bangladesh',                     desc: 'Upazilla Level Best Talent of the Year at the Creative Talent Search Competition 2015 in Mathematics & Computer (Class XII).', badgeText: '', badgeColor: '' },
-    { icon: '⚡', title: 'Scout Power Camp',     org: 'Power Division & Bangladesh Scouts',           desc: 'Participated in a 3-day Power Camp for Scouts and Rover Scouts in Keshabpur, Jashore (2012).', badgeText: '', badgeColor: '' },
-    { icon: '📊', title: 'Poster Presentation',  org: 'Rajshahi University Education Club',           desc: 'Participated in the Wearix Poster Presentation Competition 2024 at Rajshahi University.', badgeText: '', badgeColor: '' },
+  achievements:[
+    {icon:'🏛️',title:'NST Fellowship 2024',org:'Ministry of Science & Technology, Bangladesh',desc:'National Science & Technology (NST) Fellowship 2024 — Physical Science group. Merit Serial: 917.',badgeText:'',badgeColor:''},
+    {icon:'➗',title:'Math Olympiad 2016',org:'Bangladesh Mathematical Olympiad Committee',desc:'Participated in the 14th Bangladesh Mathematical Olympiad in Jashore (Reg. No: 19038).',badgeText:'',badgeColor:''},
+    {icon:'🏆',title:'Best Talent Award',org:'Government of Bangladesh',desc:'Upazilla Level Best Talent at the Creative Talent Search Competition 2015 in Mathematics & Computer.',badgeText:'🏅 Best Talent',badgeColor:'purple'},
+    {icon:'⚡',title:'Scout Power Camp',org:'Power Division & Bangladesh Scouts',desc:'Participated in a 3-day Power Camp for Scouts and Rover Scouts in Keshabpur, Jashore (2012).',badgeText:'',badgeColor:''},
+    {icon:'📊',title:'Poster Presentation',org:'Rajshahi University Education Club',desc:'Participated in the Wearix Poster Presentation Competition 2024 at Rajshahi University.',badgeText:'',badgeColor:''},
   ],
-
-  /* ---- YOUTUBE VIDEOS ---- */
-  videos: [
-    { id: 'VhTRfdsUMuQ', title: 'Cinematic Intro with Motion Graphics', desc: 'Eye-catchy YouTube video intro with cinematic motion graphics.', badgeText: '', badgeColor: '' },
-    { id: 'C07dyAn5UWw', title: 'Renewable Microgrid System Explained', desc: 'Easiest way to learn the operation of a renewable energy microgrid system.', badgeText: '', badgeColor: '' },
-    { id: 'yyFgEHZNT0A', title: '3×3 Matrix Multiplication Animated',  desc: 'Step-by-step animated breakdown of 3×3 matrix multiplication.', badgeText: '', badgeColor: '' },
+  videos:[
+    {id:'VhTRfdsUMuQ',title:'Cinematic Intro with Motion Graphics',desc:'Eye-catchy YouTube video intro with cinematic motion graphics.',badgeText:'',badgeColor:''},
+    {id:'C07dyAn5UWw',title:'Renewable Microgrid System Explained',desc:'Easiest way to learn the operation of a renewable energy microgrid system.',badgeText:'',badgeColor:''},
+    {id:'yyFgEHZNT0A',title:'3×3 Matrix Multiplication Animated',desc:'Step-by-step animated breakdown of 3×3 matrix multiplication.',badgeText:'',badgeColor:''},
   ],
-
-  /* ---- SECTIONS  (visibility / order / custom-section registry) ---- */
-  sections: [
-    { section_key:'about',        display_name:'About',        type:'built-in', enabled:'yes', order:'1'  },
-    { section_key:'skills',       display_name:'Skills',       type:'built-in', enabled:'yes', order:'2'  },
-    { section_key:'experience',   display_name:'Experience',   type:'built-in', enabled:'yes', order:'3'  },
-    { section_key:'education',    display_name:'Education',    type:'built-in', enabled:'yes', order:'4'  },
-    { section_key:'publications', display_name:'Research',     type:'built-in', enabled:'yes', order:'5'  },
-    { section_key:'achievements', display_name:'Achievements', type:'built-in', enabled:'yes', order:'6'  },
-    { section_key:'videos',       display_name:'Videos',       type:'built-in', enabled:'yes', order:'7'  },
-    { section_key:'Languages',    display_name:'Languages',    type:'custom',   enabled:'no',  order:'8'  },
-    { section_key:'References',   display_name:'References',   type:'custom',   enabled:'no',  order:'9'  },
-    { section_key:'contact',      display_name:'Contact',      type:'built-in', enabled:'yes', order:'10' },
+  sections:[
+    {section_key:'about',        display_name:'About',        eyebrow:'Who I Am',           type:'builtin',enabled:'yes',order:'10', theme:'',field_styles:'',card_layout:''},
+    {section_key:'skills',       display_name:'Skills',       eyebrow:'Competencies',        type:'builtin',enabled:'yes',order:'20', theme:'',field_styles:'',card_layout:''},
+    {section_key:'experience',   display_name:'Experience',   eyebrow:'Career',              type:'builtin',enabled:'yes',order:'30', theme:'',field_styles:'',card_layout:''},
+    {section_key:'education',    display_name:'Education',    eyebrow:'Academic Background', type:'builtin',enabled:'yes',order:'40', theme:'',field_styles:'',card_layout:''},
+    {section_key:'publications', display_name:'Research',     eyebrow:'Research',            type:'builtin',enabled:'yes',order:'50', theme:'',field_styles:'',card_layout:''},
+    {section_key:'achievements', display_name:'Achievements', eyebrow:'Recognition',         type:'builtin',enabled:'yes',order:'60', theme:'',field_styles:'',card_layout:''},
+    {section_key:'videos',       display_name:'Videos',       eyebrow:'Educational Content', type:'builtin',enabled:'yes',order:'70', theme:'',field_styles:'',card_layout:''},
+    {section_key:'languages',    display_name:'Languages',    eyebrow:'Communication',       type:'custom', enabled:'yes',order:'75', theme:'generic',field_styles:'icon=hidden|subtitle=accent',card_layout:'section-grid-2'},
+    {section_key:'contact',      display_name:'Contact',      eyebrow:'Get In Touch',        type:'builtin',enabled:'yes',order:'80', theme:'',field_styles:'',card_layout:''},
   ],
-
-  /* ---- CUSTOM SECTION DATA  (only used if enabled above) ---- */
-  custom: {
-    Languages: [
-      { title:'Bengali', subtitle:'Native', description:'', badge_text:'', badge_color:'', link_label:'', link_url:'', order:'1' },
-      { title:'English', subtitle:'Fluent — Professional Proficiency', description:'', badge_text:'', badge_color:'', link_label:'', link_url:'', order:'2' },
-    ],
-    References: [
-      { title:'Dr. Jane Doe', subtitle:'Professor, Dept. of ECE, Khulna University', description:'Former Thesis Supervisor', badge_text:'', badge_color:'', link_label:'Email', link_url:'mailto:jane.doe@example.edu', order:'1' },
+  custom:{
+    languages:[
+      {icon:'🇧🇩',title:'Bengali',subtitle:'Native',description:'Mother tongue — spoken, written, and formal academic use.',tags:'',link_label:'',link_url:'',badge_text:'',badge_color:''},
+      {icon:'🇬🇧',title:'English',subtitle:'Professional Proficiency',description:'Used for teaching, research writing, and all IEEE publications.',tags:'IEEE, Academic',link_label:'',link_url:'',badge_text:'',badge_color:''},
     ],
   },
 };
-
-
 
 /* ================================================================
    DATA FETCH
@@ -699,688 +706,861 @@ async function fetchData() {
   const ctrl    = new AbortController();
   const timeout = setTimeout(() => ctrl.abort(), 20000);
   try {
-    const res = await fetch(SHEET_API_URL, { redirect: 'follow', signal: ctrl.signal });
+    const res = await fetch(SHEET_API_URL, { redirect:'follow', signal:ctrl.signal });
     clearTimeout(timeout);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     if (!json.ok) throw new Error(json.error || 'API returned ok:false');
     return json.data;
-  } catch (e) {
+  } catch(e) {
     clearTimeout(timeout);
-    if (e.name === 'AbortError') throw new Error('Request timed out (20s). Check your Web App URL.');
+    if (e.name === 'AbortError') throw new Error('Request timed out.');
     throw e;
   }
 }
 
-
 /* ================================================================
-   TRANSFORM  — maps flat API objects to the shape render() needs
+   UTILITIES
    ================================================================ */
-function transformData(raw) {
-  const p = raw.profile || {};
-  return {
-    name:     p.name     || 'Portfolio Owner',
-    title:    p.title    || '',
-    tagline:  p.tagline  || '',
-    quote:    p.quote    || '',
-    bio:      p.bio      || '',
-    email:    p.email    || '',
-    phone:    p.phone    || '',
-    location: p.location || '',
-    photo:    p.photo    || '',
-    resume:   p.resume   || '#',
-    linkedin: p.linkedin || '#',
-    scholar:  p.scholar  || '#',
-    facebook: p.facebook || '#',
-    twitter:  p.twitter  || '#',
-    youtube:  p.youtube  || '#',
-
-    colorPrimary:    p.color_primary    || '#0EA5E9',
-    colorAccent:     p.color_accent     || '#F0A500',
-    colorBackground: p.color_background || '',
-
-    aboutBadgeText:    p.about_badge_text    || '',
-    aboutBadgeSubtext: p.about_badge_subtext || '',
-
-    aboutInfo: [
-      { label: 'Degree',      value: p.degree       || '' },
-      { label: 'University',  value: p.university   || '' },
-      { label: 'CGPA',        value: p.cgpa         || '' },
-      { label: 'Email',       value: p.email        || '' },
-      { label: 'Location',    value: p.location     || '' },
-      { label: 'Status',      value: p.availability || 'Open to Collaboration' },
-    ],
-
-    skills: (raw.skills || []).map(s => ({
-      icon: s.icon || 'fa-circle',
-      name: s.name || '',
-      tags: (s.tags || '').split(',').map(t => t.trim()).filter(Boolean),
-      badgeText:  s.badge_text  || '',
-      badgeColor: s.badge_color || '',
-    })),
-
-    experience: (raw.experience || []).map(e => ({
-      role: e.role || '',
-      chip: e.type || '',
-      org:  e.org  || '',
-      date: e.date || '',
-      loc:  e.location || '',
-      desc: e.description || '',
-      resp: (e.responsibilities || '').split('|').map(r => r.trim()).filter(Boolean),
-      badgeText:  e.badge_text  || '',
-      badgeColor: e.badge_color || '',
-    })),
-
-    education: (raw.education || []).map(e => ({
-      level:      e.level       || '',
-      degree:     e.degree      || '',
-      inst:       e.institution || '',
-      year:       e.year        || '',
-      cgpa:       e.cgpa        || '',
-      rank:       e.rank        || '',
-      badgeText:  e.badge_text  || '',
-      badgeColor: e.badge_color || '',
-    })),
-
-    publications: (raw.publications || []).map(p => ({
-      type:       p.type     || 'jnl',
-      label:      p.label    || 'Publication',
-      year:       p.year     || '',
-      title:      p.title    || '',
-      authors:    p.authors  || '',
-      venue:      p.venue    || '',
-      abstract:   p.abstract || '',
-      doi:        p.doi      || '',
-      pdf:        p.pdf      || '',
-      badgeText:  p.badge_text  || '',
-      badgeColor: p.badge_color || '',
-    })),
-
-    achievements: (raw.achievements || []).map(a => ({
-      icon:       a.icon        || '🏆',
-      title:      a.title       || '',
-      org:        a.org         || '',
-      desc:       a.description || '',
-      badgeText:  a.badge_text  || '',
-      badgeColor: a.badge_color || '',
-    })),
-
-    videos: (raw.videos || []).map(v => ({
-      id:         v.id          || '',
-      title:      v.title       || '',
-      desc:       v.description || '',
-      badgeText:  v.badge_text  || '',
-      badgeColor: v.badge_color || '',
-    })),
-
-    sections: (raw.sections && raw.sections.length) ? raw.sections : DEFAULT_SECTIONS_META,
-    custom:   raw.custom || {},
-  };
+function esc(str){
+  return String(str==null?'':str)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
-
-/** Built-in section order/visibility used only if the "Sections" tab is missing (older backend). */
-const DEFAULT_SECTIONS_META = [
-  { section_key:'about',        display_name:'About',        type:'built-in', enabled:'yes', order:'1'  },
-  { section_key:'skills',       display_name:'Skills',       type:'built-in', enabled:'yes', order:'2'  },
-  { section_key:'experience',   display_name:'Experience',   type:'built-in', enabled:'yes', order:'3'  },
-  { section_key:'education',    display_name:'Education',    type:'built-in', enabled:'yes', order:'4'  },
-  { section_key:'publications', display_name:'Research',     type:'built-in', enabled:'yes', order:'5'  },
-  { section_key:'achievements', display_name:'Achievements', type:'built-in', enabled:'yes', order:'6'  },
-  { section_key:'videos',       display_name:'Videos',       type:'built-in', enabled:'yes', order:'7'  },
-  { section_key:'contact',      display_name:'Contact',      type:'built-in', enabled:'yes', order:'10' },
-];
-
-/** Maps a Sections-sheet built-in key (lowercase) to the actual <section id="..."> in the DOM. */
-const BUILTIN_SECTION_IDS = {
-  about:'about', skills:'skills', experience:'experience', education:'education',
-  publications:'publications', achievements:'achievements', videos:'videos', contact:'contact',
-};
-
-
-/* ================================================================
-   SMALL UTILITIES — escaping, color math, badge rendering
-   ================================================================ */
-function esc(str) {
-  return String(str == null ? '' : str)
-    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+function isHex6(str){ return /^#?[0-9a-fA-F]{6}$/.test((str||'').trim()); }
+function normHex(str){ const t=str.trim(); return t.startsWith('#')?t:'#'+t; }
+function hexToRgbStr(hex){
+  if(!isHex6(hex)) return null;
+  const h=normHex(hex).replace('#','');
+  return `${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)}`;
 }
-
-function isHex6(str) {
-  return /^#?[0-9a-fA-F]{6}$/.test((str || '').trim());
+function lighten(hex,percent){
+  if(!isHex6(hex)) return hex;
+  const h=normHex(hex).replace('#','');
+  return '#'+[0,2,4].map(i=>{
+    const v=parseInt(h.slice(i,i+2),16);
+    return Math.min(255,Math.round(v+(255-v)*percent/100)).toString(16).padStart(2,'0');
+  }).join('');
 }
-function normHex(str) {
-  const t = str.trim();
-  return t.startsWith('#') ? t : '#' + t;
+const BADGE_PRESETS={gold:'#F0A500',silver:'#CBD5E1',bronze:'#CD7F32',blue:'#38BDF8',green:'#4ADE80',red:'#F87171',purple:'#A78BFA'};
+function resolveBadgeColor(c){
+  if(!c) return BADGE_PRESETS.gold;
+  const k=c.trim().toLowerCase();
+  return BADGE_PRESETS[k]||(isHex6(c)?normHex(c):BADGE_PRESETS.gold);
 }
-function hexToRgbStr(hex) {
-  if (!isHex6(hex)) return null;
-  const h = normHex(hex).replace('#', '');
-  const r = parseInt(h.substring(0, 2), 16), g = parseInt(h.substring(2, 4), 16), b = parseInt(h.substring(4, 6), 16);
-  return `${r},${g},${b}`;
-}
-function lighten(hex, percent) {
-  if (!isHex6(hex)) return hex;
-  const h = normHex(hex).replace('#', '');
-  let r = parseInt(h.substring(0, 2), 16), g = parseInt(h.substring(2, 4), 16), b = parseInt(h.substring(4, 6), 16);
-  r = Math.min(255, Math.round(r + (255 - r) * percent / 100));
-  g = Math.min(255, Math.round(g + (255 - g) * percent / 100));
-  b = Math.min(255, Math.round(b + (255 - b) * percent / 100));
-  return '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
-}
-
-const BADGE_PRESETS = {
-  gold:   '#F0A500',
-  silver: '#CBD5E1',
-  bronze: '#CD7F32',
-  blue:   '#38BDF8',
-  green:  '#4ADE80',
-  red:    '#F87171',
-  purple: '#A78BFA',
-};
-function resolveBadgeColor(color) {
-  if (!color) return BADGE_PRESETS.gold;
-  const key = color.trim().toLowerCase();
-  if (BADGE_PRESETS[key]) return BADGE_PRESETS[key];
-  if (isHex6(color)) return normHex(color);
-  return BADGE_PRESETS.gold;
-}
-/** Returns the corner outline-badge HTML, or '' if no text was given (no empty markup left behind). */
-function badgeHTML(text, color) {
-  if (!text) return '';
-  const c1  = resolveBadgeColor(color);
-  const rgb = hexToRgbStr(c1) || '240,165,0';
+function badgeHTML(text,color){
+  if(!text) return '';
+  const c1=resolveBadgeColor(color), rgb=hexToRgbStr(c1)||'240,165,0';
   return `<span class="item-badge" style="--badge-c1:${c1};--badge-c1-rgb:${rgb}"><span class="item-badge-star">★</span>${esc(text)}</span>`;
 }
 
-
-/* ================================================================
-   THEME  — recolors the whole site from Profile → color_primary /
-   color_accent / color_background. A plain hex code is all the
-   user needs to type; lighter shades + rgb() components are derived.
-   ================================================================ */
-let CIRCUIT_RGB = '14,165,233';
-
-function applyTheme(D) {
-  const root = document.documentElement.style;
-
-  const primary = isHex6(D.colorPrimary) ? normHex(D.colorPrimary) : '#0EA5E9';
-  const accent  = isHex6(D.colorAccent)  ? normHex(D.colorAccent)  : '#F0A500';
-
-  root.setProperty('--cyan', primary);
-  root.setProperty('--cyan-light', lighten(primary, 22));
-  root.setProperty('--cyan-rgb', hexToRgbStr(primary) || '14,165,233');
-
-  root.setProperty('--gold', accent);
-  root.setProperty('--gold-light', lighten(accent, 22));
-  root.setProperty('--gold-rgb', hexToRgbStr(accent) || '240,165,0');
-
-  CIRCUIT_RGB = hexToRgbStr(primary) || '14,165,233';
-
-  if (isHex6(D.colorBackground)) {
-    const navy  = normHex(D.colorBackground);
-    const navy2 = lighten(navy, 8);
-    const navy3 = lighten(navy, 16);
-    root.setProperty('--navy', navy);
-    root.setProperty('--navy-2', navy2);
-    root.setProperty('--navy-3', navy3);
-    root.setProperty('--navy-rgb', hexToRgbStr(navy));
-    root.setProperty('--navy2-rgb', hexToRgbStr(navy2));
-    root.setProperty('--navy3-rgb', hexToRgbStr(navy3));
-  }
+/** Parse "field=style|field=style" into { field: 'style' } */
+function parseFieldStyles(str){
+  if(!str) return {};
+  const out={};
+  str.split('|').forEach(p=>{
+    const [k,v]=(p||'').split('=');
+    if(k&&v) out[k.trim().toLowerCase().replace(/[\s\-\/]+/g,'_')]=v.trim().toLowerCase();
+  });
+  return out;
 }
 
+/** Map style class names to CSS classes */
+const FS_CLASS_MAP={
+  title:    'fs-title',
+  subtitle: 'fs-subtitle',
+  accent:   'fs-accent',
+  body:     'fs-body',
+  muted:    'fs-muted',
+  chip:     'fs-chip',
+  quote:    'fs-quote',
+  tag:      'tag',
+  hidden:   null,
+};
 
 /* ================================================================
-   RENDER  — injects all DATA into the HTML placeholders
+   SETTINGS  — apply CSS vars and body attributes
    ================================================================ */
-let DATA = {};
-let NAV_SECTION_IDS = [];
+let CIRCUIT_RGB='14,165,233';
 
-function render() {
-  const D = DATA;
-  applyTheme(D);
+function applySettings(s){
+  s=s||{};
+  const root=document.documentElement.style;
 
-  // page / nav
-  document.title = `${D.name} – Portfolio`;
+  const primary=isHex6(s.colorPrimary)?normHex(s.colorPrimary):'#0EA5E9';
+  root.setProperty('--cyan',primary);
+  root.setProperty('--cyan-light',lighten(primary,22));
+  root.setProperty('--cyan-rgb',hexToRgbStr(primary)||'14,165,233');
+  CIRCUIT_RGB=hexToRgbStr(primary)||'14,165,233';
 
-  // hero
-  document.getElementById('h-chip').textContent   = D.title;
-  document.getElementById('h-name').innerHTML     = 'Md. Arif Ar <em>Rafi</em>';
-  document.getElementById('h-role').textContent   = D.tagline;
-  document.getElementById('h-quote').textContent  = `"${D.quote}"`;
-  document.getElementById('h-btns').innerHTML = `
+  const accent=isHex6(s.colorAccent)?normHex(s.colorAccent):'#F0A500';
+  root.setProperty('--gold',accent);
+  root.setProperty('--gold-light',lighten(accent,22));
+  root.setProperty('--gold-rgb',hexToRgbStr(accent)||'240,165,0');
+
+  if(isHex6(s.colorBackground)){
+    const bg=normHex(s.colorBackground),bg2=lighten(bg,8),bg3=lighten(bg,16);
+    root.setProperty('--navy',bg);root.setProperty('--navy-2',bg2);root.setProperty('--navy-3',bg3);
+    root.setProperty('--navy-rgb',hexToRgbStr(bg));root.setProperty('--navy2-rgb',hexToRgbStr(bg2));root.setProperty('--navy3-rgb',hexToRgbStr(bg3));
+  }
+  if(isHex6(s.colorText)) root.setProperty('--text',normHex(s.colorText));
+  if(isHex6(s.colorTextMuted)) root.setProperty('--text-muted',normHex(s.colorTextMuted));
+
+  root.setProperty('--font-heading',`'${s.fontHeading||'Space Grotesk'}', sans-serif`);
+  root.setProperty('--font-body',`'${s.fontBody||'Inter'}', sans-serif`);
+  root.setProperty('--font-mono',`'${s.fontMono||'JetBrains Mono'}', monospace`);
+  root.setProperty('--r',`${s.cardRadius||12}px`);
+  root.setProperty('--r-lg',`${Math.min(28,(parseInt(s.cardRadius)||12)+8)}px`);
+  root.setProperty('--sec-pad',`${s.sectionPadding||100}px`);
+
+  document.body.dataset.cardHover=s.cardHover||'lift';
+  const nav=document.getElementById('nav');
+  if(nav) nav.dataset.navStyle=s.navStyle||'frosted';
+}
+
+function applySEO(s){
+  if(!s) return;
+  const setMeta=(name,val,prop)=>{
+    if(!val) return;
+    let m=document.querySelector(prop?`meta[property="${name}"]`:`meta[name="${name}"]`);
+    if(!m){m=document.createElement('meta');m[prop?'setAttribute':'setAttribute'](prop?'property':'name',name);document.head.appendChild(m);}
+    if(prop) m.setAttribute('property',name); else m.name=name;
+    m.content=val;
+  };
+  setMeta('description',s.seoDescription);
+  setMeta('keywords',s.seoKeywords);
+  setMeta('og:image',s.ogImage,true);
+  setMeta('og:title',document.title,true);
+}
+
+/* ================================================================
+   TRANSFORM  — normalise raw API response → render-ready shape
+   ================================================================ */
+function transformData(raw){
+  const p=raw.profile||{};
+  const sv=raw.settings||{};
+
+  // Settings: API Settings tab → overrides legacy Profile colors
+  const settings={
+    colorPrimary:   sv.color_primary    ||p.color_primary   ||p.theme_primary   ||'#0EA5E9',
+    colorAccent:    sv.color_accent     ||p.color_accent    ||p.theme_accent    ||'#F0A500',
+    colorBackground:sv.color_background ||p.color_background||'',
+    colorText:      sv.color_text       ||'',
+    colorTextMuted: sv.color_text_muted ||'',
+    fontHeading:    sv.font_heading     ||'Space Grotesk',
+    fontBody:       sv.font_body        ||'Inter',
+    fontMono:       sv.font_mono        ||'JetBrains Mono',
+    cardRadius:     parseInt(sv.card_radius)||12,
+    sectionPadding: parseInt(sv.section_padding)||100,
+    navStyle:       sv.nav_style        ||'frosted',
+    circuitAnimation:(sv.circuit_animation||'yes')==='yes',
+    scrollAnimations:(sv.scroll_animations||'yes')==='yes',
+    cardHover:      sv.card_hover       ||'lift',
+    formspreeId:    sv.formspree_id     ||'YOUR_FORM_ID',
+    seoDescription: sv.seo_description  ||p.seo_description ||'',
+    seoKeywords:    sv.seo_keywords     ||p.seo_keywords    ||'',
+    ogImage:        sv.og_image         ||p.og_image        ||'',
+  };
+
+  // Normalise sections from API (handles both old key/label and new section_key/display_name)
+  const rawSections=raw.sections||raw.sectionsConfig||null;
+  const sections=rawSections&&rawSections.length
+    ? rawSections.map(s=>({
+        section_key:  (s.section_key||s.key||'').trim(),
+        display_name: (s.display_name||s.label||'').trim(),
+        eyebrow:      s.eyebrow||'',
+        type:         (s.type||'custom').toLowerCase(),
+        sheet_name:   s.sheet_name||s.sheet||'',
+        icon:         s.icon||'',
+        theme:        (s.theme||'generic').toLowerCase(),
+        field_styles: s.field_styles||'',
+        card_layout:  s.card_layout||'',
+        enabled:      s.enabled||'yes',
+        order:        s.order||'999',
+      })).filter(s=>s.section_key)
+    : FALLBACK_DATA.sections;
+
+  // Normalise custom section keys to lowercase
+  const rawCustom=raw.custom||{};
+  const custom={};
+  Object.entries(rawCustom).forEach(([k,v])=>{ custom[k.toLowerCase()]=v; });
+
+  return {
+    settings,
+    name:     p.name     ||'Portfolio Owner',
+    title:    p.title    ||'',
+    tagline:  p.tagline  ||'',
+    quote:    p.quote    ||'',
+    bio:      p.bio      ||'',
+    email:    p.email    ||'',
+    phone:    p.phone    ||'',
+    location: p.location ||'',
+    photo:    p.photo    ||'',
+    resume:   p.resume   ||'#',
+    linkedin: p.linkedin ||'#',
+    scholar:  p.scholar  ||'#',
+    facebook: p.facebook ||'#',
+    twitter:  p.twitter  ||'#',
+    youtube:  p.youtube  ||'#',
+    aboutBadgeText:    p.about_badge_text    ||p.photo_badge_big   ||'',
+    aboutBadgeSubtext: p.about_badge_subtext ||p.photo_badge_small ||'',
+    aboutInfo:[
+      {label:'Degree',    value:p.degree      ||''},
+      {label:'University',value:p.university  ||''},
+      {label:'CGPA',      value:p.cgpa        ||''},
+      {label:'Email',     value:p.email       ||''},
+      {label:'Location',  value:p.location    ||''},
+      {label:'Status',    value:p.availability||'Open to Collaboration'},
+    ],
+    skills:(raw.skills||[]).map(s=>({
+      icon:s.icon||'fa-circle', name:s.name||'',
+      tags:(s.tags||'').split(',').map(t=>t.trim()).filter(Boolean),
+      badgeText:s.badge_text||'', badgeColor:s.badge_color||'',
+    })),
+    experience:(raw.experience||[]).map(e=>({
+      role:e.role||'', chip:e.type||'', org:e.org||'', date:e.date||'', loc:e.location||'',
+      desc:e.description||'',
+      resp:(e.responsibilities||'').split('|').map(r=>r.trim()).filter(Boolean),
+      badgeText:e.badge_text||'', badgeColor:e.badge_color||'',
+    })),
+    education:(raw.education||[]).map(e=>({
+      level:e.level||'', degree:e.degree||'', inst:e.institution||'',
+      year:e.year||'', cgpa:e.cgpa||'', rank:e.rank||'',
+      badgeText:e.badge_text||'', badgeColor:e.badge_color||'',
+    })),
+    publications:(raw.publications||[]).map(pub=>({
+      type:pub.type||'jnl', label:pub.label||'Publication', year:pub.year||'',
+      title:pub.title||'', authors:pub.authors||'', venue:pub.venue||'',
+      abstract:pub.abstract||'', doi:pub.doi||'', pdf:pub.pdf||'',
+      badgeText:pub.badge_text||'', badgeColor:pub.badge_color||'',
+    })),
+    achievements:(raw.achievements||[]).map(a=>({
+      icon:a.icon||'🏆', title:a.title||'', org:a.org||'',
+      desc:a.description||'', badgeText:a.badge_text||'', badgeColor:a.badge_color||'',
+    })),
+    videos:(raw.videos||[]).map(v=>({
+      id:v.id||'', title:v.title||'', desc:v.description||'',
+      badgeText:v.badge_text||'', badgeColor:v.badge_color||'',
+    })),
+    sections,
+    custom,
+  };
+}
+
+/* ================================================================
+   RENDER
+   ================================================================ */
+let DATA={};
+let NAV_SECTION_IDS=[];
+
+function render(){
+  const D=DATA;
+  applySettings(D.settings);
+  applySEO(D.settings);
+
+  // Page title
+  document.title=`${D.name} – Portfolio`;
+
+  // Hero
+  document.getElementById('h-chip').textContent  =D.title;
+  document.getElementById('h-name').innerHTML    ='Md. Arif Ar <em>Rafi</em>';
+  document.getElementById('h-role').textContent  =D.tagline;
+  document.getElementById('h-quote').textContent =`"${D.quote}"`;
+  document.getElementById('h-btns').innerHTML=`
     <a class="btn-fill" href="#contact"><i class="fa-solid fa-envelope"></i> Let's Connect</a>
     <a class="btn-ghost" href="${esc(D.resume)}" target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> Download CV</a>`;
-  document.getElementById('h-socials').innerHTML = [
-    [D.linkedin, 'fa-brands fa-linkedin-in',    'LinkedIn'],
-    [D.scholar,  'fa-solid fa-graduation-cap',  'Scholar'],
-    [D.youtube,  'fa-brands fa-youtube',        'YouTube'],
-    [D.twitter,  'fa-brands fa-x-twitter',      'X'],
-    [D.facebook, 'fa-brands fa-facebook-f',     'Facebook'],
-  ].map(([href,icon,lbl]) =>
-    `<a href="${esc(href)}" aria-label="${lbl}" target="_blank" rel="noopener"><i class="${icon}"></i></a>`
-  ).join('');
+  document.getElementById('h-socials').innerHTML=[
+    [D.linkedin,'fa-brands fa-linkedin-in','LinkedIn'],
+    [D.scholar, 'fa-solid fa-graduation-cap','Scholar'],
+    [D.youtube, 'fa-brands fa-youtube','YouTube'],
+    [D.twitter, 'fa-brands fa-x-twitter','X'],
+    [D.facebook,'fa-brands fa-facebook-f','Facebook'],
+  ].filter(([h])=>h&&h!=='#').map(([h,i,l])=>`<a href="${esc(h)}" aria-label="${l}" target="_blank" rel="noopener"><i class="${i}"></i></a>`).join('');
 
-  // about photo
-  if (D.photo) {
-    const img = document.getElementById('profile-img');
-    img.src = D.photo; img.alt = D.name;
-    img.onload  = () => { img.style.display='block'; document.getElementById('photo-placeholder').style.display='none'; };
-    img.onerror = () => { img.style.display='none'; };
+  // About photo
+  if(D.photo){
+    const img=document.getElementById('profile-img');
+    img.src=D.photo; img.alt=D.name;
+    img.onload=()=>{img.style.display='block';document.getElementById('photo-placeholder').style.display='none';};
+    img.onerror=()=>{img.style.display='none';};
   }
-  document.getElementById('about-bio').textContent = D.bio;
-  document.getElementById('about-info').innerHTML  = D.aboutInfo
-    .filter(i => i.value)
-    .map(i => `<div class="info-item"><span class="info-label">${esc(i.label)}</span><span class="info-val">${esc(i.value)}</span></div>`)
+  document.getElementById('about-bio').textContent=D.bio;
+  document.getElementById('about-info').innerHTML=D.aboutInfo
+    .filter(i=>i.value)
+    .map(i=>`<div class="info-item"><span class="info-label">${esc(i.label)}</span><span class="info-val">${esc(i.value)}</span></div>`)
     .join('');
 
-  // about rank badge — fully optional, collapses to nothing if both fields are blank
-  const rankBadgeEl = document.getElementById('rank-badge');
-  if (D.aboutBadgeText || D.aboutBadgeSubtext) {
-    document.getElementById('rank-badge-big').textContent = D.aboutBadgeText || '';
-    document.getElementById('rank-badge-sm').textContent  = D.aboutBadgeSubtext || '';
-    rankBadgeEl.style.display = '';
-  } else {
-    rankBadgeEl.style.display = 'none';
-  }
+  const rbEl=document.getElementById('rank-badge');
+  if(D.aboutBadgeText||D.aboutBadgeSubtext){
+    document.getElementById('rank-badge-big').textContent=D.aboutBadgeText||'';
+    document.getElementById('rank-badge-sm').textContent =D.aboutBadgeSubtext||'';
+    rbEl.style.display='';
+  } else { rbEl.style.display='none'; }
 
-  // skills
-  document.getElementById('skills-grid').innerHTML = D.skills.map((s, i) => `
+  // Skills
+  document.getElementById('skills-grid').innerHTML=D.skills.map((s,i)=>`
     <div class="skill-card reveal d${(i%3)+1}">
-      ${badgeHTML(s.badgeText, s.badgeColor)}
+      ${badgeHTML(s.badgeText,s.badgeColor)}
       <div class="skill-ico"><i class="fa-solid ${esc(s.icon)}"></i></div>
       <div class="skill-name">${esc(s.name)}</div>
       <div class="tag-row">${s.tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>
     </div>`).join('');
 
-  // experience
-  document.getElementById('exp-list').innerHTML = D.experience.map((e, i) => `
+  // Experience
+  document.getElementById('exp-list').innerHTML=D.experience.map((e,i)=>`
     <div class="tl-item reveal d${Math.min(i+1,3)}">
       <div class="tl-dot"></div>
       <div class="tl-card">
-        ${badgeHTML(e.badgeText, e.badgeColor)}
+        ${badgeHTML(e.badgeText,e.badgeColor)}
         <div class="tl-head">
-          ${e.chip ? `<span class="tl-chip">${esc(e.chip)}</span>` : ''}
-          <span class="tl-date">${esc(e.date)}${e.loc ? ' · ' + esc(e.loc) : ''}</span>
+          ${e.chip?`<span class="tl-chip">${esc(e.chip)}</span>`:''}
+          <span class="tl-date">${esc(e.date)}${e.loc?' · '+esc(e.loc):''}</span>
         </div>
         <div class="tl-role">${esc(e.role)}</div>
-        ${e.org ? `<div class="tl-org"><i class="fa-solid fa-building fa-2xs"></i>&nbsp; ${esc(e.org)}</div>` : ''}
-        ${e.desc ? `<p class="tl-desc">${esc(e.desc)}</p>` : ''}
-        ${e.resp.length ? `<ul class="tl-resp">${e.resp.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>` : ''}
+        ${e.org?`<div class="tl-org"><i class="fa-solid fa-building fa-2xs"></i>&nbsp; ${esc(e.org)}</div>`:''}
+        ${e.desc?`<p class="tl-desc">${esc(e.desc)}</p>`:''}
+        ${e.resp.length?`<ul class="tl-resp">${e.resp.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>`:''}
       </div>
     </div>`).join('');
 
-  // education
-  document.getElementById('edu-grid').innerHTML = D.education.map((e, i) => `
+  // Education
+  document.getElementById('edu-grid').innerHTML=D.education.map((e,i)=>`
     <div class="edu-card reveal d${(i%2)+1}">
-      ${badgeHTML(e.badgeText, e.badgeColor)}
+      ${badgeHTML(e.badgeText,e.badgeColor)}
       <div class="edu-lvl">${esc(e.level)}</div>
       <div class="edu-deg">${esc(e.degree)}</div>
-      ${e.inst ? `<div class="edu-inst">${esc(e.inst)}</div>` : ''}
+      ${e.inst?`<div class="edu-inst">${esc(e.inst)}</div>`:''}
       <div class="chip-row">
-        ${e.year ? `<span class="chip">${esc(e.year)}</span>` : ''}
-        ${e.cgpa ? `<span class="chip hi">${esc(e.cgpa)}</span>` : ''}
-        ${e.rank ? `<span class="chip">${esc(e.rank)}</span>` : ''}
+        ${e.year?`<span class="chip">${esc(e.year)}</span>`:''}
+        ${e.cgpa?`<span class="chip hi">${esc(e.cgpa)}</span>`:''}
+        ${e.rank?`<span class="chip">${esc(e.rank)}</span>`:''}
       </div>
     </div>`).join('');
 
-  // publications
-  document.getElementById('pub-list').innerHTML = D.publications.map((p, i) => {
-    const links = [];
-    if (p.doi) links.push(`<a class="pub-lnk" href="${esc(p.doi)}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i> View on IEEE</a>`);
-    if (p.pdf) links.push(`<a class="pub-lnk" href="${esc(p.pdf)}" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf fa-2xs"></i> Download PDF</a>`);
+  // Publications
+  document.getElementById('pub-list').innerHTML=D.publications.map((p,i)=>{
+    const links=[];
+    if(p.doi) links.push(`<a class="pub-lnk" href="${esc(p.doi)}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i> View on IEEE</a>`);
+    if(p.pdf) links.push(`<a class="pub-lnk" href="${esc(p.pdf)}" target="_blank" rel="noopener"><i class="fa-solid fa-file-pdf fa-2xs"></i> Download PDF</a>`);
     return `
     <div class="pub-card reveal">
-      ${badgeHTML(p.badgeText, p.badgeColor)}
+      ${badgeHTML(p.badgeText,p.badgeColor)}
       <div class="pub-meta">
         <span class="pub-badge ${esc(p.type)}">${esc(p.label)}</span>
-        ${p.year ? `<span class="pub-year">${esc(p.year)}</span>` : ''}
+        ${p.year?`<span class="pub-year">${esc(p.year)}</span>`:''}
       </div>
       <div class="pub-title">${esc(p.title)}</div>
-      ${p.authors ? `<div class="pub-authors">${esc(p.authors)}</div>` : ''}
-      ${p.venue ? `<div class="pub-venue">${esc(p.venue)}</div>` : ''}
-      ${p.abstract ? `
+      ${p.authors?`<div class="pub-authors">${esc(p.authors)}</div>`:''}
+      ${p.venue?`<div class="pub-venue">${esc(p.venue)}</div>`:''}
+      ${p.abstract?`
       <button class="pub-toggle" onclick="toggleAbstract(${i})">
         <i class="fa-solid fa-chevron-right" id="pub-ico-${i}"></i>
         <span id="pub-txt-${i}">Show Abstract</span>
       </button>
-      <div class="pub-abstract" id="pub-abs-${i}">${esc(p.abstract)}</div>` : ''}
-      ${links.length ? `<div class="pub-links">${links.join('')}</div>` : ''}
+      <div class="pub-abstract" id="pub-abs-${i}">${esc(p.abstract)}</div>`:''}
+      ${links.length?`<div class="pub-links">${links.join('')}</div>`:''}
     </div>`;
   }).join('');
 
-  // achievements
-  document.getElementById('achiev-grid').innerHTML = D.achievements.map(a => `
+  // Achievements
+  document.getElementById('achiev-grid').innerHTML=D.achievements.map(a=>`
     <div class="achiev-card reveal">
-      ${badgeHTML(a.badgeText, a.badgeColor)}
+      ${badgeHTML(a.badgeText,a.badgeColor)}
       <div class="achiev-icon">${a.icon}</div>
       <div class="achiev-title">${esc(a.title)}</div>
-      ${a.org ? `<div class="achiev-org">${esc(a.org)}</div>` : ''}
-      ${a.desc ? `<div class="achiev-desc">${esc(a.desc)}</div>` : ''}
+      ${a.org?`<div class="achiev-org">${esc(a.org)}</div>`:''}
+      ${a.desc?`<div class="achiev-desc">${esc(a.desc)}</div>`:''}
     </div>`).join('');
 
-  // youtube
-  document.getElementById('yt-channel').href = D.youtube;
-  document.getElementById('yt-grid').innerHTML = D.videos.map(v => `
+  // YouTube
+  document.getElementById('yt-channel').href=D.youtube;
+  document.getElementById('yt-grid').innerHTML=D.videos.map(v=>`
     <a class="yt-card reveal" href="https://www.youtube.com/watch?v=${esc(v.id)}" target="_blank" rel="noopener">
-      ${badgeHTML(v.badgeText, v.badgeColor)}
+      ${badgeHTML(v.badgeText,v.badgeColor)}
       <div class="yt-thumb">
-        <img src="https://img.youtube.com/vi/${esc(v.id)}/mqdefault.jpg" alt="${esc(v.title)}" loading="lazy" />
+        <img src="https://img.youtube.com/vi/${esc(v.id)}/mqdefault.jpg" alt="${esc(v.title)}" loading="lazy"/>
         <div class="yt-overlay"><i class="fa-brands fa-youtube"></i></div>
       </div>
       <div class="yt-body">
         <div class="yt-title">${esc(v.title)}</div>
-        ${v.desc ? `<div class="yt-desc">${esc(v.desc)}</div>` : ''}
+        ${v.desc?`<div class="yt-desc">${esc(v.desc)}</div>`:''}
       </div>
     </a>`).join('');
 
-  // contact
-  document.getElementById('cinfo-list').innerHTML = [
-    ['fa-envelope',     'Email',    D.email    ? `<a href="mailto:${esc(D.email)}">${esc(D.email)}</a>` : ''],
-    ['fa-phone',        'Phone',    D.phone    ? `<a href="tel:${esc(D.phone)}">${esc(D.phone)}</a>`    : ''],
-    ['fa-location-dot', 'Location', D.location ? esc(D.location) : ''],
-  ].filter(([,,val]) => val).map(([ico,lbl,val]) => `
+  // Contact
+  document.getElementById('cinfo-list').innerHTML=[
+    ['fa-envelope','Email',     D.email    ?`<a href="mailto:${esc(D.email)}">${esc(D.email)}</a>`:''],
+    ['fa-phone',   'Phone',     D.phone    ?`<a href="tel:${esc(D.phone)}">${esc(D.phone)}</a>`:''],
+    ['fa-location-dot','Location',D.location?esc(D.location):''],
+  ].filter(([,,v])=>v).map(([ico,lbl,val])=>`
     <div class="cinfo-item">
       <div class="cinfo-ico"><i class="fa-solid ${ico}"></i></div>
       <div><div class="cinfo-lbl">${lbl}</div><div class="cinfo-val">${val}</div></div>
     </div>`).join('');
 
-  document.getElementById('social-row').innerHTML = [
-    [D.linkedin, 'fa-brands fa-linkedin-in',   'LinkedIn'],
-    [D.scholar,  'fa-solid fa-graduation-cap', 'Scholar'],
-    [D.youtube,  'fa-brands fa-youtube',       'YouTube'],
-    [D.facebook, 'fa-brands fa-facebook-f',    'Facebook'],
-    [D.twitter,  'fa-brands fa-x-twitter',     'X'],
-  ].filter(([href]) => href && href !== '#').map(([href,icon,lbl]) =>
-    `<a class="soc-btn" href="${esc(href)}" target="_blank" rel="noopener"><i class="${icon}"></i> ${lbl}</a>`
-  ).join('');
+  document.getElementById('social-row').innerHTML=[
+    [D.linkedin,'fa-brands fa-linkedin-in',  'LinkedIn'],
+    [D.scholar, 'fa-solid fa-graduation-cap','Scholar'],
+    [D.youtube, 'fa-brands fa-youtube',      'YouTube'],
+    [D.facebook,'fa-brands fa-facebook-f',   'Facebook'],
+    [D.twitter, 'fa-brands fa-x-twitter',    'X'],
+  ].filter(([h])=>h&&h!=='#').map(([h,i,l])=>`<a class="soc-btn" href="${esc(h)}" target="_blank" rel="noopener"><i class="${i}"></i> ${l}</a>`).join('');
 
-  // footer
-  document.getElementById('footer-txt').innerHTML =
+  // Contact form action from settings
+  const fid=(D.settings&&D.settings.formspreeId)||'YOUR_FORM_ID';
+  document.getElementById('contact-form').action=`https://formspree.io/f/${fid}`;
+
+  // Footer
+  document.getElementById('footer-txt').innerHTML=
     `Designed & built by <a href="#">${esc(D.name)}</a> &nbsp;·&nbsp;
      <a href="${esc(D.resume)}" target="_blank" rel="noopener">Resume ↗</a><br/>
      © ${new Date().getFullYear()} · All Rights Reserved`;
 
-  // section visibility / order / custom sections / nav — always last,
-  // since it depends on every built-in section element already existing
+  // Nav & section visibility/order — always last
   applySectionsLayout(D);
 }
-
 
 /* ================================================================
    PUBLICATION ABSTRACT TOGGLE
    ================================================================ */
-function toggleAbstract(i) {
-  const abs  = document.getElementById(`pub-abs-${i}`);
-  const ico  = document.getElementById(`pub-ico-${i}`);
-  const txt  = document.getElementById(`pub-txt-${i}`);
-  const open = abs.classList.toggle('open');
-  ico.style.transform = open ? 'rotate(90deg)' : '';
-  txt.textContent     = open ? 'Hide Abstract' : 'Show Abstract';
+function toggleAbstract(i){
+  const abs=document.getElementById(`pub-abs-${i}`);
+  const ico=document.getElementById(`pub-ico-${i}`);
+  const txt=document.getElementById(`pub-txt-${i}`);
+  const open=abs.classList.toggle('open');
+  ico.style.transform=open?'rotate(90deg)':'';
+  txt.textContent=open?'Hide Abstract':'Show Abstract';
 }
 
+/* ================================================================
+   THEME CARD RENDERERS
+   ================================================================ */
+function renderProjectCard(item){
+  const tags=(item.tech_stack||'').split(',').map(t=>t.trim()).filter(Boolean);
+  const links=[];
+  if(item.github_url) links.push(`<a class="pub-lnk" href="${esc(item.github_url)}" target="_blank" rel="noopener"><i class="fa-brands fa-github fa-xs"></i> GitHub</a>`);
+  if(item.demo_url)   links.push(`<a class="pub-lnk" href="${esc(item.demo_url)}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i> Live Demo</a>`);
+  return `<div class="theme-card reveal">
+    ${item.image_url?`<a href="${esc(item.demo_url||item.github_url||'#')}" target="_blank" rel="noopener" class="tc-projects-img">
+      <img src="${esc(item.image_url)}" alt="${esc(item.title)}" loading="lazy"/>
+      <div class="tc-projects-overlay"><i class="fa-solid fa-arrow-up-right-from-square"></i></div></a>`:''}
+    ${badgeHTML(item.badge_text,item.badge_color)}
+    ${item.status?`<div class="tc-status-row"><span class="tc-chip">${esc(item.status)}</span></div>`:''}
+    <div class="tc-title">${esc(item.title||'')}</div>
+    ${item.subtitle?`<div class="tc-subtitle">${esc(item.subtitle)}</div>`:''}
+    ${tags.length?`<div class="tag-row" style="margin:8px 0">${tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
+    ${item.description?`<p class="tc-body">${esc(item.description)}</p>`:''}
+    ${links.length?`<div class="tc-links">${links.join('')}</div>`:''}
+  </div>`;
+}
+
+function renderTrainingCard(item){
+  const tags=(item.tags||'').split(',').map(t=>t.trim()).filter(Boolean);
+  return `<div class="theme-card reveal">
+    ${badgeHTML(item.badge_text,item.badge_color)}
+    <div class="tc-training-header">
+      <div class="tc-title">${esc(item.title||'')}</div>
+      ${item.date?`<span class="tc-chip" style="flex-shrink:0">${esc(item.date)}</span>`:''}
+    </div>
+    ${item.institution?`<div class="tc-training-inst"><i class="fa-solid fa-building-columns fa-xs"></i> ${esc(item.institution)}</div>`:''}
+    ${item.duration?`<div class="tc-training-dur"><i class="fa-regular fa-clock fa-xs"></i> ${esc(item.duration)}</div>`:''}
+    ${item.description?`<p class="tc-body">${esc(item.description)}</p>`:''}
+    ${tags.length?`<div class="tag-row">${tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
+    ${item.certificate_url?`<a class="tc-cert-link" href="${esc(item.certificate_url)}" target="_blank" rel="noopener"><i class="fa-solid fa-certificate fa-xs"></i> View Certificate</a>`:''}
+  </div>`;
+}
+
+function renderVoluntaryCard(item,idx){
+  const resp=(item.responsibilities||'').split('|').map(r=>r.trim()).filter(Boolean);
+  return `<div class="tl-item reveal d${Math.min((idx||0)+1,3)}">
+    <div class="tl-dot"></div>
+    <div class="tl-card">
+      ${badgeHTML(item.badge_text,item.badge_color)}
+      <div class="tl-head">
+        <span class="tl-chip">Voluntary</span>
+        <span class="tl-date">${esc(item.date||'')}${item.location?' · '+esc(item.location):''}</span>
+      </div>
+      <div class="tl-role">${esc(item.role||'')}</div>
+      ${item.organization?`<div class="tl-org"><i class="fa-solid fa-building fa-2xs"></i>&nbsp; ${esc(item.organization)}</div>`:''}
+      ${item.description?`<p class="tl-desc">${esc(item.description)}</p>`:''}
+      ${resp.length?`<ul class="tl-resp">${resp.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>`:''}
+    </div>
+  </div>`;
+}
+
+function renderExtracurricularCard(item){
+  const initial=(item.title||'?').charAt(0).toUpperCase();
+  return `<div class="theme-card reveal">
+    ${badgeHTML(item.badge_text,item.badge_color)}
+    <div class="tc-icon">${item.icon||initial}</div>
+    <div class="tc-title">${esc(item.title||'')}</div>
+    ${item.organization?`<div class="tc-subtitle-accent">${esc(item.organization)}</div>`:''}
+    ${item.date?`<div class="tc-muted" style="margin-bottom:8px">${esc(item.date)}</div>`:''}
+    ${item.description?`<div class="tc-body">${esc(item.description)}</div>`:''}
+  </div>`;
+}
+
+function renderCertificationCard(item){
+  const tags=(item.tags||'').split(',').map(t=>t.trim()).filter(Boolean);
+  const icon=item.icon||'🏅';
+  const noExpiry=!item.expiry_date&&item.issue_date;
+  return `<div class="theme-card reveal">
+    ${badgeHTML(item.badge_text,item.badge_color)}
+    <div class="tc-cert-top">
+      <div class="tc-cert-icon">${esc(icon)}</div>
+      <div style="min-width:0;flex:1">
+        <div class="tc-title" style="padding-right:0">${esc(item.title||'')}</div>
+        ${item.issuer?`<div class="tc-cert-issuer">${esc(item.issuer)}</div>`:''}
+        <div class="tc-cert-dates">${item.issue_date?esc(item.issue_date):''}${item.expiry_date?' → '+esc(item.expiry_date):(noExpiry?' · No Expiry':'')}</div>
+      </div>
+    </div>
+    ${item.description?`<p class="tc-body">${esc(item.description)}</p>`:''}
+    ${tags.length?`<div class="tag-row">${tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
+    ${item.credential_url?`<div style="margin-top:10px"><a class="pub-lnk" href="${esc(item.credential_url)}" target="_blank" rel="noopener"><i class="fa-solid fa-shield-halved fa-xs"></i> Verify Credential</a></div>`:''}
+  </div>`;
+}
+
+function renderAwardCard(item){
+  return `<div class="theme-card reveal">
+    ${badgeHTML(item.badge_text,item.badge_color)}
+    ${item.icon?`<div class="tc-icon">${esc(item.icon)}</div>`:''}
+    <div class="tc-title">${esc(item.title||'')}</div>
+    ${item.organization?`<div class="tc-subtitle-accent">${esc(item.organization)}</div>`:''}
+    ${item.year?`<span class="tc-chip" style="display:inline-block;margin-bottom:8px">${esc(item.year)}</span>`:''}
+    ${item.description?`<div class="tc-body">${esc(item.description)}</div>`:''}
+  </div>`;
+}
+
+function renderTestimonialCard(item){
+  const rating=Math.min(5,Math.max(0,parseInt(item.rating)||0));
+  const stars=rating?Array.from({length:5},(_,i)=>`<i class="fa-${i<rating?'solid':'regular'} fa-star"></i>`).join(''):'';
+  const initials=(item.author||'?').split(' ').map(n=>n[0]||'').join('').slice(0,2).toUpperCase();
+  return `<div class="theme-card reveal">
+    ${badgeHTML(item.badge_text,item.badge_color)}
+    <div>
+      <i class="fa-solid fa-quote-left tc-quote-ico"></i>
+      <p class="tc-quote-text">${esc(item.quote||'')}</p>
+    </div>
+    <div class="tc-testimonial-author">
+      ${item.avatar_url
+        ?`<img class="tc-avatar" src="${esc(item.avatar_url)}" alt="${esc(item.author)}" loading="lazy"/>`
+        :`<div class="tc-avatar tc-avatar-ph">${initials}</div>`}
+      <div style="flex:1;min-width:0">
+        <div class="tc-author-name">${esc(item.author||'')}</div>
+        <div class="tc-author-pos">${esc(item.position||'')}${item.company?', '+esc(item.company):''}</div>
+      </div>
+      ${stars?`<div class="tc-stars">${stars}</div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderCaseStudyCard(item){
+  const techTags=(item.tech_stack||'').split(',').map(t=>t.trim()).filter(Boolean);
+  const has3Col=item.problem||item.solution||item.result;
+  return `<div class="theme-card reveal">
+    ${item.image_url?`<div class="tc-case-img"><img src="${esc(item.image_url)}" alt="${esc(item.title)}" loading="lazy"/></div>`:''}
+    ${badgeHTML(item.badge_text,item.badge_color)}
+    <div class="tc-case-meta">
+      ${item.client?`<span class="tc-case-client">${esc(item.client)}</span>`:''}
+      ${item.year?`<span class="tc-chip">${esc(item.year)}</span>`:''}
+    </div>
+    <div class="tc-title">${esc(item.title||'')}</div>
+    ${item.role?`<span class="tc-case-role">${esc(item.role)}</span>`:''}
+    ${has3Col?`<div class="tc-case-3col">
+      ${item.problem?`<div class="tc-case-col"><div class="tc-case-col-h">Problem</div><div class="tc-case-col-t">${esc(item.problem)}</div></div>`:''}
+      ${item.solution?`<div class="tc-case-col"><div class="tc-case-col-h">Solution</div><div class="tc-case-col-t">${esc(item.solution)}</div></div>`:''}
+      ${item.result?`<div class="tc-case-col tc-case-result"><div class="tc-case-col-h">Result</div><div class="tc-case-col-t">${esc(item.result)}</div></div>`:''}
+    </div>`:''}
+    ${techTags.length?`<div class="tag-row">${techTags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`:''}
+  </div>`;
+}
+
+/** Generic card — uses fieldStyles to choose CSS class per field */
+function renderGenericCard(item,fieldStyles){
+  fieldStyles=fieldStyles||{};
+  const styl=(field,def)=>{ const s=fieldStyles[field]||def; return FS_CLASS_MAP[s]!==undefined?FS_CLASS_MAP[s]:null; };
+
+  let html=`<div class="theme-card reveal">${badgeHTML(item.badge_text||item.badge_text,item.badge_color||item.badge_color)}`;
+  if(item.icon) html+=`<div class="tc-icon">${esc(item.icon)}</div>`;
+  if(item.title){
+    const cls=styl('title','title');
+    if(cls!==null) html+=`<div class="${cls||'tc-title'}">${esc(item.title)}</div>`;
+  }
+  if(item.subtitle){
+    const cls=styl('subtitle','accent');
+    if(cls!==null) html+=`<div class="${cls||'tc-subtitle-accent'}">${esc(item.subtitle)}</div>`;
+  }
+  if(item.description){
+    const cls=styl('description','body');
+    if(cls!==null) html+=`<div class="${cls||'tc-body'}">${esc(item.description)}</div>`;
+  }
+  if(item.tags){
+    const tags=item.tags.split(',').map(t=>t.trim()).filter(Boolean);
+    if(tags.length) html+=`<div class="tag-row">${tags.map(t=>`<span class="tag">${esc(t)}</span>`).join('')}</div>`;
+  }
+  if(item.link_url&&item.link_label){
+    html+=`<div class="pub-links" style="margin-top:10px"><a class="pub-lnk" href="${esc(item.link_url)}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i> ${esc(item.link_label)}</a></div>`;
+  }
+  html+='</div>';
+  return html;
+}
 
 /* ================================================================
-   SECTIONS  — show/hide, reorder, and inject custom sections,
-   driven entirely by the "Sections" sheet (D.sections / D.custom)
+   SECTIONS  — visibility / order / custom section injection
    ================================================================ */
-function renderCustomSection(slug, displayName, items) {
-  const cards = items.map(it => {
-    const badge = badgeHTML(it.badge_text, it.badge_color);
-    const link  = (it.link_url && it.link_label)
-      ? `<div class="pub-links"><a class="pub-lnk" href="${esc(it.link_url)}" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square fa-2xs"></i> ${esc(it.link_label)}</a></div>`
-      : '';
-    return `
-      <div class="generic-card reveal">
-        ${badge}
-        ${it.title ? `<div class="generic-title">${esc(it.title)}</div>` : ''}
-        ${it.subtitle ? `<div class="generic-subtitle">${esc(it.subtitle)}</div>` : ''}
-        ${it.description ? `<div class="generic-desc">${esc(it.description)}</div>` : ''}
-        ${link}
-      </div>`;
-  }).join('');
+const BUILTIN_SECTION_IDS={
+  about:'about', skills:'skills', experience:'experience', education:'education',
+  publications:'publications', achievements:'achievements', videos:'videos', contact:'contact',
+};
+
+function isEnabled(val){
+  const v=(val||'yes').toString().toLowerCase().trim();
+  return v!=='no'&&v!=='false'&&v!=='0';
+}
+
+function renderCustomSection(sectionMeta,items){
+  const{section_key,display_name,eyebrow,theme,field_styles,card_layout}=sectionMeta;
+  const slug=section_key.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  const themeConf=SECTION_THEMES_FE[theme]||SECTION_THEMES_FE.generic;
+  const parsedFS=parseFieldStyles(field_styles||'');
+
+  // Resolve grid class
+  const validLayouts=['section-grid-3','section-grid-2','section-list','pub-list','tl'];
+  const gridClass=(card_layout&&validLayouts.includes(card_layout))?card_layout:themeConf.gridClass;
+
+  let inner;
+  if(themeConf.hasTimeline||gridClass==='tl'){
+    inner=`<div class="tl">${items.map((item,i)=>themeConf.renderer(item,i)).join('')}</div>`;
+  } else {
+    inner=`<div class="${gridClass}">${items.map(item=>themeConf.renderer(item,parsedFS)).join('')}</div>`;
+  }
 
   return `
     <section id="section-${slug}" data-custom-section="1">
       <div class="container">
-        <div class="eyebrow">Additional</div>
-        <h2 class="sec-title">${esc(displayName)}</h2>
-        <div class="generic-grid">${cards}</div>
+        ${eyebrow?`<div class="eyebrow">${esc(eyebrow)}</div>`:''}
+        <h2 class="sec-title">${esc(display_name||section_key)}</h2>
+        ${inner}
       </div>
     </section>`;
 }
 
-function isEnabled(val) {
-  const v = (val || 'yes').toString().toLowerCase().trim();
-  return v !== 'no' && v !== 'false' && v !== '0';
-}
+function applySectionsLayout(D){
+  // Remove previously injected custom sections
+  document.querySelectorAll('section[data-custom-section]').forEach(el=>el.remove());
 
-function applySectionsLayout(D) {
-  // remove any previously injected custom sections to avoid duplicates on re-render
-  document.querySelectorAll('section[data-custom-section]').forEach(el => el.remove());
+  const wrapper=document.getElementById('dynamic-sections');
+  const navItems=[];
 
-  const wrapper = document.getElementById('dynamic-sections');
-  const navItems = [];
-
-  const metaList = (D.sections && D.sections.length ? D.sections : DEFAULT_SECTIONS_META)
+  const metaList=(D.sections||[])
     .slice()
-    .sort((a, b) => (parseFloat(a.order) || 0) - (parseFloat(b.order) || 0));
+    .sort((a,b)=>(parseFloat(a.order)||0)-(parseFloat(b.order)||0));
 
-  metaList.forEach(s => {
-    const key     = (s.section_key || '').toString().trim();
-    const type    = (s.type || '').toString().toLowerCase().trim();
-    const order   = parseFloat(s.order) || 0;
-    const enabled = isEnabled(s.enabled);
-    const builtinId = BUILTIN_SECTION_IDS[key.toLowerCase()];
+  metaList.forEach(s=>{
+    const key=(s.section_key||'').toString().trim();
+    const order=parseFloat(s.order)||0;
+    const enabled=isEnabled(s.enabled);
+    const builtinId=BUILTIN_SECTION_IDS[key.toLowerCase()];
 
-    if (type !== 'custom' && builtinId) {
-      const el = document.getElementById(builtinId);
-      if (!el) return;
-      el.style.display = enabled ? '' : 'none';
-      el.style.order = order;
-      if (enabled) navItems.push({ href: `#${builtinId}`, label: s.display_name || key });
+    if(builtinId){
+      const el=document.getElementById(builtinId);
+      if(!el) return;
+      el.style.display=enabled?'':'none';
+      el.style.order=order;
+      if(enabled) navItems.push({href:`#${builtinId}`,label:s.display_name||key});
       return;
     }
 
-    // custom section
-    if (!enabled || !key) return;
-    const items = (D.custom && D.custom[key]) ? D.custom[key].slice() : [];
-    if (!items.length) return; // nothing to show — don't render an empty section
-    items.sort((a, b) => (parseFloat(a.order) || 0) - (parseFloat(b.order) || 0));
-    const slug = key.toLowerCase().replace(/[^a-z0-9]+/g, '-');
-    wrapper.insertAdjacentHTML('beforeend', renderCustomSection(slug, s.display_name || key, items));
-    const el = document.getElementById(`section-${slug}`);
-    if (el) el.style.order = order;
-    navItems.push({ href: `#section-${slug}`, label: s.display_name || key });
+    if(!enabled||!key) return;
+
+    // Look for custom data (case-insensitive key match)
+    const dataKey=key.toLowerCase();
+    const sectionData=(D.custom&&(D.custom[dataKey]||D.custom[key]))||[];
+    if(!sectionData.length) return;
+
+    const sorted=sectionData.slice().sort((a,b)=>(parseFloat(a.order)||0)-(parseFloat(b.order)||0));
+    const html=renderCustomSection(s,sorted);
+    wrapper.insertAdjacentHTML('beforeend',html);
+
+    const slug=key.toLowerCase().replace(/[^a-z0-9]+/g,'-');
+    const el=document.getElementById(`section-${slug}`);
+    if(el) el.style.order=order;
+    navItems.push({href:`#section-${slug}`,label:s.display_name||key});
   });
 
   renderNav(navItems);
-  initReveal(); // (re)observe any newly created .reveal nodes, including custom sections
+  initReveal();
 }
 
-function renderNav(navItems) {
-  const ul = document.getElementById('navLinks');
-  ul.innerHTML = navItems.map(n => `<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('') +
+function renderNav(navItems){
+  const ul=document.getElementById('navLinks');
+  ul.innerHTML=navItems.map(n=>`<li><a href="${n.href}">${esc(n.label)}</a></li>`).join('')+
     `<li><a href="#" class="nav-cv" id="nav-resume">Resume ↗</a></li>`;
-  document.getElementById('nav-resume').href = DATA.resume || '#';
-  NAV_SECTION_IDS = navItems.map(n => n.href.replace('#', ''));
-
-  ul.querySelectorAll('a:not(.nav-cv)').forEach(a => a.addEventListener('click', () => {
+  document.getElementById('nav-resume').href=DATA.resume||'#';
+  NAV_SECTION_IDS=navItems.map(n=>n.href.replace('#',''));
+  ul.querySelectorAll('a:not(.nav-cv)').forEach(a=>a.addEventListener('click',()=>{
     document.getElementById('hamburger').classList.remove('open');
     ul.classList.remove('open');
   }));
 }
 
-
 /* ================================================================
    CIRCUIT BOARD ANIMATION
-   canvasId: 'loader-canvas' during load, 'circuit-canvas' after
    ================================================================ */
-function initCircuit(canvasId) {
-  const canvas = document.getElementById(canvasId);
-  if (!canvas) return;
-  const ctx  = canvas.getContext('2d');
-  const G    = 64;    // grid size
-  let segs   = [];
-  let raf;
+function initCircuit(canvasId){
+  const canvas=document.getElementById(canvasId);
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
+  const G=64;
+  let segs=[],raf;
 
-  function resize() {
-    canvas.width  = canvas.offsetWidth  || window.innerWidth;
-    canvas.height = canvas.offsetHeight || window.innerHeight;
+  function resize(){
+    canvas.width=canvas.offsetWidth||window.innerWidth;
+    canvas.height=canvas.offsetHeight||window.innerHeight;
     build();
   }
-
-  function build() {
-    segs = [];
-    const cols = Math.ceil(canvas.width  / G) + 2;
-    const rows = Math.ceil(canvas.height / G) + 2;
-    const n    = Math.max(18, Math.floor(cols * rows * 0.18));
-    for (let i = 0; i < n; i++) {
-      const h  = Math.random() > 0.45;
-      const gx = Math.floor(Math.random() * cols) * G;
-      const gy = Math.floor(Math.random() * rows) * G;
-      const sp = (Math.floor(Math.random() * 3) + 1) * G;
-      segs.push({
-        x1: gx, y1: gy,
-        x2: h ? gx + sp : gx,
-        y2: h ? gy       : gy + sp,
-        t:  Math.random(),
-        spd: 0.003 + Math.random() * 0.006,
-        a:   0.45  + Math.random() * 0.55,
-        dot: Math.random() > 0.55,
-      });
+  function build(){
+    segs=[];
+    const cols=Math.ceil(canvas.width/G)+2, rows=Math.ceil(canvas.height/G)+2;
+    const n=Math.max(18,Math.floor(cols*rows*0.18));
+    for(let i=0;i<n;i++){
+      const h=Math.random()>.45;
+      const gx=Math.floor(Math.random()*cols)*G, gy=Math.floor(Math.random()*rows)*G;
+      const sp=(Math.floor(Math.random()*3)+1)*G;
+      segs.push({x1:gx,y1:gy,x2:h?gx+sp:gx,y2:h?gy:gy+sp,
+        t:Math.random(),spd:0.003+Math.random()*0.006,a:0.45+Math.random()*0.55,dot:Math.random()>.55});
     }
   }
-
-  function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (const s of segs) {
-      s.t = (s.t + s.spd) % 1;
-      // trace
-      ctx.beginPath(); ctx.moveTo(s.x1,s.y1); ctx.lineTo(s.x2,s.y2);
-      ctx.strokeStyle = `rgba(${CIRCUIT_RGB},.07)`; ctx.lineWidth = 1; ctx.stroke();
-      // node dot
-      if (s.dot) {
-        ctx.beginPath(); ctx.arc(s.x1,s.y1,2.5,0,Math.PI*2);
-        ctx.fillStyle = `rgba(${CIRCUIT_RGB},.13)`; ctx.fill();
-      }
-      // pulse glow
-      const px = s.x1 + (s.x2-s.x1)*s.t;
-      const py = s.y1 + (s.y2-s.y1)*s.t;
-      const g  = ctx.createRadialGradient(px,py,0,px,py,20);
-      g.addColorStop(0,   `rgba(${CIRCUIT_RGB},${(s.a*.6).toFixed(2)})`);
-      g.addColorStop(0.5, `rgba(${CIRCUIT_RGB},${(s.a*.15).toFixed(2)})`);
-      g.addColorStop(1,   `rgba(${CIRCUIT_RGB},0)`);
-      ctx.beginPath(); ctx.arc(px,py,20,0,Math.PI*2);
-      ctx.fillStyle = g; ctx.fill();
-      // core dot
-      ctx.beginPath(); ctx.arc(px,py,2,0,Math.PI*2);
-      ctx.fillStyle = `rgba(${CIRCUIT_RGB},${s.a.toFixed(2)})`; ctx.fill();
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for(const s of segs){
+      s.t=(s.t+s.spd)%1;
+      ctx.beginPath();ctx.moveTo(s.x1,s.y1);ctx.lineTo(s.x2,s.y2);
+      ctx.strokeStyle=`rgba(${CIRCUIT_RGB},.07)`;ctx.lineWidth=1;ctx.stroke();
+      if(s.dot){ctx.beginPath();ctx.arc(s.x1,s.y1,2.5,0,Math.PI*2);ctx.fillStyle=`rgba(${CIRCUIT_RGB},.13)`;ctx.fill();}
+      const px=s.x1+(s.x2-s.x1)*s.t, py=s.y1+(s.y2-s.y1)*s.t;
+      const g=ctx.createRadialGradient(px,py,0,px,py,20);
+      g.addColorStop(0,`rgba(${CIRCUIT_RGB},${(s.a*.6).toFixed(2)})`);
+      g.addColorStop(.5,`rgba(${CIRCUIT_RGB},${(s.a*.15).toFixed(2)})`);
+      g.addColorStop(1,`rgba(${CIRCUIT_RGB},0)`);
+      ctx.beginPath();ctx.arc(px,py,20,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();
+      ctx.beginPath();ctx.arc(px,py,2,0,Math.PI*2);ctx.fillStyle=`rgba(${CIRCUIT_RGB},${s.a.toFixed(2)})`;ctx.fill();
     }
-    raf = requestAnimationFrame(draw);
+    raf=requestAnimationFrame(draw);
   }
-
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) cancelAnimationFrame(raf); else draw();
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden) cancelAnimationFrame(raf); else draw();
   });
-
   resize();
-  window.addEventListener('resize', resize);
+  window.addEventListener('resize',resize);
   draw();
-  return () => cancelAnimationFrame(raf);   // returns a stop fn
+  return ()=>cancelAnimationFrame(raf);
 }
-
 
 /* ================================================================
    SCROLL REVEAL
    ================================================================ */
-function initReveal() {
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal:not(.in)').forEach(el => io.observe(el));
+function initReveal(){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+  },{threshold:0.1});
+  document.querySelectorAll('.reveal:not(.in)').forEach(el=>io.observe(el));
 }
 
-
 /* ================================================================
-   NAV — scroll-spy + hamburger  (section list comes from NAV_SECTION_IDS,
-   which is refreshed by renderNav() every time data loads)
+   NAV — scroll-spy + hamburger
    ================================================================ */
-function initNav() {
-  const nav  = document.getElementById('nav');
-  const ham  = document.getElementById('hamburger');
-  const menu = document.getElementById('navLinks');
-
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 50);
-    let cur = '';
-    NAV_SECTION_IDS.forEach(id => {
-      const el = document.getElementById(id);
-      if (el && el.style.display !== 'none' && window.scrollY >= el.offsetTop - 130) cur = id;
+function initNav(){
+  const nav=document.getElementById('nav');
+  const ham=document.getElementById('hamburger');
+  const menu=document.getElementById('navLinks');
+  window.addEventListener('scroll',()=>{
+    nav.classList.toggle('scrolled',window.scrollY>50);
+    let cur='';
+    NAV_SECTION_IDS.forEach(id=>{
+      const el=document.getElementById(id);
+      if(el&&el.style.display!=='none'&&window.scrollY>=el.offsetTop-130) cur=id;
     });
-    document.querySelectorAll('#navLinks a:not(.nav-cv)').forEach(a =>
-      a.classList.toggle('active', a.getAttribute('href') === `#${cur}`)
+    document.querySelectorAll('#navLinks a:not(.nav-cv)').forEach(a=>
+      a.classList.toggle('active',a.getAttribute('href')===`#${cur}`)
     );
-  }, { passive: true });
-
-  ham.addEventListener('click', () => {
-    ham.classList.toggle('open');
-    menu.classList.toggle('open');
-  });
+  },{passive:true});
+  ham.addEventListener('click',()=>{ham.classList.toggle('open');menu.classList.toggle('open');});
 }
 
+/* ================================================================
+   BACK TO TOP
+   ================================================================ */
+function initBackToTop(){
+  const btn=document.getElementById('back-to-top');
+  window.addEventListener('scroll',()=>btn.classList.toggle('visible',window.scrollY>400),{passive:true});
+  btn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+}
 
 /* ================================================================
-   CONTACT FORM — feedback if Formspree not configured
+   READING PROGRESS BAR
    ================================================================ */
-function initForm() {
-  const form = document.getElementById('contact-form');
-  const btn  = form.querySelector('.f-btn');
-  form.addEventListener('submit', e => {
-    if (form.action.includes('YOUR_FORM_ID')) {
+function initProgressBar(){
+  const bar=document.getElementById('reading-progress');
+  window.addEventListener('scroll',()=>{
+    const h=document.documentElement;
+    const pct=(h.scrollTop/(h.scrollHeight-h.clientHeight))*100;
+    bar.style.width=`${Math.min(100,pct)}%`;
+  },{passive:true});
+}
+
+/* ================================================================
+   CONTACT FORM  — warn if Formspree not configured
+   ================================================================ */
+function initForm(){
+  const form=document.getElementById('contact-form');
+  const btn=form.querySelector('.f-btn');
+  form.addEventListener('submit',e=>{
+    if(form.action.includes('YOUR_FORM_ID')){
       e.preventDefault();
-      btn.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Set up Formspree first — see README';
-      btn.style.background = 'var(--gold)';
-      setTimeout(() => {
-        btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Send Message';
-        btn.style.background = '';
-      }, 3500);
+      btn.innerHTML='<i class="fa-solid fa-triangle-exclamation"></i> Set up Formspree in Settings tab';
+      btn.style.background='var(--gold)';
+      setTimeout(()=>{btn.innerHTML='<i class="fa-solid fa-paper-plane"></i> Send Message';btn.style.background='';},3500);
     }
   });
 }
 
-
 /* ================================================================
-   BOOT  — renders immediately, then refreshes from Sheet silently
+   BOOT
    ================================================================ */
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded',async()=>{
+  const noMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* ── Step 1: Render with fallback data RIGHT NOW ── */
-  DATA = FALLBACK_DATA;
+  // Step 1: Render with fallback data immediately
+  DATA=FALLBACK_DATA;
   render();
-  if (!noMotion) initCircuit('circuit-canvas');
+
+  if(!noMotion&&DATA.settings.circuitAnimation!==false) initCircuit('circuit-canvas');
   initNav();
   initForm();
+  initBackToTop();
+  initProgressBar();
 
-  /* ── Step 2: If Sheet URL is configured, fetch in the background ── */
-  const sheetReady = SHEET_API_URL && !SHEET_API_URL.includes('YOUR_APPS_SCRIPT');
-  if (!sheetReady) return;   // no URL set — fallback data is all we need
+  // Step 2: Silently refresh from Sheet
+  const sheetReady=SHEET_API_URL&&!SHEET_API_URL.includes('YOUR_APPS_SCRIPT');
+  if(!sheetReady) return;
 
-  try {
-    const raw = await fetchData();
-    DATA = transformData(raw);
-    render();         // silently re-render with fresh Sheet data (re-applies theme + sections too)
-  } catch (err) {
-    // Sheet fetch failed — fallback data already visible, nothing breaks
-    console.warn('[Portfolio] Sheet refresh failed (showing cached data):', err.message);
+  try{
+    const raw=await fetchData();
+    DATA=transformData(raw);
+    render();
+    // Restart circuit with potentially new primary colour
+    if(!noMotion&&DATA.settings.circuitAnimation!==false){
+      const c=document.getElementById('circuit-canvas');
+      if(c) c.style.display='';
+    } else if(DATA.settings&&DATA.settings.circuitAnimation===false){
+      const c=document.getElementById('circuit-canvas');
+      if(c) c.style.display='none';
+    }
+  } catch(err){
+    console.warn('[Portfolio] Sheet refresh failed (showing fallback):', err.message);
   }
 });
-
 </script>
 </body>
 </html>
