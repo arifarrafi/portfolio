@@ -796,6 +796,23 @@ function hideLoader(){
   ls.classList.add('ls-fade');
   setTimeout(()=>ls.classList.add('ls-hidden'), 680);
 }
+
+/* ── Favicon — auto-set from profile photo ──────────────── */
+function setFavicon(photoUrl) {
+  if (!photoUrl) return;
+  const url = resolveGDriveUrl(photoUrl);  // converts Drive share link → direct URL
+  ['icon', 'shortcut icon', 'apple-touch-icon'].forEach(rel => {
+    let el = document.querySelector(`link[rel="${rel}"]`);
+    if (!el) {
+      el = document.createElement('link');
+      el.rel  = rel;
+      document.head.appendChild(el);
+    }
+    el.type = 'image/jpeg';
+    el.href = url + '=s64';  // =s64 requests a 64px thumbnail — ideal favicon size
+  });
+}
+  
 function isHex6(str){ return /^#?[0-9a-fA-F]{6}$/.test((str||'').trim()); }
 function normHex(str){ const t=str.trim(); return t.startsWith('#')?t:'#'+t; }
 function hexToRgbStr(hex){
@@ -1026,6 +1043,7 @@ function render(){
   const D=DATA;
   applySettings(D.settings);
   applySEO(D.settings);
+  setFavicon(D.photo);
 
   // Page title
   document.title=`${D.name} – Portfolio`;
