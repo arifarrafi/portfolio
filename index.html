@@ -372,6 +372,41 @@ body[data-card-hover="border"] .theme-card:hover{border-color:var(--cyan)}
 .d4{transition-delay:.32s}.d5{transition-delay:.40s}.d6{transition-delay:.48s}
 
 /* ================================================================
+   LOADING SCREEN
+   ================================================================ */
+#loading-screen{position:fixed;inset:0;z-index:9999;background:var(--navy);display:flex;align-items:center;justify-content:center;transition:opacity .65s ease}
+#loading-screen.ls-fade{opacity:0;pointer-events:none}
+#loading-screen.ls-hidden{display:none!important}
+#ls-bg-canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.3;pointer-events:none}
+.ls-card{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;max-width:380px;padding:24px}
+/* Gears */
+.ls-gears{position:relative;width:116px;height:86px;margin-bottom:36px}
+.ls-g1{position:absolute;left:0;top:0;font-size:4rem;color:var(--cyan);filter:drop-shadow(0 0 14px rgba(var(--cyan-rgb),.55));animation:ls-cw 3s linear infinite}
+.ls-g2{position:absolute;right:0;top:16px;font-size:2.2rem;color:var(--gold);filter:drop-shadow(0 0 10px rgba(var(--gold-rgb),.45));animation:ls-ccw 2s linear infinite}
+.ls-g3{position:absolute;left:52px;top:52px;font-size:1.1rem;color:rgba(var(--cyan-rgb),.3);animation:ls-cw 5s linear infinite}
+/* Alternate state icons */
+.ls-icon-alt{font-size:4rem;margin-bottom:36px}
+.ls-icon-alt.ls-error{color:#F87171;animation:ls-pulse 2s ease-in-out infinite}
+.ls-icon-alt.ls-warn{color:var(--gold);animation:ls-float 3s ease-in-out infinite}
+/* Text */
+.ls-title{font-family:var(--font-heading);font-size:1.65rem;font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:8px}
+.ls-sub{font-family:var(--font-mono);font-size:.68rem;color:var(--text-dim);letter-spacing:.12em;text-transform:uppercase;line-height:1.7;margin-bottom:22px;max-width:290px}
+/* Dots */
+.ls-dots{display:flex;gap:8px;margin-bottom:28px}
+.ls-dots span{width:7px;height:7px;background:var(--cyan);border-radius:50%;opacity:.25;animation:ls-dot 1.4s ease-in-out infinite}
+.ls-dots span:nth-child(2){animation-delay:.22s}
+.ls-dots span:nth-child(3){animation-delay:.44s}
+/* Retry button */
+.ls-retry-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;background:rgba(var(--cyan-rgb),.08);border:1px solid rgba(var(--cyan-rgb),.35);border-radius:8px;color:var(--cyan);font-family:var(--font-mono);font-size:.76rem;cursor:pointer;transition:all .3s ease}
+.ls-retry-btn:hover{background:rgba(var(--cyan-rgb),.18)}
+/* Keyframes */
+@keyframes ls-cw  {to{transform:rotate(360deg)}}
+@keyframes ls-ccw {to{transform:rotate(-360deg)}}
+@keyframes ls-dot {0%,100%{opacity:.2;transform:scale(.75)} 50%{opacity:1;transform:scale(1)}}
+@keyframes ls-pulse{0%,100%{opacity:.65} 50%{opacity:1}}
+@keyframes ls-float{0%,100%{transform:translateY(0)} 50%{transform:translateY(-9px)}}
+
+/* ================================================================
    RESPONSIVE
    ================================================================ */
 @media(max-width:900px){
@@ -396,6 +431,45 @@ body[data-card-hover="border"] .theme-card:hover{border-color:var(--cyan)}
 </style>
 </head>
 <body data-card-hover="lift">
+
+<!-- =========================================================
+     LOADING SCREEN  — visible until Sheet data loads
+     ========================================================= -->
+<div id="loading-screen">
+  <canvas id="ls-bg-canvas"></canvas>
+  <div class="ls-card">
+
+    <!-- State: loading (default) -->
+    <div id="ls-icon-loading" class="ls-gears">
+      <i class="fa-solid fa-gear ls-g1"></i>
+      <i class="fa-solid fa-gear ls-g2"></i>
+      <i class="fa-solid fa-gear ls-g3"></i>
+    </div>
+
+    <!-- State: error -->
+    <div id="ls-icon-error" class="ls-icon-alt ls-error" style="display:none">
+      <i class="fa-solid fa-circle-xmark"></i>
+    </div>
+
+    <!-- State: unconfigured / coming soon -->
+    <div id="ls-icon-uncfg" class="ls-icon-alt ls-warn" style="display:none">
+      <i class="fa-solid fa-hammer"></i>
+    </div>
+
+    <div class="ls-title" id="ls-title">Loading Portfolio</div>
+    <div class="ls-sub"  id="ls-sub">Fetching the latest data…</div>
+
+    <div class="ls-dots" id="ls-dots">
+      <span></span><span></span><span></span>
+    </div>
+
+    <button class="ls-retry-btn" id="ls-retry"
+            onclick="location.reload()" style="display:none">
+      <i class="fa-solid fa-rotate-right"></i> Retry
+    </button>
+
+  </div>
+</div>
 
 <!-- Reading Progress Bar -->
 <div id="reading-progress"></div>
@@ -586,7 +660,7 @@ body[data-card-hover="border"] .theme-card:hover{border-color:var(--cyan)}
 /* ================================================================
    CONFIG
    ================================================================ */
-const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbwjVwqBz4VBKuaj4eY2vVrjBtEe0nCTYUHuw_3yJ96dWPpvsPV8mrC-bzIpHbrKMyy1UA/exec';
+const SHEET_API_URL = 'https://script.google.com/macros/s/AKfycbzCNaIRNP-bx2CehF5xTlh96umKOVj0In0LQjnienpIeegUlLHSlwVPsRVIgMkBCagG/exec';
 
 /* ================================================================
    SECTION THEMES  — frontend rendering config
@@ -605,10 +679,12 @@ const SECTION_THEMES_FE = {
 };
 
 /* ================================================================
-   FALLBACK DATA  — shown immediately; updated silently when Sheet loads
+   FALLBACK DATA  — structural defaults ONLY, no personal content.
+   Personal data must come from the Google Sheet. This prevents any
+   previous owner's data from flashing for users who copy this template.
    ================================================================ */
 const FALLBACK_DATA = {
-  settings: {
+  settings:{
     colorPrimary:'#0EA5E9', colorAccent:'#F0A500', colorBackground:'#0B1829',
     colorText:'#E8F0FE', colorTextMuted:'#7EADD4',
     fontHeading:'Space Grotesk', fontBody:'Inter', fontMono:'JetBrains Mono',
@@ -616,87 +692,25 @@ const FALLBACK_DATA = {
     circuitAnimation:true, scrollAnimations:true, cardHover:'lift',
     formspreeId:'YOUR_FORM_ID', seoDescription:'', seoKeywords:'', ogImage:'',
   },
-  name:'Md. Arif Ar Rafi', title:'Lecturer · ECE Engineer · IEEE Researcher',
-  tagline:'Shaping tomorrow\'s engineers through research-driven teaching in Electronics & Communication.',
-  quote:'In the journey of learning new things, I am more focused on how I am learning rather than what I am learning.',
-  bio:'I hold both a Master\'s and Bachelor\'s degree in Electronics and Communication Engineering (ECE) from Khulna University — graduating 1st in class for M.Sc. with a CGPA of 3.98/4.00. Currently joining as a Lecturer at a university, I am committed to bridging rigorous academic research with practical, applied engineering education. My research focus spans renewable energy-based hybrid microgrids, embedded systems, and IoT.',
-  email:'rafi.ku.ece@gmail.com', phone:'+8801759-793558', location:'Dhaka Cantonment, Dhaka-1206, Bangladesh',
-  photo:'', resume:'https://drive.google.com/uc?export=download&id=1F-bzqDId2aYOlYBjmPXD5CRGi_O6_ayC',
-  linkedin:'https://www.linkedin.com/in/rafi170911', scholar:'https://scholar.google.com/citations?user=kGHEA-UAAAAJ&hl=en',
-  facebook:'https://www.facebook.com/rafi170911', twitter:'https://x.com/rafi170911',
-  youtube:'https://www.youtube.com/@eAcademy97',
-  aboutBadgeText:'1st', aboutBadgeSubtext:'M.SC RANK',
-  aboutInfo:[
-    {label:'Degree',value:'M.Sc. Engg. in ECE'},{label:'University',value:'Khulna University'},
-    {label:'CGPA',value:'3.98 / 4.00 (1st in Class)'},{label:'Email',value:'rafi.ku.ece@gmail.com'},
-    {label:'Location',value:'Dhaka, Bangladesh'},{label:'Status',value:'Open to Collaboration'},
-  ],
-  skills:[
-    {icon:'fa-code',name:'Programming & Scripting',tags:['Python','C/C++','MATLAB','Google Apps Script','JavaScript','HTML/CSS'],badgeText:'',badgeColor:''},
-    {icon:'fa-microchip',name:'Embedded Systems & IoT',tags:['Arduino','ESP32','Raspberry Pi','Wokwi Simulator','Sensor Interfacing','IoT Automation'],badgeText:'',badgeColor:''},
-    {icon:'fa-bolt',name:'Power & Energy Systems',tags:['HOMER Pro','Microgrid Design','PV-Wind Systems','MATLAB Simulink','Renewable Energy'],badgeText:'',badgeColor:''},
-    {icon:'fa-table-columns',name:'Office & Productivity',tags:['MS Office Suite','Google Workspace','Excel Dashboards','LaTeX','Document Automation'],badgeText:'',badgeColor:''},
-    {icon:'fa-wave-square',name:'Electronics & Circuits',tags:['Circuit Analysis','Semiconductors','Signal Processing','Digital Logic','PCB Basics'],badgeText:'',badgeColor:''},
-    {icon:'fa-film',name:'Content & Media',tags:['Motion Graphics','Educational Video','YouTube Production','Scientific Illustration'],badgeText:'',badgeColor:''},
-  ],
-  experience:[
-    {role:'Lecturer',chip:'Academia',org:'University (Joining)',date:'2025 – Present',loc:'Bangladesh',
-     desc:'Newly appointed Lecturer in Electronics & Communication Engineering.',
-     resp:['Conducting lectures in core ECE subjects.','Designing course materials and lab exercises.','Mentoring final-year project groups.'],badgeText:'',badgeColor:''},
-    {role:'IT Officer (Asst. Maintenance Engineer)',chip:'Govt. ICT Project',org:'Ministry of Defense, Bangladesh',date:'Mar 2024 – Present',loc:'Dhaka Cantonment',
-     desc:'Working on a Government ICT infrastructure project.',
-     resp:['Supervising assessment of all technical materials.','Attending customer meetings.','Handling customer requests and complaints.'],badgeText:'',badgeColor:''},
-    {role:'Industrial Attachment Trainee',chip:'Industry Training',org:'Grameenphone Ltd.',date:'Dec 2019 – Jan 2020',loc:'Khulna Circle Office',
-     desc:'21-day training in Regional Operations, Technology Division.',
-     resp:['Site visit to Khulna base station server room.','Observing power management and network security systems.'],badgeText:'',badgeColor:''},
-  ],
-  education:[
-    {level:'Postgraduate',degree:'M.Sc. Engg. in ECE',inst:'Khulna University',year:'2020–2021',cgpa:'CGPA 3.98 / 4.00',rank:'Rank: 1st',badgeText:'🥇 Rank 1st',badgeColor:'gold'},
-    {level:'Undergraduate',degree:'B.Sc. Engg. in ECE',inst:'Khulna University',year:'2016–2017',cgpa:'CGPA 3.65 / 4.00',rank:'Rank: 3rd',badgeText:'🥉 Rank 3rd',badgeColor:'bronze'},
-    {level:'Higher Secondary',degree:'HSC — Science',inst:'Keshabpur Higher Secondary School, Jashore',year:'2014–2015',cgpa:'GPA 5.00 / 5.00',rank:'',badgeText:'',badgeColor:''},
-    {level:'Secondary',degree:'SSC — Science',inst:'Mulgram Secondary School, Jashore',year:'2012–2013',cgpa:'GPA 5.00 / 5.00',rank:'',badgeText:'',badgeColor:''},
-  ],
-  publications:[
-    {type:'jnl',label:'IEEE Journal',year:'2021',
-     title:'Renewable Energy-based Hybrid Microgrid for Economically Effective Coastal Electrification',authors:'',
-     venue:'IEEE Transactions on Applied Superconductivity, Vol. 31, Issue 8, November 2021',
-     abstract:'This study proposes a hybrid microgrid comprising renewable energy sources, a natural gas generator, battery storage, and an EV charging station for two coastal areas of Bangladesh. Using HOMER Pro optimization, the winning configuration achieved a cost of energy of $0.157/kWh.',
-     doi:'https://doi.org/10.1109/TASC.2021.3089118',pdf:'https://drive.google.com/uc?export=download&id=1KpsJbZCTc-icTJMtV7y0khuS9mEplHr9',badgeText:'',badgeColor:''},
-    {type:'conf',label:'IEEE Conference',year:'2020',
-     title:'Hybrid AC/DC Microgrid Modelling for Affordable Rural Electrification',authors:'',
-     venue:'2020 IEEE International Conference on Applied Superconductivity and Electromagnetic Devices (ASEMD)',
-     abstract:'A PV-Wind-Battery-Gas connected hybrid AC/DC microgrid architecture is proposed for two remotely located rural areas of Bangladesh.',
-     doi:'https://doi.org/10.1109/ASEMD49065.2020.9276112',pdf:'https://drive.google.com/uc?export=download&id=1KuRs708X91DGemCsbTHVHEu0hX0cT4VT',badgeText:'',badgeColor:''},
-  ],
-  achievements:[
-    {icon:'🏛️',title:'NST Fellowship 2024',org:'Ministry of Science & Technology, Bangladesh',desc:'National Science & Technology (NST) Fellowship 2024 — Physical Science group. Merit Serial: 917.',badgeText:'',badgeColor:''},
-    {icon:'➗',title:'Math Olympiad 2016',org:'Bangladesh Mathematical Olympiad Committee',desc:'Participated in the 14th Bangladesh Mathematical Olympiad in Jashore (Reg. No: 19038).',badgeText:'',badgeColor:''},
-    {icon:'🏆',title:'Best Talent Award',org:'Government of Bangladesh',desc:'Upazilla Level Best Talent at the Creative Talent Search Competition 2015 in Mathematics & Computer.',badgeText:'🏅 Best Talent',badgeColor:'purple'},
-    {icon:'⚡',title:'Scout Power Camp',org:'Power Division & Bangladesh Scouts',desc:'Participated in a 3-day Power Camp for Scouts and Rover Scouts in Keshabpur, Jashore (2012).',badgeText:'',badgeColor:''},
-    {icon:'📊',title:'Poster Presentation',org:'Rajshahi University Education Club',desc:'Participated in the Wearix Poster Presentation Competition 2024 at Rajshahi University.',badgeText:'',badgeColor:''},
-  ],
-  videos:[
-    {id:'VhTRfdsUMuQ',title:'Cinematic Intro with Motion Graphics',desc:'Eye-catchy YouTube video intro with cinematic motion graphics.',badgeText:'',badgeColor:''},
-    {id:'C07dyAn5UWw',title:'Renewable Microgrid System Explained',desc:'Easiest way to learn the operation of a renewable energy microgrid system.',badgeText:'',badgeColor:''},
-    {id:'yyFgEHZNT0A',title:'3×3 Matrix Multiplication Animated',desc:'Step-by-step animated breakdown of 3×3 matrix multiplication.',badgeText:'',badgeColor:''},
-  ],
+  /* ── All personal fields intentionally empty ── */
+  name:'', title:'', tagline:'', quote:'', bio:'',
+  email:'', phone:'', location:'', photo:'', resume:'#',
+  linkedin:'#', scholar:'#', facebook:'#', twitter:'#', youtube:'#',
+  aboutBadgeText:'', aboutBadgeSubtext:'',
+  aboutInfo:[], skills:[], experience:[], education:[],
+  publications:[], achievements:[], videos:[],
+  /* ── Default section order (no custom sections) ── */
   sections:[
-    {section_key:'about',        display_name:'About',        eyebrow:'Who I Am',           type:'builtin',enabled:'yes',order:'10', theme:'',field_styles:'',card_layout:''},
-    {section_key:'skills',       display_name:'Skills',       eyebrow:'Competencies',        type:'builtin',enabled:'yes',order:'20', theme:'',field_styles:'',card_layout:''},
-    {section_key:'experience',   display_name:'Experience',   eyebrow:'Career',              type:'builtin',enabled:'yes',order:'30', theme:'',field_styles:'',card_layout:''},
-    {section_key:'education',    display_name:'Education',    eyebrow:'Academic Background', type:'builtin',enabled:'yes',order:'40', theme:'',field_styles:'',card_layout:''},
-    {section_key:'publications', display_name:'Research',     eyebrow:'Research',            type:'builtin',enabled:'yes',order:'50', theme:'',field_styles:'',card_layout:''},
-    {section_key:'achievements', display_name:'Achievements', eyebrow:'Recognition',         type:'builtin',enabled:'yes',order:'60', theme:'',field_styles:'',card_layout:''},
-    {section_key:'videos',       display_name:'Videos',       eyebrow:'Educational Content', type:'builtin',enabled:'yes',order:'70', theme:'',field_styles:'',card_layout:''},
-    {section_key:'languages',    display_name:'Languages',    eyebrow:'Communication',       type:'custom', enabled:'yes',order:'75', theme:'generic',field_styles:'icon=hidden|subtitle=accent',card_layout:'section-grid-2'},
-    {section_key:'contact',      display_name:'Contact',      eyebrow:'Get In Touch',        type:'builtin',enabled:'yes',order:'80', theme:'',field_styles:'',card_layout:''},
+    {section_key:'about',        display_name:'About',        eyebrow:'Who I Am',           type:'builtin',enabled:'yes',order:'10',theme:'',field_styles:'',card_layout:''},
+    {section_key:'skills',       display_name:'Skills',       eyebrow:'Competencies',        type:'builtin',enabled:'yes',order:'20',theme:'',field_styles:'',card_layout:''},
+    {section_key:'experience',   display_name:'Experience',   eyebrow:'Career',              type:'builtin',enabled:'yes',order:'30',theme:'',field_styles:'',card_layout:''},
+    {section_key:'education',    display_name:'Education',    eyebrow:'Academic Background', type:'builtin',enabled:'yes',order:'40',theme:'',field_styles:'',card_layout:''},
+    {section_key:'publications', display_name:'Research',     eyebrow:'Research',            type:'builtin',enabled:'yes',order:'50',theme:'',field_styles:'',card_layout:''},
+    {section_key:'achievements', display_name:'Achievements', eyebrow:'Recognition',         type:'builtin',enabled:'yes',order:'60',theme:'',field_styles:'',card_layout:''},
+    {section_key:'videos',       display_name:'Videos',       eyebrow:'Educational Content', type:'builtin',enabled:'yes',order:'70',theme:'',field_styles:'',card_layout:''},
+    {section_key:'contact',      display_name:'Contact',      eyebrow:'Get In Touch',        type:'builtin',enabled:'yes',order:'80',theme:'',field_styles:'',card_layout:''},
   ],
-  custom:{
-    languages:[
-      {icon:'🇧🇩',title:'Bengali',subtitle:'Native',description:'Mother tongue — spoken, written, and formal academic use.',tags:'',link_label:'',link_url:'',badge_text:'',badge_color:''},
-      {icon:'🇬🇧',title:'English',subtitle:'Professional Proficiency',description:'Used for teaching, research writing, and all IEEE publications.',tags:'IEEE, Academic',link_label:'',link_url:'',badge_text:'',badge_color:''},
-    ],
-  },
+  custom:{},
 };
 
 /* ================================================================
@@ -726,6 +740,61 @@ function esc(str){
   return String(str==null?'':str)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+/**
+ * Converts any Google Drive sharing URL into a direct image URL.
+ * Handles: /file/d/ID/view  |  open?id=ID  |  uc?id=ID  |  thumbnail?id=ID
+ * Non-Drive URLs are returned unchanged.
+ */
+function resolveGDriveUrl(url){
+  if(!url) return url;
+  const s=url.toString().trim();
+  let m;
+  m=s.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/);           if(m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+  m=s.match(/drive\.google\.com\/open\?(?:.*&)?id=([a-zA-Z0-9_-]+)/);   if(m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+  m=s.match(/drive\.google\.com\/uc\?(?:.*&)?id=([a-zA-Z0-9_-]+)/);     if(m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+  m=s.match(/drive\.google\.com\/thumbnail\?(?:.*&)?id=([a-zA-Z0-9_-]+)/);if(m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+  return s; // not a Drive URL
+}
+
+/* ================================================================
+   LOADER HELPERS
+   ================================================================ */
+function setLoaderState(state){
+  const icons={loading:'ls-icon-loading', error:'ls-icon-error', unconfigured:'ls-icon-uncfg'};
+  Object.values(icons).forEach(id=>{ const el=document.getElementById(id); if(el) el.style.display='none'; });
+  const dots  = document.getElementById('ls-dots');
+  const retry = document.getElementById('ls-retry');
+  const title = document.getElementById('ls-title');
+  const sub   = document.getElementById('ls-sub');
+  if(dots)  dots.style.display ='none';
+  if(retry) retry.style.display='none';
+
+  const show = id=>{ const el=document.getElementById(id); if(el) el.style.display=''; };
+
+  if(state==='loading'){
+    show('ls-icon-loading');
+    if(dots) dots.style.display='flex';
+    if(title) title.textContent='Loading Portfolio';
+    if(sub)   sub.textContent='Fetching the latest data…';
+  } else if(state==='error'){
+    show('ls-icon-error');
+    if(retry) retry.style.display='inline-flex';
+    if(title) title.textContent='Connection Error';
+    if(sub)   sub.innerHTML='Could not load portfolio data.<br/>Check your <code style="color:var(--cyan)">SHEET_API_URL</code>.';
+  } else if(state==='unconfigured'){
+    show('ls-icon-uncfg');
+    if(title) title.textContent='Under Configuration';
+    if(sub)   sub.innerHTML='Paste your Web App URL into<br/><code style="color:var(--cyan)">SHEET_API_URL</code> in this file to activate.';
+  }
+}
+
+function hideLoader(){
+  const ls=document.getElementById('loading-screen');
+  if(!ls) return;
+  ls.classList.add('ls-fade');
+  setTimeout(()=>ls.classList.add('ls-hidden'), 680);
 }
 function isHex6(str){ return /^#?[0-9a-fA-F]{6}$/.test((str||'').trim()); }
 function normHex(str){ const t=str.trim(); return t.startsWith('#')?t:'#'+t; }
@@ -977,12 +1046,12 @@ function render(){
     [D.facebook,'fa-brands fa-facebook-f','Facebook'],
   ].filter(([h])=>h&&h!=='#').map(([h,i,l])=>`<a href="${esc(h)}" aria-label="${l}" target="_blank" rel="noopener"><i class="${i}"></i></a>`).join('');
 
-  // About photo
+  // About photo — auto-resolve Google Drive sharing links to direct image URLs
   if(D.photo){
     const img=document.getElementById('profile-img');
-    img.src=D.photo; img.alt=D.name;
-    img.onload=()=>{img.style.display='block';document.getElementById('photo-placeholder').style.display='none';};
-    img.onerror=()=>{img.style.display='none';};
+    img.src=resolveGDriveUrl(D.photo); img.alt=D.name;
+    img.onload =()=>{img.style.display='block';document.getElementById('photo-placeholder').style.display='none';};
+    img.onerror=()=>{img.style.display='none';document.getElementById('photo-placeholder').style.display='';};
   }
   document.getElementById('about-bio').textContent=D.bio;
   document.getElementById('about-info').innerHTML=D.aboutInfo
@@ -1526,41 +1595,62 @@ function initForm(){
 }
 
 /* ================================================================
-   BOOT
+   BOOT  — loader-first: show spinner, fetch Sheet, then render.
+   Personal data ONLY comes from the Sheet — never from FALLBACK_DATA.
    ================================================================ */
-document.addEventListener('DOMContentLoaded',async()=>{
-  const noMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+document.addEventListener('DOMContentLoaded', async () => {
+  const noMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Step 1: Render with fallback data immediately
-  DATA=FALLBACK_DATA;
-  render();
+  // Apply default theme immediately so the loader colours look right
+  applySettings(FALLBACK_DATA.settings);
 
-  if(!noMotion&&DATA.settings.circuitAnimation!==false) initCircuit('circuit-canvas');
+  // Start the circuit animation on the LOADING SCREEN background
+  let stopLsCircuit = null;
+  if (!noMotion) stopLsCircuit = initCircuit('ls-bg-canvas');
+
+  // Init nav/UI controls — they work even before content renders
   initNav();
   initForm();
   initBackToTop();
   initProgressBar();
 
-  // Step 2: Silently refresh from Sheet
-  const sheetReady=SHEET_API_URL&&!SHEET_API_URL.includes('YOUR_APPS_SCRIPT');
-  if(!sheetReady) return;
+  // ── If Sheet URL is not yet configured ──────────────────────────
+  const sheetReady = SHEET_API_URL && !SHEET_API_URL.includes('YOUR_APPS_SCRIPT');
+  if (!sheetReady) {
+    setLoaderState('unconfigured');
+    return;   // stay on loader screen — nothing else to do
+  }
 
-  try{
-    const raw=await fetchData();
-    DATA=transformData(raw);
+  // ── Show loading state and fetch ────────────────────────────────
+  setLoaderState('loading');
+
+  try {
+    const raw  = await fetchData();
+    DATA = transformData(raw);
+
+    // Render full portfolio with real data
     render();
-    // Restart circuit with potentially new primary colour
-    if(!noMotion&&DATA.settings.circuitAnimation!==false){
-      const c=document.getElementById('circuit-canvas');
-      if(c) c.style.display='';
-    } else if(DATA.settings&&DATA.settings.circuitAnimation===false){
-      const c=document.getElementById('circuit-canvas');
-      if(c) c.style.display='none';
+
+    // Re-apply settings now that real colors/fonts are known
+    applySettings(DATA.settings);
+
+    // Start hero circuit animation (or skip if disabled in Settings)
+    if (!noMotion && DATA.settings.circuitAnimation !== false) {
+      initCircuit('circuit-canvas');
     }
-  } catch(err){
-    console.warn('[Portfolio] Sheet refresh failed (showing fallback):', err.message);
+
+    // Stop loading screen circuit, then fade the loader out
+    if (stopLsCircuit) stopLsCircuit();
+    hideLoader();
+
+  } catch (err) {
+    // Sheet fetch failed — show error state on the loader screen
+    if (stopLsCircuit) stopLsCircuit();
+    setLoaderState('error');
+    console.error('[Portfolio] Load failed:', err.message);
   }
 });
+
 </script>
 </body>
 </html>
